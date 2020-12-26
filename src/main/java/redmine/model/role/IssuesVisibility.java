@@ -16,6 +16,6 @@ public enum IssuesVisibility {
         return Stream.of(values())
                 .filter(value -> value.description.equals(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Тип видимости задач не найден по описанию"));
+                .orElseThrow(() -> new IllegalArgumentException("Тип видимости задач не найден по описанию: " + description));
     }
 }

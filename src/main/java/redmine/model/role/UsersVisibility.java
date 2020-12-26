@@ -15,6 +15,6 @@ public enum UsersVisibility {
         return Stream.of(values())
                 .filter(value -> value.description.equals(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Тип видимости пользователей не найден по описанию"));
+                .orElseThrow(() -> new IllegalArgumentException("Тип видимости пользователей не найден по описанию: " + description));
     }
 }
