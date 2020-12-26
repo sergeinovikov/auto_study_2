@@ -63,6 +63,6 @@ public enum Language {
         return Stream.of(values())
                 .filter(value -> value.description.equals(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Язык не найден по описанию"));
+                .orElseThrow(() -> new IllegalArgumentException("Язык не найден по описанию: " + description));
     }
 }

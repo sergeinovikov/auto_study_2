@@ -19,6 +19,6 @@ public enum MailNotification {
         return Stream.of(values())
                 .filter(value -> value.description.contains(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Уведомление не найдено по описанию"));
+                .orElseThrow(() -> new IllegalArgumentException("Уведомление не найдено по описанию: " + description));
     }
 }
