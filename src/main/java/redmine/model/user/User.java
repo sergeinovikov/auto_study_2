@@ -53,4 +53,9 @@ public class User implements Generatable<User> {
         //TODO
         return null;
     }
+
+    @Override
+    public void delete() {
+        //TODO
+    }
 }

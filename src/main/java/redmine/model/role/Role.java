@@ -4,7 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import redmine.db.requests.RoleRequests;
 import redmine.model.Generatable;
+import redmine.utils.StringGenerators;
+
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -12,15 +16,15 @@ import redmine.model.Generatable;
 @EqualsAndHashCode
 public class Role implements Generatable<Role> {
     private Integer id;
-    private Integer position;
-    private Integer builtin;
-    private String name;
-    private Boolean assignable;
-    private IssuesVisibility issuesVisibility;
-    private UsersVisibility usersVisibility;
-    private RolePermissions permissions;
-    private TimeEntriesVisibility timeEntriesVisibility;
-    private Boolean allRolesManaged;
+    private String name = "SergAuto" + StringGenerators.randomEnglishString(8);
+    private Integer position = 1;
+    private Integer builtin = 0;
+    private Boolean assignable = true;
+    private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
+    private UsersVisibility usersVisibility = UsersVisibility.ALL;
+    private RolePermissions permissions = new RolePermissions(new HashSet<>());
+    private TimeEntriesVisibility timeEntriesVisibility = TimeEntriesVisibility.ALL;
+    private Boolean allRolesManaged = true;
     private String settings = "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "permissions_all_trackers: !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "  view_issues: '1'\n" +
@@ -37,24 +41,29 @@ public class Role implements Generatable<Role> {
 
     @Override
     public Role read() {
-        //TODO получение из БД
-        return null;
+        Role role = RoleRequests.getRole(this);
+        if (role == null)
+            return null;
+        return this;
     }
 
     @Override
     public Role update() {
-        //TODO обновление в БД
-        return null;
+        return RoleRequests.updateRole(this);
     }
 
     @Override
     public Role create() {
-        //TODO создание в БД
-        return null;
+        return RoleRequests.addRole(this);
     }
 
     @Override
-    public Role generate() {
-        return null;
+    public void delete() {
+        Role role = RoleRequests.getRole(this);
+        if (role == null) {
+            System.out.println("Роль с данным Id не найдена");
+        } else {
+            RoleRequests.deleteRole(this);
+        }
     }
 }

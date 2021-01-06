@@ -8,6 +8,8 @@ public interface Generatable<T> {
 
     T create();
 
+    void delete();
+
     default T generate() {
         if (read()!=null) {
             return update();
