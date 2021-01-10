@@ -6,9 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import redmine.db.requests.RoleRequests;
 import redmine.model.Generatable;
+import redmine.model.user.Language;
 import redmine.utils.StringGenerators;
 
 import java.util.HashSet;
+import java.util.Random;
+
+/**
+ * Класс-модель роли в системе
+ * Описание методов создачния, чтения, редактирования и удаления
+ */
 
 @Getter
 @Setter
@@ -20,9 +27,9 @@ public class Role implements Generatable<Role> {
     private Integer position = 1;
     private Integer builtin = 0;
     private Boolean assignable = true;
-    private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
-    private UsersVisibility usersVisibility = UsersVisibility.ALL;
-    private RolePermissions permissions = new RolePermissions(new HashSet<>());
+    private IssuesVisibility issuesVisibility = IssuesVisibility.values()[new Random().nextInt(IssuesVisibility.values().length)];
+    private UsersVisibility usersVisibility = UsersVisibility.values()[new Random().nextInt(UsersVisibility.values().length)];
+    private RolePermissions permissions = new RolePermissions().generatePermissions();
     private TimeEntriesVisibility timeEntriesVisibility = TimeEntriesVisibility.ALL;
     private Boolean allRolesManaged = true;
     private String settings = "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
@@ -61,7 +68,7 @@ public class Role implements Generatable<Role> {
     public void delete() {
         Role role = RoleRequests.getRole(this);
         if (role == null) {
-            System.out.println("Роль с данным Id не найдена");
+           new IllegalArgumentException("Роль с данным Id не найдена");
         } else {
             RoleRequests.deleteRole(this);
         }

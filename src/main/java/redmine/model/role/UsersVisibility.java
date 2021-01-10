@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление доступности пользователей
+ */
+
 @AllArgsConstructor
 public enum UsersVisibility {
     ALL("Все активные пользователи"),

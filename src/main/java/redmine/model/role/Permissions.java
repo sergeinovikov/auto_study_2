@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление прав роли
+ */
+
 @AllArgsConstructor
 public enum Permissions {
     ADD_PROJECT("Создание проекта"),

@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление видов трудозатрат
+ */
+
 @AllArgsConstructor
 public enum TimeEntriesVisibility {
     ALL("Все трудозатраты"),

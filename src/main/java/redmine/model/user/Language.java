@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление языков
+ */
+
 @AllArgsConstructor
 public enum Language {
     AUTO("Auto"),
@@ -36,8 +40,8 @@ public enum Language {
     KO("Korean"),
     LV("Latvian"),
     LT("Lithuanian"),
-    Mk("Macedonian"),
-    Mn("Mongolian"),
+    MK("Macedonian"),
+    MN("Mongolian"),
     NO("Norwegian"),
     FA("Persian"),
     PL("Polish"),
@@ -61,7 +65,7 @@ public enum Language {
 
     public static Language of(final String description) {
         return Stream.of(values())
-                .filter(value -> value.description.equals(description))
+                .filter(value -> value.name().contains(description.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Язык не найден по описанию: " + description));
     }

@@ -2,6 +2,10 @@ package redmine.utils;
 
 import java.util.Random;
 
+/**
+ * Класс генераторов текстовых данных
+ */
+
 public class StringGenerators {
     public static final String ENGLISH_UPPER = "QWERTYUIOPASDFGHJKLZXCVBNM";
     public static final String ENGLISH_LOWER = ENGLISH_UPPER.toLowerCase();

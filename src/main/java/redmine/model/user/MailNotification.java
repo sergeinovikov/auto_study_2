@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление видов уведомлений по почте
+ */
+
 @AllArgsConstructor
 public enum MailNotification {
     ALL("Все события"),
@@ -16,9 +20,13 @@ public enum MailNotification {
     private final String description;
 
     public static MailNotification of(final String description) {
-        return Stream.of(values())
-                .filter(value -> value.description.contains(description))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Уведомление не найдено по описанию: " + description));
+        if (description.isEmpty()) {
+            return NONE;
+        } else {
+            return Stream.of(values())
+                    .filter(value -> value.name().equals(description.toUpperCase()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Уведомление не найдено по описанию: " + description));
+        }
     }
 }

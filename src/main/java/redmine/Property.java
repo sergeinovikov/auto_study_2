@@ -4,6 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Класс для работы с .properties
+ */
+
 public class Property {
     public static Properties properties = new Properties();
 

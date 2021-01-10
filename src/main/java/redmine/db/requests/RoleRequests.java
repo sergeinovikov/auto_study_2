@@ -2,10 +2,13 @@ package redmine.db.requests;
 
 import redmine.managers.Manager;
 import redmine.model.role.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+/**
+ * Класс описывающий создание, чтение, редактирование и обновление ролей в БД
+ */
 
 public class RoleRequests {
 
@@ -46,7 +49,6 @@ public class RoleRequests {
                         }
                 )
                 .collect(Collectors.toList());
-
     }
 
     public static Role getRole(Role objectRole) {
@@ -73,9 +75,9 @@ public class RoleRequests {
                 role.getAssignable(),
                 role.getBuiltin(),
                 role.getPermissions().toString(),
-                role.getIssuesVisibility().toString(),
-                role.getUsersVisibility().toString(),
-                role.getTimeEntriesVisibility().toString(),
+                role.getIssuesVisibility().toString().toLowerCase(),
+                role.getUsersVisibility().toString().toLowerCase(),
+                role.getTimeEntriesVisibility().toString().toLowerCase(),
                 role.getAllRolesManaged(),
                 role.getSettings()
         );
@@ -92,9 +94,9 @@ public class RoleRequests {
                 role.getAssignable(),
                 role.getBuiltin(),
                 role.getPermissions().toString(),
-                role.getIssuesVisibility().toString(),
-                role.getUsersVisibility().toString(),
-                role.getTimeEntriesVisibility().toString(),
+                role.getIssuesVisibility().toString().toLowerCase(),
+                role.getUsersVisibility().toString().toLowerCase(),
+                role.getTimeEntriesVisibility().toString().toLowerCase(),
                 role.getAllRolesManaged(),
                 role.getSettings(),
                 role.getName()
@@ -106,9 +108,8 @@ public class RoleRequests {
     public static void deleteRole(Role role) {
         String query = "DELETE FROM public.roles\n" +
                 "WHERE id=?;\n";
-        Manager.dbConnection.executePreparedQuery(query,
+        Manager.dbConnection.executeDeleteQuery(query,
                 role.getId()
         );
-        System.out.println("Роль успешно удалена");
     }
 }

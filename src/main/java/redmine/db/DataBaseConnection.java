@@ -10,6 +10,10 @@ import java.util.TreeMap;
 
 import static redmine.Property.*;
 
+/**
+ * Класс описывающий подключение и типы запрососв к БД
+ */
+
 public class DataBaseConnection {
     private String dbHost;
     private Integer dbPort;
@@ -76,7 +80,6 @@ public class DataBaseConnection {
      * @return данные - результат запроса
      */
 
-
     @SneakyThrows
     public List<Map<String, Object>> executePreparedQuery(String query, Object... parameters) {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -84,26 +87,43 @@ public class DataBaseConnection {
         for (Object object : parameters) {
             statement.setObject(index++, object);
         }
+        ResultSet resultSet = statement.executeQuery();
+        int count = resultSet.getMetaData().getColumnCount();
+        List<String> columnNames = new ArrayList<>();
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (int i = 1; i <= count; i++) {
+            String columnName = resultSet.getMetaData().getColumnName(i);
+            columnNames.add(columnName);
+        }
+        while (resultSet.next()) {
+            Map<String, Object> columnData = new TreeMap<>();
+            for (String columnName : columnNames) {
+                Object value = resultSet.getObject(columnName);
+                columnData.put(columnName, value);
+            }
+            result.add(columnData);
+        }
+        return result;
+    }
+
+    /**
+     * Выполняет SQL - запрос с заранее подготовленными данными без возвратного типа
+     *
+     * @param query      - sql запрос
+     * @param parameters - параметры, подставляемые в запрос
+     */
+
+    @SneakyThrows
+    public void executeDeleteQuery(String query, Object... parameters) {
+        PreparedStatement statement = connection.prepareStatement(query);
+        int index = 1;
+        for (Object object : parameters) {
+            statement.setObject(index++, object);
+        }
         try {
-            ResultSet resultSet = statement.executeQuery();
-            int count = resultSet.getMetaData().getColumnCount();
-            List<String> columnNames = new ArrayList<>();
-            List<Map<String, Object>> result = new ArrayList<>();
-            for (int i = 1; i <= count; i++) {
-                String columnName = resultSet.getMetaData().getColumnName(i);
-                columnNames.add(columnName);
-            }
-            while (resultSet.next()) {
-                Map<String, Object> columnData = new TreeMap<>();
-                for (String columnName : columnNames) {
-                    Object value = resultSet.getObject(columnName);
-                    columnData.put(columnName, value);
-                }
-                result.add(columnData);
-            }
-            return result;
-        } catch (SQLException e) {
-            return null;
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

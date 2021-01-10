@@ -9,6 +9,11 @@ import redmine.model.user.User;
 
 import java.util.Date;
 
+/**
+ * Класс-модель проекта в системе
+ * Описание методов создачния, чтения, редактирования и удаления
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

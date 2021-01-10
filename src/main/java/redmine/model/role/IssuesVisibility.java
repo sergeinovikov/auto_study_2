@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ * Перечесление доступности задач для пользователя
+ */
+
 @AllArgsConstructor
 public enum IssuesVisibility {
     ALL("Все задачи"),
