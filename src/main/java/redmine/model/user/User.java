@@ -8,6 +8,7 @@ import redmine.db.requests.RoleRequests;
 import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
 import redmine.model.role.Role;
+import redmine.utils.PasswordGenerator;
 import redmine.utils.StringGenerators;
 import java.util.Date;
 import java.util.Random;
@@ -29,7 +30,8 @@ public class User implements Generatable<User> {
     private String email = StringGenerators.randomEmail();
     private Language language = Language.values()[new Random().nextInt(Language.values().length)];
     private Boolean admin = false;
-    private String hashedPassword = "5b7c39f5054759d3111693ed8948f62b0bbf56bb";
+    private String salt = PasswordGenerator.generateSalt();
+    private String hashedPassword = PasswordGenerator.generatePassword(this.salt);
     private Boolean mustChangePasswd = false;
     private Integer status = new Random().nextInt(3) + 1;
 
@@ -42,7 +44,7 @@ public class User implements Generatable<User> {
     private String authSourceId = null;
     private String type = "User";
     private String identityUrl = null;
-    private String salt = "5a0defa97237f2cb21e727e481b3b5a8";
+
 
 
     @Override

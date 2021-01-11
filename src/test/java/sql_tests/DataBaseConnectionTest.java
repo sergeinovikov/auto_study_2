@@ -1,10 +1,13 @@
 package sql_tests;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
+import org.testng.annotations.AfterTest;
 import redmine.db.requests.RoleRequests;
 import redmine.model.role.*;
 import redmine.model.user.User;
+
 import java.util.HashSet;
 
 
@@ -29,21 +32,21 @@ public class DataBaseConnectionTest {
     @Test
     public void getRoleTest() {
         Role role = new Role();
-        role.setName("AutojDsNIEts");
+        role.setName("Пользователь1");
 
         Role dataBaseRole = RoleRequests.getRole(role);
 
-        Assert.assertEquals(dataBaseRole.getId().intValue(), 178);
+        Assert.assertEquals(dataBaseRole.getId().intValue(), 11);
 
-        role.setId(178);
+        role.setId(33);
         Role dataBaseRole2 = RoleRequests.getRole(role);
-        Assert.assertEquals(dataBaseRole2.getName(), "AutojDsNIEts");
+        Assert.assertEquals(dataBaseRole2.getName(), "Генерируемая роль5");
     }
 
     @Test
     public void updateRoleTest() {
         Role role = new Role();
-        role.setName("SergAutoPjRUGxDj");
+        role.setName("Первая роль Сергея");
         role.setAssignable(false);
         Role updatedRole = role.update();
         Assert.assertEquals(role.getAssignable(), updatedRole.getAssignable());
@@ -51,26 +54,23 @@ public class DataBaseConnectionTest {
 
     @Test
     public void generateRoleTest() {
-        Role role = new Role();
-        role.setPermissions(new RolePermissions((new HashSet<>())));
+        Role originalRole = new Role();
+        originalRole.setPermissions(new RolePermissions((new HashSet<>())));
 
-        role.generate();
+        originalRole.generate(); //создаём сущность в БД
 
-        Role createdRole = new Role();
-        createdRole.setPermissions(role.getPermissions());
+        Role createdRoleWithoutPermissions = new Role();
+        createdRoleWithoutPermissions.setPermissions(originalRole.getPermissions());
 
-        role.setPermissions(new RolePermissions(
+        originalRole.setPermissions(new RolePermissions(
                 Permissions.ADD_DOCUMENTS,
                 Permissions.ADD_ISSUES,
                 Permissions.ADD_PROJECT
         ));
 
-        role.generate();
+        originalRole.generate(); //обновляем сущегость в БД
 
-        Role updatedRole = new Role();
-        updatedRole.setPermissions(role.getPermissions());
-
-        Assert.assertNotEquals(updatedRole.getPermissions(), createdRole.getPermissions());
+        Assert.assertNotEquals(originalRole.getPermissions(), createdRoleWithoutPermissions.getPermissions());
     }
 
     @Test
@@ -145,4 +145,12 @@ public class DataBaseConnectionTest {
 
         Assert.assertNotEquals(updatedUser.getLogin(), createdUser.getLogin());
     }*/
+
+    @AfterTest
+    public static void afterTest() {
+        Role role = new Role();
+        role.setName("Первая роль Сергея");
+        role.setAssignable(true);
+        role.update();
+    }
 }
