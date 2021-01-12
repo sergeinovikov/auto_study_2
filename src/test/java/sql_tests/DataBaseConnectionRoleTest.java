@@ -3,15 +3,13 @@ package sql_tests;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.testng.annotations.AfterTest;
 import redmine.db.requests.RoleRequests;
 import redmine.model.role.*;
-import redmine.model.user.User;
 
 import java.util.HashSet;
 
 
-public class DataBaseConnectionTest {
+public class DataBaseConnectionRoleTest {
 
     @Test
     public void basicSqlTest() {
@@ -86,71 +84,11 @@ public class DataBaseConnectionTest {
         Assert.assertNull(roleForDeleting);
     }
 
-    @Test
-    public void getUserTest() {
-        User user = new User();
-        user.setLogin("bywggyvg");
-
-        User dataBaseUser = user.read();
-
-        Assert.assertEquals(dataBaseUser.getLogin(), "bywggyvg");
-    }
-
-    @Test
-    public void addUserTest() {
-        User user = new User();
-        user.setFirstName("Тестовый Сергей");
-        User dataBaseNewUser = user.create();
-        Assert.assertEquals(user.getLogin(), dataBaseNewUser.getLogin());
-    }
-
-    @Test
-    public void updateUserTest() {
-        User user = new User();
-        user.setLogin("drtpzzqu");
-        user.setFirstName("updateUser");
-        User dataBaseUpdateUser = user.update();
-        Assert.assertEquals(user.getLogin(), dataBaseUpdateUser.getLogin());
-    }
-
-    @Test
-    public void deleteUserTest() {
-        User userForDeleting = new User().generate();
-        User checkExistingUser = userForDeleting.read();
-
-        Assert.assertEquals(userForDeleting.getId(), checkExistingUser.getId());
-
-        userForDeleting.delete();
-        userForDeleting = checkExistingUser.read();
-
-        Assert.assertNull(userForDeleting);
-    }
-
-    /*@Test //TODO
-    public void generateUserTest() {
-        User user = new User();
-        user.setLogin("LoginForEditing");
-
-        user.generate();
-
-        User createdUser = new User();
-        createdUser.setLogin(user.getLogin());
-
-        user.setLogin("ChangedLogin");
-
-        user.generate();
-
-        User updatedUser = new User();
-        updatedUser.setLogin(user.getLogin());
-
-        Assert.assertNotEquals(updatedUser.getLogin(), createdUser.getLogin());
-    }*/
-
-    @AfterTest
-    public static void afterTest() {
-        Role role = new Role();
-        role.setName("Первая роль Сергея");
-        role.setAssignable(true);
-        role.update();
+    @AfterClass
+    public static void afterClass() {
+        Role roleChangeAssignable = new Role();
+        roleChangeAssignable.setName("Первая роль Сергея");
+        roleChangeAssignable.setAssignable(true);
+        roleChangeAssignable.update();
     }
 }

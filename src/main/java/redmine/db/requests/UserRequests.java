@@ -119,7 +119,6 @@ public class UserRequests {
                 user.getMustChangePasswd(),
                 DateFormatter.convertDate(user.getPasswdChangedOn()),
                 user.getLogin()
-
         );
         user.setId((Integer) result.get(0).get("id"));
         return user;

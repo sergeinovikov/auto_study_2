@@ -68,7 +68,7 @@ public class User implements Generatable<User> {
     @Override
     public void delete() {
         User user = UserRequests.getUser(this);
-        if (user == null) {
+        if (user.id == null) {
             new IllegalArgumentException("Пользователь с данным Id не найден");
         } else {
             UserRequests.deleteUser(this);
