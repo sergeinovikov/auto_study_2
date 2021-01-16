@@ -2,9 +2,7 @@ package redmine.db.requests;
 
 import redmine.managers.Manager;
 import redmine.model.role.Role;
-import redmine.model.user.Language;
-import redmine.model.user.MailNotification;
-import redmine.model.user.User;
+import redmine.model.user.*;
 import redmine.utils.DateFormatter;
 
 import java.util.Date;
@@ -57,7 +55,7 @@ public class UserRequests {
     }
 
     public static User getUser(User objectUser) {
-        return getAllUsers().stream()
+        User userFromDb = getAllUsers().stream()
                 .filter(user -> {
                             if (objectUser.getId() == null) {
                                 return objectUser.getLogin().equals(user.getLogin());
@@ -68,13 +66,60 @@ public class UserRequests {
                 )
                 .findFirst()
                 .orElse(null);
+        if (userFromDb != null) {
+            String emailQuery = "SELECT id, user_id, address, is_default, \"notify\", created_on, updated_on\n" +
+                    "FROM public.email_addresses\n" +
+                    "WHERE user_id=?;\n";
+            List<Map<String, Object>> emailResult = Manager.dbConnection.executePreparedQuery(emailQuery,
+                    userFromDb.getId()
+            );
+
+            List<EmailAddress> userEmail = emailResult.stream()
+                    .map(map -> {
+                                EmailAddress email = new EmailAddress();
+                                email.setId((Integer) map.get("id"));
+                                email.setUserId((Integer) map.get("user_id"));
+                                email.setAddress((String) map.get("address"));
+                                email.setIsDefault((Boolean) map.get("is_default"));
+                                email.setNotify((Boolean) map.get("notify"));
+                                email.setCreatedOn((Date) map.get("created_on"));
+                                email.setCreatedOn((Date) map.get("updated_on"));
+                                return email;
+                            }
+                    )
+                    .collect(Collectors.toList());
+            userFromDb.setEmail(userEmail.get(0));
+
+            String apiKeyQuery = "SELECT id, user_id, \"action\", value, created_on, updated_on\n" +
+                    "FROM public.tokens\n" +
+                    "WHERE user_id=?;\n";
+            List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiKeyQuery,
+                    userFromDb.getId()
+            );
+
+            List<Token> userApiKey = apiKeyResult.stream()
+                    .map(map -> {
+                                Token apiKey = new Token();
+                                apiKey.setId((Integer) map.get("id"));
+                                apiKey.setUserId((Integer) map.get("user_id"));
+                                apiKey.setAction((String) map.get("action"));
+                                apiKey.setValue((String) map.get("value"));
+                                apiKey.setCreatedOn((Date) map.get("created_on"));
+                                apiKey.setCreatedOn((Date) map.get("updated_on"));
+                                return apiKey;
+                            }
+                    )
+                    .collect(Collectors.toList());
+            userFromDb.setApiToken(userApiKey.get(0));
+        }
+        return userFromDb;
     }
 
     public static User addUser(User user) {
-        String query = "INSERT INTO public.users\n" +
+        String userQuery = "INSERT INTO public.users\n" +
                 "(id, login, hashed_password, firstname, lastname, \"admin\", status, last_login_on, \"language\", auth_source_id, created_on, updated_on, \"type\", identity_url, mail_notification, salt, must_change_passwd, passwd_changed_on)\n" +
                 "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;\n";
-        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query,
+        List<Map<String, Object>> userResult = Manager.dbConnection.executePreparedQuery(userQuery,
                 user.getLogin(),
                 user.getHashedPassword(),
                 user.getFirstName(),
@@ -93,15 +138,42 @@ public class UserRequests {
                 user.getMustChangePasswd(),
                 DateFormatter.convertDate(user.getPasswdChangedOn())
         );
-        user.setId((Integer) result.get(0).get("id"));
+        user.setId((Integer) userResult.get(0).get("id"));
+
+        String emailQuery = "INSERT INTO public.email_addresses\n" +
+                "(id, user_id, address, is_default, \"notify\", created_on, updated_on)\n" +
+                "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?) RETURNING id;\n";
+        List<Map<String, Object>> emailResult = Manager.dbConnection.executePreparedQuery(emailQuery,
+                user.getId(),
+                user.getEmail().getAddress(),
+                user.getEmail().getIsDefault(),
+                user.getEmail().getNotify(),
+                DateFormatter.convertDate(user.getEmail().getCreatedOn()),
+                DateFormatter.convertDate(user.getEmail().getUpdatedOn())
+        );
+        user.getEmail().setUserId(user.getId());
+        user.getEmail().setId((Integer) emailResult.get(0).get("id"));
+
+        String apiQuery = "INSERT INTO public.tokens\n" +
+                "(id, user_id, \"action\", value, created_on, updated_on)\n" +
+                "VALUES(DEFAULT, ?, ?, ?, ?, ?)  RETURNING id;\n";
+        List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiQuery,
+                user.getId(),
+                user.getApiToken().getAction(),
+                user.getApiToken().getValue(),
+                DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
+                DateFormatter.convertDate(user.getApiToken().getUpdatedOn())
+        );
+        user.getApiToken().setUserId(user.getId());
+        user.getApiToken().setId((Integer) apiKeyResult.get(0).get("id"));
         return user;
     }
 
     public static User updateUser(User user) {
-        String query = "UPDATE public.users\n" +
+        String userQuery = "UPDATE public.users\n" +
                 "SET hashed_password=?, firstname=?, lastname=?, \"admin\"=?, status=?, last_login_on=?, \"language\"=?, auth_source_id=?, created_on=?, updated_on=?, \"type\"=?, identity_url=?, mail_notification=?, salt=?, must_change_passwd=?, passwd_changed_on=?\n" +
                 "WHERE login=? RETURNING id\n";
-        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query,
+        List<Map<String, Object>> userResult = Manager.dbConnection.executePreparedQuery(userQuery,
                 user.getHashedPassword(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -120,15 +192,56 @@ public class UserRequests {
                 DateFormatter.convertDate(user.getPasswdChangedOn()),
                 user.getLogin()
         );
-        user.setId((Integer) result.get(0).get("id"));
+        user.setId((Integer) userResult.get(0).get("id"));
+
+        String emailQuery = "UPDATE public.email_addresses\n" +
+                "SET address=?, is_default=?, \"notify\"=?, created_on=?, updated_on=?\n" +
+                "WHERE user_id=? RETURNING id;\n";
+        List<Map<String, Object>> emailResult = Manager.dbConnection.executePreparedQuery(emailQuery,
+                user.getEmail().getAddress(),
+                user.getEmail().getIsDefault(),
+                user.getEmail().getNotify(),
+                DateFormatter.convertDate(user.getEmail().getCreatedOn()),
+                DateFormatter.convertDate(user.getEmail().getUpdatedOn()),
+                user.getId()
+        );
+        user.getEmail().setUserId(user.getId());
+        user.getEmail().setId((Integer) emailResult.get(0).get("id"));
+
+        String apiQuery = "UPDATE public.tokens\n" +
+                "SET \"action\"=?, value=?, created_on=?, updated_on=?\n" +
+                "WHERE user_id=? RETURNING id;\n";
+        List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiQuery,
+                user.getApiToken().getAction(),
+                user.getApiToken().getValue(),
+                DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
+                DateFormatter.convertDate(user.getApiToken().getUpdatedOn()),
+                user.getId()
+        );
+        user.getApiToken().setUserId(user.getId());
+        user.getApiToken().setId((Integer) apiKeyResult.get(0).get("id"));
+
         return user;
     }
 
     public static void deleteUser(User user) {
-        String query = "DELETE FROM public.users\n" +
+        String userQuery = "DELETE FROM public.users\n" +
                 "WHERE id=?;\n";
-        Manager.dbConnection.executeDeleteQuery(query,
+        Manager.dbConnection.executeDeleteQuery(userQuery,
                 user.getId()
         );
+
+        String emailQuery = "DELETE FROM public.email_addresses\n" +
+                "WHERE id=?;\n";
+        Manager.dbConnection.executeDeleteQuery(emailQuery,
+                user.getEmail().getId()
+        );
+
+        String apiQuery = "DELETE FROM public.tokens\n" +
+                "WHERE id=?;\n";
+        Manager.dbConnection.executeDeleteQuery(apiQuery,
+                user.getApiToken().getId()
+        );
+
     }
 }

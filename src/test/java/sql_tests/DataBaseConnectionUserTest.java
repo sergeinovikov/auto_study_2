@@ -20,7 +20,7 @@ public class DataBaseConnectionUserTest {
     @Test
     public void addUserTest() {
         User user = new User();
-        user.setFirstName("Тестовый Сергей");
+        user.setFirstName("Тестовый Сергей345");
         User dataBaseNewUser = user.create();
         Assert.assertEquals(user.getLogin(), dataBaseNewUser.getLogin());
     }
@@ -28,7 +28,7 @@ public class DataBaseConnectionUserTest {
     @Test
     public void updateUserTest() {
         User user = new User();
-        user.setLogin("ljujqkip");
+        user.setLogin("vtesknoq");
         user.setFirstName("updateUser");
         User dataBaseUpdateUser = user.update();
         Assert.assertEquals(user.getLogin(), dataBaseUpdateUser.getLogin());
@@ -50,7 +50,7 @@ public class DataBaseConnectionUserTest {
     @Test
     public void generateUserTest() {
         User originalUser = new User();
-        originalUser.setFirstName("NameForEditing");
+        originalUser.setFirstName("NameForEditing123");
 
         originalUser.generate(); //создаём пользователя
 
@@ -67,7 +67,7 @@ public class DataBaseConnectionUserTest {
     @AfterClass
     public static void afterClass() {
         User userChangeLogin = new User();
-        userChangeLogin.setLogin("ljujqkip");
+        userChangeLogin.setLogin("vtesknoq");
         userChangeLogin.setFirstName("needToUpdate");
         userChangeLogin.update();
     }

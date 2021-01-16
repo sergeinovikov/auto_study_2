@@ -4,11 +4,11 @@ import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 
-public class PasswordGenerator {
+public class CryptoGenerator {
     private static final String DIGITS = "1234567890";
     private static final String LETTERS_FOR_HEX = "abcdef";
 
-    public static String generateSalt() {
+    public static String generateHEX(int lenght) {
         return StringGenerators.randomString(32, DIGITS + LETTERS_FOR_HEX);
     }
 
