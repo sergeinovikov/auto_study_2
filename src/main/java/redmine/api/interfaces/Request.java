@@ -6,7 +6,7 @@ public interface Request {
 
     String getUri();
 
-    HttpMethods getMethods();
+    HttpMethods getMethod();
 
     Map<String, String> getParameters();
 
