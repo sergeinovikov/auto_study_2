@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
 import redmine.utils.CryptoGenerator;
@@ -20,6 +21,7 @@ import java.util.Random;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@Accessors(chain = true)
 public class User implements Generatable<User> {
     private Integer id;
     private String login = StringGenerators.randomEnglishLowerString(8);

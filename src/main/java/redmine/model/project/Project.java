@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import redmine.db.requests.ProjectRequests;
 import redmine.model.Generatable;
 import redmine.utils.StringGenerators;
@@ -20,6 +21,7 @@ import java.util.Random;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@Accessors(chain = true)
 public class Project implements Generatable<Project> {
     private Integer id;
     private String name = "SergAuto" + StringGenerators.randomEnglishString(8);
