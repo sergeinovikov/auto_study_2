@@ -10,8 +10,14 @@ import redmine.api.interfaces.HttpMethods;
 import redmine.api.interfaces.Request;
 import redmine.api.interfaces.Response;
 import redmine.model.dto.RoleDto;
+import redmine.model.role.Permissions;
 import redmine.model.role.Role;
 import redmine.model.user.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoleTest {
 
@@ -38,11 +44,15 @@ public class RoleTest {
 
         RoleDto roleDto = response.getBody(RoleDto.class);
 
+
         Assert.assertEquals(roleDto.getRole().getId(), role.getId());
         Assert.assertEquals(roleDto.getRole().getName(), role.getName());
         Assert.assertEquals(roleDto.getRole().getAssignable(), role.getAssignable());
         Assert.assertEquals(roleDto.getRole().getUsers_visibility(), role.getUsersVisibility().toString().toLowerCase());
         Assert.assertEquals(roleDto.getRole().getIssues_visibility(), role.getIssuesVisibility().toString().toLowerCase());
         Assert.assertEquals(roleDto.getRole().getPermissions().size(), role.getPermissions().size());
+        Assert.assertEquals(roleDto.getRole().getPermissions(),
+                role.getPermissions().stream().map(Permissions::toString).collect(Collectors.toList())
+        );
     }
 }
