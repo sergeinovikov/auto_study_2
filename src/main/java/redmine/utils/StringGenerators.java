@@ -10,6 +10,8 @@ public class StringGenerators {
     public static final String ENGLISH_UPPER = "QWERTYUIOPASDFGHJKLZXCVBNM";
     public static final String ENGLISH_LOWER = ENGLISH_UPPER.toLowerCase();
     public static final String ENGLISH = ENGLISH_UPPER + ENGLISH_LOWER;
+    public static final String DIGITS_CHARACTERS = "1234567890!@#$%^&*()";
+
 
     public static String randomEnglishString(int length) {
         return randomString(length, ENGLISH);
