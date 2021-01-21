@@ -52,7 +52,7 @@ public class User implements Generatable<User> {
         User user = UserRequests.getUser(this);
         if (user == null)
             return null;
-        return this;
+        return user;
     }
 
     @Override
