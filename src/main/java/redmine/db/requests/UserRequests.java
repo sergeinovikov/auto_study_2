@@ -58,9 +58,9 @@ public class UserRequests {
         User userFromDb = getAllUsers().stream()
                 .filter(user -> {
                             if (objectUser.getId() == null) {
-                                return objectUser.getLogin().equals(user.getLogin());
+                                return user.getLogin().equals(objectUser.getLogin());
                             } else {
-                                return objectUser.getId().equals(user.getId());
+                                return user.getId().equals(objectUser.getId());
                             }
                         }
                 )
@@ -126,7 +126,7 @@ public class UserRequests {
                 user.getLastName(),
                 user.getAdmin(),
                 user.getStatus(),
-                user.getLastLoginOn(), //TODO
+                user.getLastLoginOn(),
                 user.getLanguage().toString().toLowerCase(),
                 user.getAuthSourceId(),
                 DateFormatter.convertDate(user.getCreatedOn()),
@@ -179,7 +179,7 @@ public class UserRequests {
                 user.getLastName(),
                 user.getAdmin(),
                 user.getStatus(),
-                user.getLastLoginOn(), //TODO
+                user.getLastLoginOn(),
                 user.getLanguage().toString().toLowerCase(),
                 user.getAuthSourceId(),
                 DateFormatter.convertDate(user.getCreatedOn()),
