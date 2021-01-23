@@ -13,7 +13,10 @@ import redmine.model.dto.UserCreationError;
 import redmine.model.dto.UserDto;
 import redmine.model.user.Language;
 import redmine.model.user.User;
+import redmine.utils.DateFormatter;
 import redmine.utils.StringGenerators;
+
+import java.time.temporal.ChronoUnit;
 
 public class TestCase1 {
 
@@ -77,10 +80,10 @@ public class TestCase1 {
         Assert.assertEquals(createdApiUser.getUser().getFirstname(), userFromDb.getFirstName());
         Assert.assertEquals(createdApiUser.getUser().getLastname(), userFromDb.getLastName());
         Assert.assertEquals(createdApiUser.getUser().getMail(), userFromDb.getEmail().getAddress());
-        //Assert.assertEquals(createdApiUser.getUser().getCreated_on(), DateFormatter.convertDate(userFromDb.getCreatedOn()));
+        Assert.assertTrue(ChronoUnit.SECONDS.between(createdApiUser.getUser().getCreated_on(), DateFormatter.convertDate(userFromDb.getCreatedOn())) <= 1);
         Assert.assertNull(userFromDb.getLastLoginOn());
         Assert.assertEquals(createdApiUser.getUser().getStatus(), userFromDb.getStatus());
-        Assert.assertNotNull(createdApiUser.getUser().getApi_key(), userFromDb.getApiToken().getValue());
+        Assert.assertEquals(createdApiUser.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Assert.assertNotNull(userFromDb.getHashedPassword());
     }
 
