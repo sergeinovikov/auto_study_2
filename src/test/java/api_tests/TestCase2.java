@@ -19,7 +19,7 @@ public class TestCase2 {
     private User user;
 
     @BeforeClass
-    @Test(description = "Подготовка данных: создание польователя без админских прав. Создание API-подключения. Создание нового пользователя")
+    @Test(description = "Подготовка данных: создание пользователя без админских прав. Создание API-подключения. Создание нового пользователя")
     public void preparedFixtures() {
         User userWithApiKey = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
         apiClient = new RestApiClient(userWithApiKey);
