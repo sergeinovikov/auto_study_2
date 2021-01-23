@@ -26,7 +26,7 @@ public class TestCase2 {
         user = new User().setStatus(2);
     }
 
-    @Test(description = "Шаг 1. Создание нового пользователя через POST-запрос", priority = 1)
+    @Test(description = "Шаг 1. Создание нового пользователя через POST-запрос пользователем без админских прав", priority = 1)
     public void createNewUser() {
         String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
 
