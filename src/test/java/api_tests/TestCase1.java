@@ -25,7 +25,7 @@ public class TestCase1 {
     private Integer newStatus;
 
     @BeforeClass
-    @Test(description = "Подготовка данных: создание польователя с админскими правами. Создание API-подключения. Генерация пользователя в БД. Генерация пароля для пользователя")
+    @Test(description = "Подготовка данных: создание пользователя с админскими правами. Создание API-подключения. Генерация пользователя в БД. Генерация пароля для пользователя")
     public void preparedFixtures() {
         User userWithApiKey = new User().setAdmin(true).setStatus(1).setLanguage(Language.EN).generate();
         apiClient = new RestApiClient(userWithApiKey);
