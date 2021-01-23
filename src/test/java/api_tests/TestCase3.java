@@ -55,7 +55,7 @@ public class TestCase3 {
         Response response = apiClient.executeRequest(request);
 
         /*
-          Проверка статус-кода и данных пользователя, указанных при его генерации в БД
+          Проверка статус-кода и отсутствие доступа к данным другого пользователя
          */
 
         Assert.assertEquals(response.getStatusCode(), 200);
