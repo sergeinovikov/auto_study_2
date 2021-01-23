@@ -17,13 +17,13 @@ public class TestCase3 {
 
     private ApiClient apiClient;
     private User user;
-    private User otherUser;
+    private User anotherUser;
 
     @BeforeClass
     @Test(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
     public void preparedFixtures() {
         user = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
-        otherUser = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
+        anotherUser = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
     }
 
     @Test(description = "Шаг 1. Получение пользователя через GET-запрос. Использование своего API-ключа первым пользователем", priority = 1)
@@ -48,7 +48,7 @@ public class TestCase3 {
 
     @Test(description = "Шаг 2. Получение пользователя через GET-запрос. Использование вторым пользователем API-ключа первого пользователя", priority = 2)
     public void getUserWithAnotherApi() {
-        String uri = String.format("users/%d.json", otherUser.getId());
+        String uri = String.format("users/%d.json", anotherUser.getId());
 
         apiClient = new RestApiClient(user);
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
