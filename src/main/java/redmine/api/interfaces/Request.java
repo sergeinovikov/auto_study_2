@@ -2,6 +2,10 @@ package redmine.api.interfaces;
 
 import java.util.Map;
 
+/**
+ * Класс-интерфейс, обозначающий методы REST-запроса
+ */
+
 public interface Request {
 
     String getUri();

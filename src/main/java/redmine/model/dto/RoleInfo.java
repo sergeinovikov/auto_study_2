@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Класс-модель для роли, использумый в классе передчи данных роли
+ */
+
 @Data
 public class RoleInfo {
     private Integer id;

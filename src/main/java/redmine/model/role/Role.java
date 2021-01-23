@@ -7,10 +7,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import redmine.db.requests.RoleRequests;
 import redmine.model.Generatable;
-import redmine.model.user.Language;
 import redmine.utils.StringGenerators;
 
-import java.util.HashSet;
 import java.util.Random;
 
 /**

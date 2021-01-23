@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Класс описывающий создание, чтение, редактирование и обновление проектов в БД
+ * Класс описывающий создание, чтение, редактирование и удаление проектов в БД
  */
 
 public class ProjectRequests {

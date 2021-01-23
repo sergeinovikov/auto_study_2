@@ -2,6 +2,10 @@ package redmine.api.interfaces;
 
 import java.util.Map;
 
+/**
+ * Класс-интерфейс, обозначающий методы REST-ответа
+ */
+
 public interface Response {
 
     int getStatusCode();

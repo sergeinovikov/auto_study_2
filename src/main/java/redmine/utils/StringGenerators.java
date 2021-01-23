@@ -3,7 +3,7 @@ package redmine.utils;
 import java.util.Random;
 
 /**
- * Класс генераторов текстовых данных
+ * Класс описывающий генераторы текстовых данных
  */
 
 public class StringGenerators {

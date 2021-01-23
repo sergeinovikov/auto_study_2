@@ -9,7 +9,7 @@ import redmine.utils.StringGenerators;
 import java.util.Date;
 
 /**
- * Класс-модель электронного почтового дареса в системе
+ * Класс-модель электронного почтового адреса пользователя
  */
 
 @Getter

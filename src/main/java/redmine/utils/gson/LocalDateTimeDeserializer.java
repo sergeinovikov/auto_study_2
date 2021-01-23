@@ -9,6 +9,12 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Получение экземляра LocalDateTime, полученного из десериализации JsonElement.
+ *
+ * @return LocalDateTime
+ */
+
 public class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");

@@ -1,5 +1,9 @@
 package redmine.model;
 
+/**
+ * Класс-интерфейс обозначающий операции, которые возможно производить с пользователем
+ */
+
 public interface Generatable<T> {
 
     T read();

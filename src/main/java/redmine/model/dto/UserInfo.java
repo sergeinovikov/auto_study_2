@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * Класс-модель для пользователя, использумый в классе передчи данных пользователя
+ */
+
 @Data
 public class UserInfo {
     private Integer id;

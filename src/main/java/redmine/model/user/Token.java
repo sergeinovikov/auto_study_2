@@ -8,6 +8,10 @@ import redmine.utils.CryptoGenerator;
 
 import java.util.Date;
 
+/**
+ * Класс-модель API-ключа пользователя
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

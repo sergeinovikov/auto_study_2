@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Класс описывающий REST-запрос
+ */
+
 @Getter
 public class RestRequest implements Request {
     private String uri;

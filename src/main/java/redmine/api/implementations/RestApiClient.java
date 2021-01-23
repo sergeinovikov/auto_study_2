@@ -13,6 +13,10 @@ import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 
+/**
+ * Класс описывающий API-клиент
+ */
+
 public class RestApiClient implements ApiClient {
 
     private String token;
@@ -22,6 +26,13 @@ public class RestApiClient implements ApiClient {
         Objects.requireNonNull(user.getApiToken().getValue(), "У пользователя должен быть ключ API");
         this.token = user.getApiToken().getValue();
     }
+
+    /**
+     * Выполняет SQL - запрос и возвращает результат
+     *
+     * @param request - REST-запрос
+     * @return данные - REST-ответ
+     */
 
     @Override
     public Response executeRequest(Request request) {
@@ -34,9 +45,9 @@ public class RestApiClient implements ApiClient {
         specification.headers(headers)
                 .baseUri(request.getUri())
                 .queryParams(request.getParameters());
-                if (request.getBody() != null) {
-                    specification.body(request.getBody().toString());
-                }
+        if (request.getBody() != null) {
+            specification.body(request.getBody().toString());
+        }
         Method method = Method.valueOf(request.getMethod().name());
 
         io.restassured.response.Response response = specification.log().all().request(method);

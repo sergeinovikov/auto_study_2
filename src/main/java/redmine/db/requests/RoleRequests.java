@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Класс описывающий создание, чтение, редактирование и обновление ролей в БД
+ * Класс описывающий создание, чтение, редактирование и удаление ролей в БД
  */
 
 public class RoleRequests {

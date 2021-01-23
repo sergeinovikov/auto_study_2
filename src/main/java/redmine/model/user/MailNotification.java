@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.stream.Stream;
 
 /**
- * Перечесление видов уведомлений по почте
+ * Класс-Enum содержайщий перечесление видов уведомлений по почте
  */
 
 @AllArgsConstructor

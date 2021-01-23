@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.stream.Stream;
 
 /**
- * Перечесление языков
+ * Класс-Enum содержащий перечесление языков
  */
 
 @AllArgsConstructor

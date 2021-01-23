@@ -8,6 +8,10 @@ import redmine.utils.gson.GsonHelper;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Класс описывающий REST-ответ
+ */
+
 @Getter
 public class RestResponse implements Response {
     private int statusCode;
@@ -26,6 +30,13 @@ public class RestResponse implements Response {
                 .collect(Collectors.toMap(Header::getName, Header::getValue));
         this.body = restAssuredResponse.getBody().asString();
     }
+
+    /**
+     * Выполняет десериализацию с JSON-файла и возвращает тело REST-ответа
+     *
+     * @param clazz - класс
+     * @return данные - тело REST-ответа
+     */
 
     @Override
     public <T> T getBody(Class<T> clazz) {

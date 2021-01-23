@@ -1,7 +1,6 @@
 package redmine.db.requests;
 
 import redmine.managers.Manager;
-import redmine.model.role.Role;
 import redmine.model.user.*;
 import redmine.utils.DateFormatter;
 
@@ -11,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Класс описывающий создание, чтение, редактирование и обновление пользователей в БД
+ * Класс описывающий создание, чтение, редактирование и удаление пользователей в БД
  */
 
 public class UserRequests {
