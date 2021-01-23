@@ -14,9 +14,6 @@ import redmine.model.role.Permissions;
 import redmine.model.role.Role;
 import redmine.model.user.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoleTest {
@@ -25,7 +22,7 @@ public class RoleTest {
     Role role;
 
     @BeforeMethod
-    public void preparedFixtures(){
+    public void preparedFixturesForRoleTest(){
         user = new User();
         user.setAdmin(true);
         user.setStatus(1);
