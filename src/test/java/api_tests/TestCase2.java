@@ -21,12 +21,12 @@ public class TestCase2 {
     @BeforeClass
     @Test(description = "Подготовка данных: создание пользователя без админских прав. Создание API-подключения. Создание нового пользователя")
     public void preparedFixtures() {
-        User userWithApiKey = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
-        apiClient = new RestApiClient(userWithApiKey);
+        User userNotAdmin = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
+        apiClient = new RestApiClient(userNotAdmin);
         user = new User().setStatus(2);
     }
 
-    @Test(description = "Шаг 1. Создание нового пользователя через POST-запрос пользователем без админских прав", priority = 1)
+    @Test(description = "Шаг 1. Создание нового пользователя через POST-запрос пользователем без админских прав")
     public void createNewUser() {
         String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
 
