@@ -1,5 +1,6 @@
 package api_tests;
 
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -9,20 +10,19 @@ import redmine.api.interfaces.ApiClient;
 import redmine.api.interfaces.HttpMethods;
 import redmine.api.interfaces.Request;
 import redmine.api.interfaces.Response;
-import redmine.model.dto.UserCreationError;
 import redmine.model.dto.UserDto;
+import redmine.model.dto.UserInfo;
 import redmine.model.user.Language;
 import redmine.model.user.User;
 import redmine.utils.DateFormatter;
 import redmine.utils.StringGenerators;
+import redmine.utils.gson.GsonHelper;
 
 import java.time.temporal.ChronoUnit;
 
 public class TestCase1 {
 
     private ApiClient apiClient;
-    private User user;
-    private String password;
     private UserDto createdApiUser;
     private String uri;
     private Integer newStatus;
@@ -32,22 +32,33 @@ public class TestCase1 {
     public void preparedFixtures() {
         User userWithApiKey = new User().setAdmin(true).setStatus(1).setLanguage(Language.EN).generate();
         apiClient = new RestApiClient(userWithApiKey);
-        user = new User().setStatus(2);
-        password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
     }
 
-    @Test(description = "Шаг 1. Создание нового пользователя через POST-запрос", priority = 1)
-    public void createNewUser() {
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"password\": \"%s\",\n" +
-                "        \"status\": \"%s\" \n" +
-                "    }\n" +
-                "}", user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail().getAddress(), password, user.getStatus());
+    @Test(description = "Кейс 1. Создание, изменение, получение, удаление пользователя. Администратор системы")
+    public void testCase1() {
+        UserDto userBody = userCrud();
+
+    }
+
+    @Step("СОздание пользователя через API и проверка данных в БД")
+    private UserDto userCrud() {
+        String login = "Ser" + StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
+        String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);
+        String lastName = StringGenerators.randomString(8, StringGenerators.ENGLISH);
+        String mail = StringGenerators.randomEmail();
+        String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
+        Integer status = 2;
+
+        UserDto user = new UserDto()
+                .setUser(new UserInfo()
+                        .setLogin(login)
+                        .setFirstname(firstName)
+                        .setLastname(lastName)
+                        .setMail(mail)
+                        .setPassword(password)
+                        .setStatus(status)
+                );
+        String body = GsonHelper.getGson().toJson(user);
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
@@ -61,14 +72,13 @@ public class TestCase1 {
         createdApiUser = response.getBody(UserDto.class);
 
         Assert.assertNotNull(createdApiUser.getUser().getId());
-        Assert.assertEquals(createdApiUser.getUser().getLogin(), user.getLogin());
-        Assert.assertEquals(createdApiUser.getUser().getAdmin(), user.getAdmin());
-        Assert.assertEquals(createdApiUser.getUser().getFirstname(), user.getFirstName());
-        Assert.assertEquals(createdApiUser.getUser().getLastname(), user.getLastName());
-        Assert.assertEquals(createdApiUser.getUser().getMail(), user.getEmail().getAddress());
+        Assert.assertEquals(createdApiUser.getUser().getLogin(), user.getUser().getLogin());
+        Assert.assertEquals(createdApiUser.getUser().getFirstname(), user.getUser().getFirstname());
+        Assert.assertEquals(createdApiUser.getUser().getLastname(), user.getUser().getLastname());
+        Assert.assertEquals(createdApiUser.getUser().getMail(), user.getUser().getMail());
         Assert.assertNotNull(createdApiUser.getUser().getCreated_on());
         Assert.assertNull(createdApiUser.getUser().getLast_login_on());
-        Assert.assertEquals(createdApiUser.getUser().getStatus(), user.getStatus());
+        Assert.assertEquals(createdApiUser.getUser().getStatus(), user.getUser().getStatus());
         Assert.assertNotNull(createdApiUser.getUser().getApi_key());
         Assert.assertNull(createdApiUser.getUser().getPassword());
 
@@ -85,9 +95,11 @@ public class TestCase1 {
         Assert.assertEquals(createdApiUser.getUser().getStatus(), userFromDb.getStatus());
         Assert.assertEquals(createdApiUser.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Assert.assertNotNull(userFromDb.getHashedPassword());
+
+        return user;
     }
 
-    @Test(description = "Шаг 2. Создание пользователя через POST-запрос повторно с тем же телом запроса", priority = 2)
+    /*@Test(description = "Шаг 2. Создание пользователя через POST-запрос повторно с тем же телом запроса", priority = 2)
     public void createUserWithSameData() {
         String body = String.format("{\n" +
                 "    \"user\": {\n" +
@@ -102,9 +114,9 @@ public class TestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода, а также сравнение текстов ошибок.
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -133,9 +145,9 @@ public class TestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода, а также сравнение текстов ошибок.
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -165,9 +177,9 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.PUT, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода и изменённых данных пользователя в БД
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
@@ -181,9 +193,9 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода и данных пользователя, указанных при его создании, включая изменённый статус
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 200);
 
@@ -202,9 +214,9 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода и отсутствия данных пользователя в БД
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
@@ -216,12 +228,12 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
+        *//*
           Проверка статус-кода и отсутствия данных пользователя в БД
-         */
+         *//*
 
         Assert.assertEquals(response.getStatusCode(), 404);
 
         Assert.assertNull(user.read());
-    }
+    }*/
 }

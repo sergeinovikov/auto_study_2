@@ -34,7 +34,7 @@ public class UserRequests {
                                             (String) map.get("language")
                                     )
                             );
-                            user.setAuthSourceId((String) map.get("auth_source_id"));
+                            user.setAuthSourceId((Integer) map.get("auth_source_id"));
                             user.setCreatedOn((Date) map.get("created_on"));
                             user.setUpdatedOn((Date) map.get("updated_on"));
                             user.setType((String) map.get("type"));

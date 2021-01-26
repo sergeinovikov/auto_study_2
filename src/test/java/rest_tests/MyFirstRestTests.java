@@ -1,6 +1,6 @@
 package rest_tests;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.testng.Assert;
 import redmine.api.implementations.RestApiClient;
 import redmine.api.implementations.RestRequest;
@@ -74,7 +74,7 @@ public class MyFirstRestTests {
         User admin = new User();
         admin.setAdmin(true);
         admin.setStatus(1);
-        admin.setLanguage(Language.RU);
+        admin.setLanguage(Language.EN);
         admin.generate();
 
         User user = new User();
@@ -98,7 +98,7 @@ public class MyFirstRestTests {
         UserCreationError errors = response.getBody(UserCreationError.class);
 
         Assert.assertEquals(errors.getErrors().size(), 1);
-        Assert.assertEquals(errors.getErrors().get(0), "Пароль недостаточной длины (не может быть меньше 8 символа)");
+        Assert.assertEquals(errors.getErrors().get(0), "Password is too short (minimum is 8 characters)");
     }
 
 }

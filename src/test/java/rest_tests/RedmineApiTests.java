@@ -1,8 +1,8 @@
 package rest_tests;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import redmine.api.implementations.RestApiClient;
 import redmine.api.implementations.RestRequest;
 import redmine.api.interfaces.ApiClient;
@@ -14,7 +14,7 @@ import redmine.model.user.User;
 public class RedmineApiTests {
     User user;
 
-    @Before
+    @BeforeClass
     public void preparedFixtures() {
         user = new User().setAdmin(true).setStatus(1).generate();
     }

@@ -1,8 +1,8 @@
 package sql_tests;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import redmine.model.project.Project;
 
 public class DataBaseConnectionProjectTest {

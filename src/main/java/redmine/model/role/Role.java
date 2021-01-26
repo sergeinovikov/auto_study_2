@@ -51,7 +51,7 @@ public class Role implements Generatable<Role> {
         Role role = RoleRequests.getRole(this);
         if (role == null)
             return null;
-        return this;
+        return role;
     }
 
     @Override

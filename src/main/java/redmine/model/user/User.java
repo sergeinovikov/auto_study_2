@@ -42,7 +42,7 @@ public class User implements Generatable<User> {
     private Date createdOn = new Date();
     private Date updatedOn = new Date();
     private Date passwdChangedOn = new Date();
-    private String authSourceId = null;
+    private Integer authSourceId = null;
     private String type = "User";
     private String identityUrl = null;
 

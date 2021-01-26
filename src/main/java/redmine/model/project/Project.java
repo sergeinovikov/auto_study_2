@@ -46,7 +46,7 @@ public class Project implements Generatable<Project> {
         Project project = ProjectRequests.getProject(this);
         if (project == null)
             return null;
-        return this;
+        return project;
     }
 
     @Override

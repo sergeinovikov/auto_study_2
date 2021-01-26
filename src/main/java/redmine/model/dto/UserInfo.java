@@ -1,6 +1,7 @@
 package redmine.model.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
+@Accessors(chain = true)
 public class UserInfo {
     private Integer id;
     private String login;
