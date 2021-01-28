@@ -1,5 +1,6 @@
 package api_tests;
 
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,18 +16,31 @@ import redmine.model.user.User;
 public class TestCase4 {
 
     private ApiClient apiClient;
-    private User user;
-    private User anotherUser;
+    private User firstUser;
+    private User secondUser;
 
-    @BeforeClass
-    @Test(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
+    @BeforeClass(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
     public void preparedFixtures() {
-        user = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
-        anotherUser = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
+        firstUser = new User()
+                .setAdmin(false)
+                .setStatus(1)
+                .setLanguage(Language.EN)
+                .generate();
+        secondUser = new User()
+                .setAdmin(false)
+                .setStatus(1)
+                .setLanguage(Language.EN)
+                .generate();
     }
 
-    @Test(description = "Шаг 1. Удаление второго пользователя через DELETE-запрос. Использование своего API-ключа первым пользователем", priority = 1)
-    public void deleteAnotherUser() {
+    @Test(description = "Удаление пользователей. Пользователь без прав администратора")
+    public void deleteUsersWithoutAdminRights() {
+        deleteAnotherUser(firstUser, secondUser);
+        deleteUser(firstUser, secondUser);
+    }
+
+    @Step("Шаг 1. Удаление второго пользователя через DELETE-запрос. Использование своего API-ключа первым пользователем")
+    private void deleteAnotherUser(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 
         apiClient = new RestApiClient(user);
@@ -42,8 +56,8 @@ public class TestCase4 {
         Assert.assertNotNull(user.read());
     }
 
-    @Test(description = "Шаг 2. Удаление пользователя через DELETE-запрос. Использование вторым пользователем API-ключа первого пользователя", priority = 2)
-    public void deleteUser() {
+    @Step("Шаг 2. Удаление пользователя через DELETE-запрос. Использование вторым пользователем API-ключа первого пользователя")
+    private void deleteUser(User user, User anotherUser) {
         String uri = String.format("users/%d.json", user.getId());
 
         apiClient = new RestApiClient(user);

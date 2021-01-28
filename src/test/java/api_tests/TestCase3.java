@@ -1,5 +1,6 @@
 package api_tests;
 
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,18 +17,31 @@ import redmine.model.user.User;
 public class TestCase3 {
 
     private ApiClient apiClient;
-    private User user;
-    private User anotherUser;
+    private User firstUser;
+    private User secondUser;
 
-    @BeforeClass
-    @Test(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
+    @BeforeClass(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
     public void preparedFixtures() {
-        user = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
-        anotherUser = new User().setAdmin(false).setStatus(1).setLanguage(Language.EN).generate();
+        firstUser = new User()
+                .setAdmin(false)
+                .setStatus(1)
+                .setLanguage(Language.EN)
+                .generate();
+        secondUser = new User()
+                .setAdmin(false)
+                .setStatus(1)
+                .setLanguage(Language.EN)
+                .generate();
     }
 
-    @Test(description = "Шаг 1. Получение пользователя через GET-запрос. Использование своего API-ключа первым пользователем", priority = 1)
-    public void getUser() {
+    @Test(description = "Получение пользователей. Пользователь без прав администратора")
+    public void getUsersWithoutAdminRights() {
+        getUser(firstUser);
+        getUserWithAnotherApiKey(firstUser, secondUser);
+    }
+
+    @Step("Шаг 1. Получение пользователя через GET-запрос. Использование своего API-ключа первым пользователем")
+    private void getUser(User user) {
         String uri = String.format("users/%d.json", user.getId());
 
         apiClient = new RestApiClient(user);
@@ -46,8 +60,8 @@ public class TestCase3 {
         Assert.assertEquals(getApiUser.getUser().getApi_key(), user.getApiToken().getValue());
     }
 
-    @Test(description = "Шаг 2. Получение пользователя через GET-запрос. Использование вторым пользователем API-ключа первого пользователя", priority = 2)
-    public void getUserWithAnotherApi() {
+    @Step("Шаг 2. Получение пользователя через GET-запрос. Использование вторым пользователем API-ключа первого пользователя")
+    public void getUserWithAnotherApiKey(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 
         apiClient = new RestApiClient(user);

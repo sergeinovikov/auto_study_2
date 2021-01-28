@@ -10,6 +10,7 @@ import redmine.api.interfaces.ApiClient;
 import redmine.api.interfaces.HttpMethods;
 import redmine.api.interfaces.Request;
 import redmine.api.interfaces.Response;
+import redmine.model.dto.UserCreationError;
 import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
 import redmine.model.user.Language;
@@ -23,24 +24,29 @@ import java.time.temporal.ChronoUnit;
 public class TestCase1 {
 
     private ApiClient apiClient;
-    private UserDto createdApiUser;
-    private String uri;
-    private Integer newStatus;
 
-    @BeforeClass
-    @Test(description = "Подготовка данных: создание пользователя с админскими правами. Создание API-подключения. Создание нового пользователя. Генерация пароля для пользователя")
+    @BeforeClass(description = "Подготовка данных: создание пользователя с админскими правами. Создание API-подключения.")
     public void preparedFixtures() {
-        User userWithApiKey = new User().setAdmin(true).setStatus(1).setLanguage(Language.EN).generate();
+        User userWithApiKey = new User()
+                .setAdmin(true)
+                .setStatus(1)
+                .setLanguage(Language.EN);
+        userWithApiKey.generate();
         apiClient = new RestApiClient(userWithApiKey);
     }
 
     @Test(description = "Кейс 1. Создание, изменение, получение, удаление пользователя. Администратор системы")
     public void testCase1() {
-        UserDto userBody = userCrud();
-
+        UserDto user = userCrud();
+        createUserWithSameData(user);
+        createUserWithInvalidData(user);
+        updateUser(user);
+        getUser(user);
+        deleteUser(user);
+        deleteSameUser(user);
     }
 
-    @Step("СОздание пользователя через API и проверка данных в БД")
+    @Step("Создание пользователя через API и проверка данных в БД")
     private UserDto userCrud() {
         String login = "Ser" + StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
         String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);
@@ -49,7 +55,7 @@ public class TestCase1 {
         String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
         Integer status = 2;
 
-        UserDto user = new UserDto()
+        UserDto userForCreation = new UserDto()
                 .setUser(new UserInfo()
                         .setLogin(login)
                         .setFirstname(firstName)
@@ -58,7 +64,7 @@ public class TestCase1 {
                         .setPassword(password)
                         .setStatus(status)
                 );
-        String body = GsonHelper.getGson().toJson(user);
+        String body = GsonHelper.getGson().toJson(userForCreation);
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
@@ -69,54 +75,49 @@ public class TestCase1 {
 
         Assert.assertEquals(response.getStatusCode(), 201);
 
-        createdApiUser = response.getBody(UserDto.class);
+        UserDto user = response.getBody(UserDto.class);
 
-        Assert.assertNotNull(createdApiUser.getUser().getId());
-        Assert.assertEquals(createdApiUser.getUser().getLogin(), user.getUser().getLogin());
-        Assert.assertEquals(createdApiUser.getUser().getFirstname(), user.getUser().getFirstname());
-        Assert.assertEquals(createdApiUser.getUser().getLastname(), user.getUser().getLastname());
-        Assert.assertEquals(createdApiUser.getUser().getMail(), user.getUser().getMail());
-        Assert.assertNotNull(createdApiUser.getUser().getCreated_on());
-        Assert.assertNull(createdApiUser.getUser().getLast_login_on());
-        Assert.assertEquals(createdApiUser.getUser().getStatus(), user.getUser().getStatus());
-        Assert.assertNotNull(createdApiUser.getUser().getApi_key());
-        Assert.assertNull(createdApiUser.getUser().getPassword());
+        Assert.assertNotNull(user.getUser().getId());
+        Assert.assertEquals(user.getUser().getLogin(), userForCreation.getUser().getLogin());
+        Assert.assertEquals(user.getUser().getFirstname(), userForCreation.getUser().getFirstname());
+        Assert.assertEquals(user.getUser().getLastname(), userForCreation.getUser().getLastname());
+        Assert.assertEquals(user.getUser().getMail(), userForCreation.getUser().getMail());
+        Assert.assertNotNull(user.getUser().getCreated_on());
+        Assert.assertNull(user.getUser().getLast_login_on());
+        Assert.assertEquals(user.getUser().getStatus(), userForCreation.getUser().getStatus());
+        Assert.assertNotNull(user.getUser().getApi_key());
+        Assert.assertNull(user.getUser().getPassword());
 
-        User userFromDb = new User().setId(createdApiUser.getUser().getId()).read();
+        User userFromDb = new User()
+                .setId(user.getUser().getId())
+                .read();
 
-        Assert.assertEquals(createdApiUser.getUser().getId(), userFromDb.getId());
-        Assert.assertEquals(createdApiUser.getUser().getLogin(), userFromDb.getLogin());
-        Assert.assertEquals(createdApiUser.getUser().getAdmin(), userFromDb.getAdmin());
-        Assert.assertEquals(createdApiUser.getUser().getFirstname(), userFromDb.getFirstName());
-        Assert.assertEquals(createdApiUser.getUser().getLastname(), userFromDb.getLastName());
-        Assert.assertEquals(createdApiUser.getUser().getMail(), userFromDb.getEmail().getAddress());
-        Assert.assertTrue(ChronoUnit.SECONDS.between(createdApiUser.getUser().getCreated_on(), DateFormatter.convertDate(userFromDb.getCreatedOn())) <= 1);
+        Assert.assertEquals(user.getUser().getId(), userFromDb.getId());
+        Assert.assertEquals(user.getUser().getLogin(), userFromDb.getLogin());
+        Assert.assertEquals(user.getUser().getAdmin(), userFromDb.getAdmin());
+        Assert.assertEquals(user.getUser().getFirstname(), userFromDb.getFirstName());
+        Assert.assertEquals(user.getUser().getLastname(), userFromDb.getLastName());
+        Assert.assertEquals(user.getUser().getMail(), userFromDb.getEmail().getAddress());
+        Assert.assertTrue(ChronoUnit.SECONDS.between(user.getUser().getCreated_on(), DateFormatter.convertDate(userFromDb.getCreatedOn())) <= 1);
         Assert.assertNull(userFromDb.getLastLoginOn());
-        Assert.assertEquals(createdApiUser.getUser().getStatus(), userFromDb.getStatus());
-        Assert.assertEquals(createdApiUser.getUser().getApi_key(), userFromDb.getApiToken().getValue());
+        Assert.assertEquals(user.getUser().getStatus(), userFromDb.getStatus());
+        Assert.assertEquals(user.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Assert.assertNotNull(userFromDb.getHashedPassword());
 
         return user;
     }
 
-    /*@Test(description = "Шаг 2. Создание пользователя через POST-запрос повторно с тем же телом запроса", priority = 2)
-    public void createUserWithSameData() {
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"password\": \"%s\" \n" +
-                "    }\n" +
-                "}", user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail().getAddress(), password);
+
+    @Step("Шаг 2. Создание пользователя через POST-запрос повторно с тем же телом запроса")
+    private void createUserWithSameData(UserDto user) {
+        String body = GsonHelper.getGson().toJson(user);
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        *//*
+        /*
           Проверка статус-кода, а также сравнение текстов ошибок.
-         *//*
+         */
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -127,27 +128,33 @@ public class TestCase1 {
         Assert.assertEquals(errors.getErrors().get(1), "Login has already been taken");
     }
 
-    @Test(description = "Шаг 3. Создание пользователя через POST-запрос повторно с тем же телом запроса, но с невалидными email и password", priority = 3)
-    public void createUserWithInvalidData() {
-        String invalidEmail = "email.ru";
-        String invalidPassword = "1234";
+    @Step("Шаг 3. Создание пользователя через POST-запрос повторно с тем же телом запроса, но с невалидными email и password")
+    private void createUserWithInvalidData(UserDto user) {
+        String login = user.getUser().getLogin();
+        String firstName = user.getUser().getFirstname();
+        String lastName = user.getUser().getLastname();
+        Integer status = user.getUser().getStatus();
+        String invalidEMail = "invalid_email";
+        String invalidPassword = "123";
 
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"password\": \"%s\" \n" +
-                "    }\n" +
-                "}", user.getLogin(), user.getFirstName(), user.getLastName(), invalidEmail, invalidPassword);
+        UserDto userWithInvalidData = new UserDto()
+                .setUser(new UserInfo()
+                        .setLogin(login)
+                        .setFirstname(firstName)
+                        .setLastname(lastName)
+                        .setMail(invalidEMail)
+                        .setPassword(invalidPassword)
+                        .setStatus(status)
+                );
+
+        String body = GsonHelper.getGson().toJson(userWithInvalidData);
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        *//*
-          Проверка статус-кода, а также сравнение текстов ошибок.
-         *//*
+        /*
+        Проверка статус -кода, а также сравнение текстов ошибок.
+         */
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -159,81 +166,89 @@ public class TestCase1 {
         Assert.assertEquals(errors.getErrors().get(2), "Password is too short (minimum is 8 characters)");
     }
 
-    @Test(description = "Шаг 4. Изменение пользователя через PUT-запрос c данными ответа по запросу из шага 1, при этом изменив поле status = 1", priority = 4)
-    public void updateUser() {
-        uri = String.format("users/%d.json", createdApiUser.getUser().getId());
-        newStatus = 1;
+    @Step("Шаг 4. Изменение пользователя через PUT-запрос c данными ответа по запросу из шага 1, при этом изменив поле status = 1")
+    private void updateUser(UserDto user) {
+        String uri = String.format("users/%d.json", user.getUser().getId());
+        Integer newStatus = 1;
 
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"status\": \"%d\" \n" +
-                "    }\n" +
-                "}", createdApiUser.getUser().getLogin(), createdApiUser.getUser().getFirstname(), createdApiUser.getUser().getLastname(), createdApiUser.getUser().getMail(), newStatus);
+        user.getUser().setStatus(newStatus);
+
+        String body = GsonHelper.getGson().toJson(user);
 
         Request request = new RestRequest(uri, HttpMethods.PUT, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        *//*
+        /*
           Проверка статус-кода и изменённых данных пользователя в БД
-         *//*
+         */
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        User userFromDb = new User().setLogin(createdApiUser.getUser().getLogin()).read();
+        User userFromDb = new User()
+                .setId(user.getUser().getId())
+                .read();
 
         Assert.assertEquals(userFromDb.getStatus(), newStatus);
     }
 
-    @Test(description = "Шаг 5. Получение пользователя через GET-запрос", priority = 5)
-    public void getUser() {
+    @Step("Шаг 5. Получение пользователя через GET-запрос")
+    private void getUser(UserDto user) {
+        String uri = String.format("users/%d.json", user.getUser().getId());
+
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        *//*
+        /*
           Проверка статус-кода и данных пользователя, указанных при его создании, включая изменённый статус
-         *//*
+        */
 
         Assert.assertEquals(response.getStatusCode(), 200);
 
-        UserDto getApiUser = response.getBody(UserDto.class);
+        user = response.getBody(UserDto.class);
 
-        Assert.assertEquals(getApiUser.getUser().getLogin(), user.getLogin());
-        Assert.assertEquals(getApiUser.getUser().getFirstname(), user.getFirstName());
-        Assert.assertEquals(getApiUser.getUser().getLastname(), user.getLastName());
-        Assert.assertEquals(getApiUser.getUser().getMail(), user.getEmail().getAddress());
-        Assert.assertNull(getApiUser.getUser().getPassword());
-        Assert.assertEquals(getApiUser.getUser().getStatus(), newStatus);
+        Assert.assertEquals(user.getUser().getLogin(), user.getUser().getLogin());
+        Assert.assertEquals(user.getUser().getFirstname(), user.getUser().getFirstname());
+        Assert.assertEquals(user.getUser().getLastname(), user.getUser().getLastname());
+        Assert.assertEquals(user.getUser().getMail(), user.getUser().getMail());
+        Assert.assertNull(user.getUser().getPassword());
+        Assert.assertEquals(user.getUser().getStatus(), user.getUser().getStatus());
     }
 
-    @Test(description = "Шаг 6. Удаление пользователя через DELETE-запрос", priority = 6)
-    public void deleteUser() {
+    @Step("Шаг 6. Удаление пользователя через DELETE-запрос")
+    private void deleteUser(UserDto user) {
+        String uri = String.format("users/%d.json", user.getUser().getId());
+
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        *//*
-          Проверка статус-кода и отсутствия данных пользователя в БД
-         *//*
+        /*
+        Проверка статус -кода и отсутствия данных пользователя в БД
+        */
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        Assert.assertNull(user.read());
+        User deletedUser = new User()
+                .setId(user.getUser().getId());
+
+        Assert.assertNull(deletedUser.read());
     }
 
-    @Test(description = "Шаг 7. Повторно удаление пользователя через DELETE-запрос", priority = 7)
-    public void deleteSameUser() {
+    @Step("Шаг 7. Повторно удаление пользователя через DELETE-запрос")
+    private void deleteSameUser(UserDto user) {
+        String uri = String.format("users/%d.json", user.getUser().getId());
+
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        *//*
-          Проверка статус-кода и отсутствия данных пользователя в БД
-         *//*
+        /*
+        Проверка статус -кода и отсутствия данных пользователя в БД
+        */
 
         Assert.assertEquals(response.getStatusCode(), 404);
 
-        Assert.assertNull(user.read());
-    }*/
+        User deletedUser = new User()
+                .setId(user.getUser().getId());
+
+        Assert.assertNull(deletedUser.read());
+    }
 }
