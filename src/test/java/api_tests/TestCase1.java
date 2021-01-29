@@ -46,7 +46,7 @@ public class TestCase1 {
         deleteSameUser(user);
     }
 
-    @Step("Создание пользователя через API и проверка данных в БД")
+    @Step("Шаг 1. Создание пользователя через API и проверка данных в БД")
     private UserDto userCrud() {
         String login = "Ser" + StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
         String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);

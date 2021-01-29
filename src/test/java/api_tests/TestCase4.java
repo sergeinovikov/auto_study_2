@@ -33,7 +33,7 @@ public class TestCase4 {
                 .generate();
     }
 
-    @Test(description = "Удаление пользователей. Пользователь без прав администратора")
+    @Test(description = "Кейс 4. Удаление пользователей. Пользователь без прав администратора")
     public void deleteUsersWithoutAdminRights() {
         deleteAnotherUser(firstUser, secondUser);
         deleteUser(firstUser);

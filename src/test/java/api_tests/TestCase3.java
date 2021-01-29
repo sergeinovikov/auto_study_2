@@ -34,7 +34,7 @@ public class TestCase3 {
                 .generate();
     }
 
-    @Test(description = "Получение пользователей. Пользователь без прав администратора")
+    @Test(description = "Кейс 3. Получение пользователей. Пользователь без прав администратора")
     public void getUsersWithoutAdminRights() {
         getUser(firstUser);
         getUserWithAnotherApiKey(firstUser, secondUser);

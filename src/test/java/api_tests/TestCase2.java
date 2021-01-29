@@ -31,7 +31,7 @@ public class TestCase2 {
         apiClient = new RestApiClient(userNotAdmin);
     }
 
-    @Test(description = "Создание нового пользователя через POST-запрос пользователем без админских прав")
+    @Test(description = "Кейс 2. Создание нового пользователя через POST-запрос пользователем без админских прав")
     public void createUserWithoutAdminRights() {
         createNewUser();
     }
