@@ -36,10 +36,10 @@ public class TestCase4 {
     @Test(description = "Удаление пользователей. Пользователь без прав администратора")
     public void deleteUsersWithoutAdminRights() {
         deleteAnotherUser(firstUser, secondUser);
-        deleteUser(firstUser, secondUser);
+        deleteUser(firstUser);
     }
 
-    @Step("Шаг 1. Удаление второго пользователя через DELETE-запрос. Использование своего API-ключа первым пользователем")
+    @Step("Шаг 1. Удаление второго пользователя через DELETE-запрос используя API-ключ первого пользователя")
     private void deleteAnotherUser(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 
@@ -56,8 +56,8 @@ public class TestCase4 {
         Assert.assertNotNull(user.read());
     }
 
-    @Step("Шаг 2. Удаление пользователя через DELETE-запрос. Использование вторым пользователем API-ключа первого пользователя")
-    private void deleteUser(User user, User anotherUser) {
+    @Step("Шаг 2. Удаление первого пользователя через DELETE-запрос используя API-ключ первого пользователя")
+    private void deleteUser(User user) {
         String uri = String.format("users/%d.json", user.getId());
 
         apiClient = new RestApiClient(user);

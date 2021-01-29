@@ -40,7 +40,7 @@ public class TestCase3 {
         getUserWithAnotherApiKey(firstUser, secondUser);
     }
 
-    @Step("Шаг 1. Получение пользователя через GET-запрос. Использование своего API-ключа первым пользователем")
+    @Step("Шаг 1. Получение первого пользователя через GET-запрос используя API-ключ первого пользователя")
     private void getUser(User user) {
         String uri = String.format("users/%d.json", user.getId());
 
@@ -60,7 +60,7 @@ public class TestCase3 {
         Assert.assertEquals(getApiUser.getUser().getApi_key(), user.getApiToken().getValue());
     }
 
-    @Step("Шаг 2. Получение пользователя через GET-запрос. Использование вторым пользователем API-ключа первого пользователя")
+    @Step("Шаг 2. Получение второго пользователя через GET-запрос используя API-ключ первого пользователя")
     public void getUserWithAnotherApiKey(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 
