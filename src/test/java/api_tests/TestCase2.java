@@ -42,7 +42,7 @@ public class TestCase2 {
         String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);
         String lastName = StringGenerators.randomString(8, StringGenerators.ENGLISH);
         String mail = StringGenerators.randomEmail();
-        String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS_CHARACTERS);
+        String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
         Integer status = 2;
 
         UserDto userForCreation = new UserDto()

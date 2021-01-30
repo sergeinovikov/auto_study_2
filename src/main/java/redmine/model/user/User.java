@@ -31,7 +31,8 @@ public class User implements Generatable<User> {
     private Language language = Language.values()[new Random().nextInt(Language.values().length)];
     private Boolean admin = false;
     private String salt = CryptoGenerator.generateHEX(32);
-    private String hashedPassword = CryptoGenerator.generatePassword(this.salt);
+    public String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
+    private String hashedPassword = CryptoGenerator.generatePassword(this.salt, this.password);
     private Boolean mustChangePasswd = false;
     private Integer status = 2;
 
@@ -45,6 +46,7 @@ public class User implements Generatable<User> {
     private Integer authSourceId = null;
     private String type = "User";
     private String identityUrl = null;
+
 
 
     @Override

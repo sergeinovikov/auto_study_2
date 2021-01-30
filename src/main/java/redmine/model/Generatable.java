@@ -14,10 +14,8 @@ public interface Generatable<T> {
 
     T create();
 
-    @Step("Сущность удалена")
     void delete();
 
-    @Step("Сущность сгенерирована")
     default T generate() {
         if (read()!=null) {
             return update();
