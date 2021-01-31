@@ -1,6 +1,5 @@
 package sql_tests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import redmine.db.requests.RoleRequests;
@@ -30,21 +29,23 @@ public class DataBaseConnectionRoleTest {
     @Test
     public void getRoleTest() {
         Role role = new Role();
-        role.setName("Пользователь1");
+        role.setName("Пользователь11234");
+        role.create();
 
-        Role dataBaseRole = RoleRequests.getRole(role);
+        Role dataBaseRole = role.read();
 
-        Assert.assertEquals(dataBaseRole.getId().intValue(), 11);
+        Assert.assertEquals(dataBaseRole.getName(), role.getName());
 
-        role.setId(33);
-        Role dataBaseRole2 = RoleRequests.getRole(role);
-        Assert.assertEquals(dataBaseRole2.getName(), "Генерируемая роль5");
+        Role role1 = new Role().setId(1);
+        Role dataBaseRole2 = role1.read();
+        Assert.assertEquals(dataBaseRole2.getName(), "Non member");
     }
 
     @Test
     public void updateRoleTest() {
         Role role = new Role();
-        role.setName("Первая роль Сергея");
+        role.setName("Перваяd роль Сергея");
+        role.generate();
         role.setAssignable(false);
         Role updatedRole = role.update();
         Assert.assertEquals(role.getAssignable(), updatedRole.getAssignable());
@@ -82,13 +83,9 @@ public class DataBaseConnectionRoleTest {
         roleForDeleting = checkExistingRole.read();
 
         Assert.assertNull(roleForDeleting);
+
+        Role role1 = new Role();
+        role1.delete();
     }
 
-    @AfterClass
-    public static void afterClass() {
-        Role roleChangeAssignable = new Role();
-        roleChangeAssignable.setName("Первая роль Сергея");
-        roleChangeAssignable.setAssignable(true);
-        roleChangeAssignable.update();
-    }
 }

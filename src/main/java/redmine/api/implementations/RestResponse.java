@@ -32,7 +32,7 @@ public class RestResponse implements Response {
     }
 
     /**
-     * Выполняет десериализацию с JSON-файла и возвращает тело REST-ответа
+     * Выполняет десериализацию из JSON и возвращает тело REST-ответа
      *
      * @param clazz - класс
      * @return данные - тело REST-ответа

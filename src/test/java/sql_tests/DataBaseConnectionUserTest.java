@@ -1,6 +1,5 @@
 package sql_tests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import redmine.model.user.User;
@@ -28,9 +27,10 @@ public class DataBaseConnectionUserTest {
     @Test
     public void updateUserTest() {
         User user = new User();
-        user.setLogin("vtesknoq");
-        user.setFirstName("updateUser");
-        User dataBaseUpdateUser = user.update();
+        user.setLogin("dbTest");
+        User existedUser = user.read();
+        existedUser.setFirstName("success2");
+        User dataBaseUpdateUser = existedUser.update();
         Assert.assertEquals(user.getLogin(), dataBaseUpdateUser.getLogin());
     }
 
@@ -45,6 +45,9 @@ public class DataBaseConnectionUserTest {
         userForDeleting = checkExistingUser.read();
 
         Assert.assertNull(userForDeleting);
+
+        User user1 = new User();
+        user1.delete();
     }
 
     @Test
@@ -64,11 +67,4 @@ public class DataBaseConnectionUserTest {
         Assert.assertNotEquals(originalUser.getFirstName(), userWithSameName.getFirstName());
     }
 
-    @AfterClass
-    public static void afterClass() {
-        User userChangeLogin = new User();
-        userChangeLogin.setLogin("vtesknoq");
-        userChangeLogin.setFirstName("needToUpdate");
-        userChangeLogin.update();
-    }
 }

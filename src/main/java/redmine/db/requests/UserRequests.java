@@ -53,18 +53,54 @@ public class UserRequests {
                 .collect(Collectors.toList());
     }
 
-    public static User getUser(User objectUser) {
-        User userFromDb = getAllUsers().stream()
-                .filter(user -> {
-                            if (objectUser.getId() == null) {
-                                return user.getLogin().equals(objectUser.getLogin());
-                            } else {
-                                return user.getId().equals(objectUser.getId());
-                            }
+    public static User getUserById(Integer id) {
+        String query = String.format("SELECT * FROM users WHERE id=%d", id);
+        return getUser(query);
+    }
+
+    public static User getUserByLogin(String login) {
+        String query = String.format("SELECT * FROM users WHERE login='%s'", login);
+        return getUser(query);
+    }
+
+    private static User getUser(String query) {
+        List<Map<String, Object>> result = Manager.dbConnection.executeQuery(query);
+
+        User userFromDb = result.stream()
+                .map(map -> {
+                            User user = new User();
+                            user.setId((Integer) map.get("id"));
+                            user.setLogin((String) map.get("login"));
+                            user.setHashedPassword((String) map.get("hashed_password"));
+                            user.setFirstName((String) map.get("firstname"));
+                            user.setLastName((String) map.get("lastname"));
+                            user.setAdmin((Boolean) map.get("admin"));
+                            user.setStatus((Integer) map.get("status"));
+                            user.setLastLoginOn((Date) map.get("last_login_on"));
+                            user.setLanguage(
+                                    Language.of(
+                                            (String) map.get("language")
+                                    )
+                            );
+                            user.setAuthSourceId((Integer) map.get("auth_source_id"));
+                            user.setCreatedOn((Date) map.get("created_on"));
+                            user.setUpdatedOn((Date) map.get("updated_on"));
+                            user.setType((String) map.get("type"));
+                            user.setIdentityUrl((String) map.get("Identity_url"));
+                            user.setMailNotification(
+                                    MailNotification.of(
+                                            (String) map.get("mail_notification")
+                                    )
+                            );
+                            user.setSalt((String) map.get("salt"));
+                            user.setMustChangePasswd((Boolean) map.get("must_change_passwd"));
+                            user.setPasswdChangedOn((Date) map.get("passwd_changed_on"));
+                            return user;
                         }
                 )
                 .findFirst()
                 .orElse(null);
+
         if (userFromDb != null) {
             String emailQuery = "SELECT id, user_id, address, is_default, \"notify\", created_on, updated_on\n" +
                     "FROM public.email_addresses\n" +
@@ -168,7 +204,35 @@ public class UserRequests {
         return user;
     }
 
-    public static User updateUser(User user) {
+    public static User updateById(User user) {
+        String userQuery = "UPDATE public.users\n" +
+                "SET login=?, hashed_password=?, firstname=?, lastname=?, \"admin\"=?, status=?, last_login_on=?, \"language\"=?, auth_source_id=?, created_on=?, updated_on=?, \"type\"=?, identity_url=?, mail_notification=?, salt=?, must_change_passwd=?, passwd_changed_on=?\n" +
+                "WHERE id=? RETURNING id\n";
+        List<Map<String, Object>> userResult = Manager.dbConnection.executePreparedQuery(userQuery,
+                user.getLogin(),
+                user.getHashedPassword(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAdmin(),
+                user.getStatus(),
+                user.getLastLoginOn(),
+                user.getLanguage().toString().toLowerCase(),
+                user.getAuthSourceId(),
+                DateFormatter.convertDate(user.getCreatedOn()),
+                DateFormatter.convertDate(user.getUpdatedOn()),
+                user.getType(),
+                user.getIdentityUrl(),
+                user.getMailNotification().toString().toLowerCase(),
+                user.getSalt(),
+                user.getMustChangePasswd(),
+                DateFormatter.convertDate(user.getPasswdChangedOn()),
+                user.getId()
+        );
+        user.setId((Integer) userResult.get(0).get("id"));
+        return updateUserLinkedTables(user);
+    }
+
+    public static User updateByLogin(User user) {
         String userQuery = "UPDATE public.users\n" +
                 "SET hashed_password=?, firstname=?, lastname=?, \"admin\"=?, status=?, last_login_on=?, \"language\"=?, auth_source_id=?, created_on=?, updated_on=?, \"type\"=?, identity_url=?, mail_notification=?, salt=?, must_change_passwd=?, passwd_changed_on=?\n" +
                 "WHERE login=? RETURNING id\n";
@@ -192,7 +256,9 @@ public class UserRequests {
                 user.getLogin()
         );
         user.setId((Integer) userResult.get(0).get("id"));
-
+        return updateUserLinkedTables(user);
+    }
+    private static User updateUserLinkedTables(User user) {
         String emailQuery = "UPDATE public.email_addresses\n" +
                 "SET address=?, is_default=?, \"notify\"=?, created_on=?, updated_on=?\n" +
                 "WHERE user_id=? RETURNING id;\n";

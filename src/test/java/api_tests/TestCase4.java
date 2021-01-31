@@ -39,7 +39,7 @@ public class TestCase4 {
         deleteUser(firstUser);
     }
 
-    @Step("Шаг 1. Удаление второго пользователя через DELETE-запрос используя API-ключ первого пользователя")
+    @Step("Шаг 1. Удаление второго {0} через DELETE-запрос используя API-ключ первого {1}")
     private void deleteAnotherUser(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 

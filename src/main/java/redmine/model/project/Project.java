@@ -6,7 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import redmine.db.requests.ProjectRequests;
+import redmine.db.requests.RoleRequests;
+import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
+import redmine.model.role.Role;
 import redmine.utils.StringGenerators;
 
 import java.util.Date;
@@ -43,15 +46,16 @@ public class Project implements Generatable<Project> {
 
     @Override
     public Project read() {
-        Project project = ProjectRequests.getProject(this);
-        if (project == null)
-            return null;
-        return project;
+        return this.id == null
+                ? ProjectRequests.getProjectByName(this.name)
+                : ProjectRequests.getProjectById(this.id);
     }
 
     @Override
     public Project update() {
-        return ProjectRequests.updateProject(this);
+        return this.id == null
+                ? ProjectRequests.updateByName(this)
+                : ProjectRequests.updateById(this);
     }
 
     @Override
@@ -61,8 +65,8 @@ public class Project implements Generatable<Project> {
 
     @Override
     public void delete() {
-        Project project = ProjectRequests.getProject(this);
-        if (project.id == null) {
+        Project project = this.read();
+        if (project == null || project.id == null) {
             new IllegalArgumentException("Проект с данным Id не найден");
         } else {
             ProjectRequests.deleteProject(this);

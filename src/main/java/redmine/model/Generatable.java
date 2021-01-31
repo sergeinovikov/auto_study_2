@@ -1,7 +1,5 @@
 package redmine.model;
 
-import io.qameta.allure.Step;
-
 /**
  * Класс-интерфейс обозначающий операции, которые возможно производить с пользователем
  */
@@ -17,10 +15,8 @@ public interface Generatable<T> {
     void delete();
 
     default T generate() {
-        if (read()!=null) {
-            return update();
-        } else {
-            return create();
-        }
+        return read() != null
+                ? update()
+                : create();
     }
 }

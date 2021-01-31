@@ -8,20 +8,13 @@
     <artifactId>auto_study_2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>clojars.org</id>
-            <url>https://clojars.org/repo/</url>
-        </repository>
-    </repositories>
-
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <test.ng.version>7.3.0</test.ng.version>
         <lombok.version>1.18.16</lombok.version>
         <postgresql.version>42.2.18</postgresql.version>
-        <digest.version>1.4.10</digest.version>
+        <commons.codec.version>1.15</commons.codec.version>
         <io.rest-assured.version>4.3.3</io.rest-assured.version>
         <gson.version>2.8.6</gson.version>
         <allure.version>2.13.8</allure.version>
@@ -56,12 +49,13 @@
             <version>${postgresql.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/digest/digest -->
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         <dependency>
-            <groupId>digest</groupId>
-            <artifactId>digest</artifactId>
-            <version>${digest.version}</version>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec.version}</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
         <dependency>

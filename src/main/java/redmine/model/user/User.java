@@ -9,6 +9,7 @@ import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
 import redmine.utils.CryptoGenerator;
 import redmine.utils.StringGenerators;
+
 import java.util.Date;
 import java.util.Random;
 
@@ -48,18 +49,18 @@ public class User implements Generatable<User> {
     private String identityUrl = null;
 
 
-
     @Override
     public User read() {
-        User user = UserRequests.getUser(this);
-        if (user == null)
-            return null;
-        return user;
+        return this.id == null
+                ? UserRequests.getUserByLogin(this.login)
+                : UserRequests.getUserById(this.id);
     }
 
     @Override
     public User update() {
-        return UserRequests.updateUser(this);
+        return this.id == null
+                ? UserRequests.updateByLogin(this)
+                : UserRequests.updateById(this);
     }
 
     @Override
@@ -69,8 +70,8 @@ public class User implements Generatable<User> {
 
     @Override
     public void delete() {
-        User user = UserRequests.getUser(this);
-        if (user.id == null) {
+        User user = this.read();
+        if (user == null || user.id == null) {
             new IllegalArgumentException("Пользователь с данным Id не найден");
         } else {
             UserRequests.deleteUser(this);

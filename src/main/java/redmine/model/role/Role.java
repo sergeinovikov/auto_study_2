@@ -1,9 +1,6 @@
 package redmine.model.role;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import redmine.db.requests.RoleRequests;
 import redmine.model.Generatable;
@@ -16,10 +13,7 @@ import java.util.Random;
  * Описание методов создачния, чтения, редактирования и удаления
  */
 
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 @Accessors(chain = true)
 public class Role implements Generatable<Role> {
     private Integer id;
@@ -48,15 +42,16 @@ public class Role implements Generatable<Role> {
 
     @Override
     public Role read() {
-        Role role = RoleRequests.getRole(this);
-        if (role == null)
-            return null;
-        return role;
+        return this.id == null
+                ? RoleRequests.getRoleByName(this.name)
+                : RoleRequests.getRoleById(this.id);
     }
 
     @Override
     public Role update() {
-        return RoleRequests.updateRole(this);
+        return this.id == null
+                ? RoleRequests.updateByName(this)
+                : RoleRequests.updateById(this);
     }
 
     @Override
@@ -66,9 +61,9 @@ public class Role implements Generatable<Role> {
 
     @Override
     public void delete() {
-        Role role = RoleRequests.getRole(this);
-        if (role == null) {
-           new IllegalArgumentException("Роль с данным Id не найдена");
+        Role role = this.read();
+        if (role == null || role.id == null) {
+            new IllegalArgumentException("Роль с данным Id не найдена");
         } else {
             RoleRequests.deleteRole(this);
         }
