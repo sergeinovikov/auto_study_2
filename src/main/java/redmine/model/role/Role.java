@@ -61,11 +61,10 @@ public class Role implements Generatable<Role> {
 
     @Override
     public void delete() {
-        Role role = this.read();
-        if (role == null || role.id == null) {
-            new IllegalArgumentException("Роль с данным Id не найдена");
-        } else {
+        if (this.read() != null) {
             RoleRequests.deleteRole(this);
+        } else {
+            throw new IllegalArgumentException("Роль с данным Id не найдена");
         }
     }
 }

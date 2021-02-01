@@ -64,11 +64,10 @@ public class User implements Generatable<User> {
 
     @Override
     public void delete() {
-        User user = this.read();
-        if (user == null || user.id == null) {
-            new IllegalArgumentException("Пользователь с данным Id не найден");
-        } else {
+        if (this.read() != null) {
             UserRequests.deleteUser(this);
+        } else {
+            throw new IllegalArgumentException("Пользователь с данным Id не найден");
         }
     }
 }

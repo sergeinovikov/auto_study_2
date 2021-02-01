@@ -120,10 +120,6 @@ public class DataBaseConnection {
         for (Object object : parameters) {
             statement.setObject(index++, object);
         }
-        try {
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        statement.executeUpdate();
     }
 }

@@ -56,11 +56,10 @@ public class Project implements Generatable<Project> {
 
     @Override
     public void delete() {
-        Project project = this.read();
-        if (project == null || project.id == null) {
-            new IllegalArgumentException("Проект с данным Id не найден");
-        } else {
+        if (this.read() != null) {
             ProjectRequests.deleteProject(this);
+        } else {
+            throw new IllegalArgumentException("Проект с данным Id не найден");
         }
     }
 }
