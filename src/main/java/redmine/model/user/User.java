@@ -1,9 +1,6 @@
 package redmine.model.user;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
@@ -18,10 +15,7 @@ import java.util.Random;
  * Описание методов создачния, чтения, редактирования и удаления
  */
 
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 @Accessors(chain = true)
 public class User implements Generatable<User> {
     private Integer id;

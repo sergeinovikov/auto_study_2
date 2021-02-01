@@ -1,9 +1,7 @@
 package redmine.model.user;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 import redmine.utils.StringGenerators;
 
 import java.util.Date;
@@ -12,10 +10,8 @@ import java.util.Date;
  * Класс-модель электронного почтового адреса пользователя
  */
 
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
+@Accessors(chain = true)
 public class EmailAddress {
     private Integer id;
     private Integer userId;

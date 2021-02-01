@@ -1,15 +1,9 @@
 package redmine.model.project;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import redmine.db.requests.ProjectRequests;
-import redmine.db.requests.RoleRequests;
-import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
-import redmine.model.role.Role;
 import redmine.utils.StringGenerators;
 
 import java.util.Date;
@@ -20,10 +14,7 @@ import java.util.Random;
  * Описание методов создачния, чтения, редактирования и удаления
  */
 
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 @Accessors(chain = true)
 public class Project implements Generatable<Project> {
     private Integer id;
