@@ -137,7 +137,11 @@ public class UserRequests {
                                 Token apiKey = new Token();
                                 apiKey.setId((Integer) map.get("id"));
                                 apiKey.setUserId((Integer) map.get("user_id"));
-                                apiKey.setAction((String) map.get("action"));
+                                apiKey.setAction(
+                                        Action.of(
+                                                (String) map.get("action")
+                                        )
+                                );
                                 apiKey.setValue((String) map.get("value"));
                                 apiKey.setCreatedOn((Date) map.get("created_on"));
                                 apiKey.setCreatedOn((Date) map.get("updated_on"));
@@ -194,7 +198,7 @@ public class UserRequests {
                 "VALUES(DEFAULT, ?, ?, ?, ?, ?)  RETURNING id;\n";
         List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiQuery,
                 user.getId(),
-                user.getApiToken().getAction(),
+                user.getApiToken().getAction().toString().toLowerCase(),
                 user.getApiToken().getValue(),
                 DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
                 DateFormatter.convertDate(user.getApiToken().getUpdatedOn())
@@ -258,6 +262,7 @@ public class UserRequests {
         user.setId((Integer) userResult.get(0).get("id"));
         return updateUserLinkedTables(user);
     }
+
     private static User updateUserLinkedTables(User user) {
         String emailQuery = "UPDATE public.email_addresses\n" +
                 "SET address=?, is_default=?, \"notify\"=?, created_on=?, updated_on=?\n" +
@@ -277,7 +282,7 @@ public class UserRequests {
                 "SET \"action\"=?, value=?, created_on=?, updated_on=?\n" +
                 "WHERE user_id=? RETURNING id;\n";
         List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiQuery,
-                user.getApiToken().getAction(),
+                user.getApiToken().getAction().toString().toLowerCase(),
                 user.getApiToken().getValue(),
                 DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
                 DateFormatter.convertDate(user.getApiToken().getUpdatedOn()),

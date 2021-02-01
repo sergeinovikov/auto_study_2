@@ -15,7 +15,7 @@ import java.util.Date;
 public class EmailAddress {
     private Integer id;
     private Integer userId;
-    private String address = StringGenerators.randomEmail();
+    private String address = StringGenerators.randomEmail(8);
     private Boolean isDefault = true;
     private Boolean notify = true;
     private Date createdOn = new Date();

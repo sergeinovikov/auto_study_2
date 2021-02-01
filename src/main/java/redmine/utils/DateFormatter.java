@@ -5,8 +5,6 @@ import java.util.Date;
 
 /**
  * Получение экземляра LocalDateTime, конвертируемого из Date.
- *
- * @return LocalDateTime
  */
 
 public class DateFormatter {

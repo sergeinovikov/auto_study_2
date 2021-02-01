@@ -1,10 +1,9 @@
 package redmine.model.user;
 
-import lombok.*;
+import lombok.Data;
 import lombok.experimental.Accessors;
 import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
-import redmine.utils.CryptoGenerator;
 import redmine.utils.StringGenerators;
 
 import java.util.Date;
@@ -19,15 +18,15 @@ import java.util.Random;
 @Accessors(chain = true)
 public class User implements Generatable<User> {
     private Integer id;
-    private String login = StringGenerators.randomEnglishLowerString(8);
+    private String login = "SN" + StringGenerators.randomEnglishLowerString(8);
     private String firstName = "Serg" + StringGenerators.randomEnglishLowerString(8);
     private String lastName = "Nov" + StringGenerators.randomEnglishLowerString(8);
     private EmailAddress email = new EmailAddress();
     private Language language = Language.values()[new Random().nextInt(Language.values().length)];
     private Boolean admin = false;
-    private String salt = CryptoGenerator.generateHEX(32);
-    public String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
-    private String hashedPassword = CryptoGenerator.generatePassword(this.salt, this.password);
+    private String salt = StringGenerators.generateHexString(32);
+    public String password = StringGenerators.randomPassword(8);
+    private String hashedPassword = StringGenerators.generateHashPassword(this.salt, this.password);
     private Boolean mustChangePasswd = false;
     private Integer status = 2;
 

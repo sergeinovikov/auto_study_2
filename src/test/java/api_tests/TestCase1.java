@@ -26,7 +26,7 @@ public class TestCase1 {
     private ApiClient apiClient;
 
     @BeforeClass(description = "Подготовка данных: создание пользователя с админскими правами. Создание API-подключения.")
-    public void preparedFixtures() {
+    public void prepareFixtures() {
         User userWithApiKey = new User()
                 .setAdmin(true)
                 .setStatus(1)
@@ -37,7 +37,7 @@ public class TestCase1 {
 
     @Test(description = "Кейс 1. Создание, изменение, получение, удаление пользователя. Администратор системы")
     public void testCase1() {
-        UserDto user = userCrud();
+        UserDto user = createNewUser();
         createUserWithSameData(user);
         createUserWithInvalidData(user);
         updateUser(user);
@@ -47,12 +47,12 @@ public class TestCase1 {
     }
 
     @Step("Шаг 1. Создание пользователя через API и проверка данных в БД")
-    private UserDto userCrud() {
-        String login = "Ser" + StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
-        String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);
-        String lastName = StringGenerators.randomString(8, StringGenerators.ENGLISH);
-        String mail = StringGenerators.randomEmail();
-        String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
+    private UserDto createNewUser() {
+        String login = "SN" + StringGenerators.randomEnglishLowerString(8);
+        String firstName = "Ser" + StringGenerators.randomEnglishString(8);
+        String lastName = "Nov" + StringGenerators.randomEnglishString(8);
+        String mail = StringGenerators.randomEmail(8);
+        String password = StringGenerators.randomPassword(8);
         Integer status = 2;
 
         UserDto userForCreation = new UserDto()

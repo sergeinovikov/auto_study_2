@@ -1,8 +1,8 @@
 package redmine.model.user;
 
-import lombok.*;
+import lombok.Data;
 import lombok.experimental.Accessors;
-import redmine.utils.CryptoGenerator;
+import redmine.utils.StringGenerators;
 
 import java.util.Date;
 
@@ -15,8 +15,8 @@ import java.util.Date;
 public class Token {
     private Integer id;
     private Integer userId;
-    private String action = "api";
-    private String value = CryptoGenerator.generateHEX(40);
+    private Action action = Action.API;
+    private String value = StringGenerators.generateHexString(40);
     private Date createdOn = new Date();
     private Date updatedOn = new Date();
 }

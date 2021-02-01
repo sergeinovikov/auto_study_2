@@ -20,7 +20,7 @@ public class TestCase4 {
     private User secondUser;
 
     @BeforeClass(description = "Подготовка данных: генерация пользователя без админских прав в БД. Генерация второго пользователя в БД")
-    public void preparedFixtures() {
+    public void prepareFixtures() {
         firstUser = new User()
                 .setAdmin(false)
                 .setStatus(1)

@@ -9,7 +9,7 @@ import java.util.Properties;
  */
 
 public class Property {
-    public static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     static {
         try {

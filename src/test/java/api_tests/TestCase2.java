@@ -22,7 +22,7 @@ public class TestCase2 {
     private ApiClient apiClient;
 
     @BeforeClass(description = "Подготовка данных: создание пользователя без админских прав. Создание API-подключения.")
-    public void preparedFixtures() {
+    public void prepareFixtures() {
         User userNotAdmin = new User()
                 .setAdmin(false)
                 .setStatus(1)
@@ -38,11 +38,11 @@ public class TestCase2 {
 
     @Step("Шаг 1. Создание нового пользователя через POST-запрос пользователем без админских прав")
     private void createNewUser() {
-        String login = "Ser" + StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
-        String firstName = "Nov" + StringGenerators.randomString(8, StringGenerators.ENGLISH);
-        String lastName = StringGenerators.randomString(8, StringGenerators.ENGLISH);
-        String mail = StringGenerators.randomEmail();
-        String password = StringGenerators.randomString(8, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
+        String login = "SN" + StringGenerators.randomEnglishLowerString(8);
+        String firstName = "Ser" + StringGenerators.randomEnglishString(8);
+        String lastName = "Nov" + StringGenerators.randomEnglishString(8);
+        String mail = StringGenerators.randomEmail(8);
+        String password = StringGenerators.randomPassword(8);
         Integer status = 2;
 
         UserDto userForCreation = new UserDto()
