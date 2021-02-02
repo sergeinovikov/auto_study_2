@@ -59,10 +59,6 @@ public class TestCase2 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
-          Проверка статус-кода.
-         */
-
         Assert.assertEquals(response.getStatusCode(), 403);
     }
 }

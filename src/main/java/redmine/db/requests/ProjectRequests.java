@@ -2,10 +2,8 @@ package redmine.db.requests;
 
 import redmine.managers.Manager;
 import redmine.model.project.Project;
-import redmine.model.role.Role;
-import redmine.utils.DateFormatter;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,13 +25,13 @@ public class ProjectRequests {
                             project.setDescription((String) map.get("description"));
                             project.setHomepage((String) map.get("homepage"));
                             project.setIsPublic((Boolean) map.get("is_public"));
-                            project.setCreatedOn((Date) map.get("created_on"));
-                            project.setUpdatedOn((Date) map.get("updated_on"));
+                            project.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                            project.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                             project.setIdentifier((String) map.get("identifier"));
                             project.setStatus((Integer) map.get("status"));
                             project.setLft((Integer) map.get("lft"));
                             project.setRgt((Integer) map.get("rgt"));
-                            project.setInheritMembers((Boolean) map.get("inherit_embers"));
+                            project.setInheritMembers((Boolean) map.get("inherit_members"));
                             project.setDefaultVersionId((Integer) map.get("default_version_id"));
                             project.setDefaultAssignedToId((Integer) map.get("default_assigned_to_id"));
                             return project;
@@ -62,13 +60,13 @@ public class ProjectRequests {
                             project.setDescription((String) map.get("description"));
                             project.setHomepage((String) map.get("homepage"));
                             project.setIsPublic((Boolean) map.get("is_public"));
-                            project.setCreatedOn((Date) map.get("created_on"));
-                            project.setUpdatedOn((Date) map.get("updated_on"));
+                            project.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                            project.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                             project.setIdentifier((String) map.get("identifier"));
                             project.setStatus((Integer) map.get("status"));
                             project.setLft((Integer) map.get("lft"));
                             project.setRgt((Integer) map.get("rgt"));
-                            project.setInheritMembers((Boolean) map.get("inherit_embers"));
+                            project.setInheritMembers((Boolean) map.get("inherit_members"));
                             project.setDefaultVersionId((Integer) map.get("default_version_id"));
                             project.setDefaultAssignedToId((Integer) map.get("default_assigned_to_id"));
                             return project;
@@ -77,7 +75,7 @@ public class ProjectRequests {
                 .findFirst()
                 .orElse(null);
 
-        return projectFromDb;
+        return projectFromDb; //TODO
     }
 
     public static Project updateByName (Project project) {
@@ -89,8 +87,8 @@ public class ProjectRequests {
                 project.getHomepage(),
                 project.getIsPublic(),
                 project.getParentId(),
-                DateFormatter.convertDate(project.getCreatedOn()),
-                DateFormatter.convertDate(project.getUpdatedOn()),
+                project.getCreatedOn(),
+                project.getUpdatedOn(),
                 project.getIdentifier(),
                 project.getStatus(),
                 project.getLft(),
@@ -115,8 +113,8 @@ public class ProjectRequests {
                 project.getHomepage(),
                 project.getIsPublic(),
                 project.getParentId(),
-                DateFormatter.convertDate(project.getCreatedOn()),
-                DateFormatter.convertDate(project.getUpdatedOn()),
+                project.getCreatedOn(),
+                project.getUpdatedOn(),
                 project.getIdentifier(),
                 project.getStatus(),
                 project.getLft(),
@@ -146,8 +144,8 @@ public class ProjectRequests {
                 project.getHomepage(),
                 project.getIsPublic(),
                 project.getParentId(),
-                DateFormatter.convertDate(project.getCreatedOn()),
-                DateFormatter.convertDate(project.getUpdatedOn()),
+                project.getCreatedOn(),
+                project.getUpdatedOn(),
                 project.getIdentifier(),
                 project.getStatus(),
                 project.getLft(),

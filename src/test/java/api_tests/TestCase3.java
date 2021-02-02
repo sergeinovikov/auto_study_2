@@ -48,10 +48,6 @@ public class TestCase3 {
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
-          Проверка статус-кода и данных пользователя, указанных при его генерации в БД
-         */
-
         Assert.assertEquals(response.getStatusCode(), 200);
 
         UserDto getApiUser = response.getBody(UserDto.class);
@@ -67,10 +63,6 @@ public class TestCase3 {
         apiClient = new RestApiClient(user);
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
-
-        /*
-          Проверка статус-кода и отсутствие доступа к данным другого пользователя
-         */
 
         Assert.assertEquals(response.getStatusCode(), 200);
 

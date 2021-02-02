@@ -6,7 +6,7 @@ import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
 import redmine.utils.StringGenerators;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -33,10 +33,10 @@ public class User implements Generatable<User> {
     private MailNotification mailNotification = MailNotification.values()[new Random().nextInt(MailNotification.values().length)];
 
     private Token apiToken = new Token();
-    private Date lastLoginOn = null;
-    private Date createdOn = new Date();
-    private Date updatedOn = new Date();
-    private Date passwdChangedOn = new Date();
+    private LocalDateTime lastLoginOn = null;
+    private LocalDateTime createdOn = LocalDateTime.now();
+    private LocalDateTime updatedOn = LocalDateTime.now();
+    private LocalDateTime passwdChangedOn = LocalDateTime.now();
     private Integer authSourceId = null;
     private String type = "User";
     private String identityUrl = null;

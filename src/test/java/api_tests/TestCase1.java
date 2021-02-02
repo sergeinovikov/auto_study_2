@@ -15,11 +15,12 @@ import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
 import redmine.model.user.Language;
 import redmine.model.user.User;
-import redmine.utils.DateFormatter;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
 import java.time.temporal.ChronoUnit;
+
+import static redmine.model.dto.UserDto.readUserDto;
 
 public class TestCase1 {
 
@@ -69,10 +70,6 @@ public class TestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
-          Проверка статус-кода, отправленных и полученных данных пользователя, а также наличие пользоваеля в БД.
-         */
-
         Assert.assertEquals(response.getStatusCode(), 201);
 
         UserDto user = response.getBody(UserDto.class);
@@ -88,9 +85,7 @@ public class TestCase1 {
         Assert.assertNotNull(user.getUser().getApi_key());
         Assert.assertNull(user.getUser().getPassword());
 
-        User userFromDb = new User()
-                .setId(user.getUser().getId())
-                .read();
+        User userFromDb = readUserDto(user.getUser().getId());
 
         Assert.assertEquals(user.getUser().getId(), userFromDb.getId());
         Assert.assertEquals(user.getUser().getLogin(), userFromDb.getLogin());
@@ -98,7 +93,7 @@ public class TestCase1 {
         Assert.assertEquals(user.getUser().getFirstname(), userFromDb.getFirstName());
         Assert.assertEquals(user.getUser().getLastname(), userFromDb.getLastName());
         Assert.assertEquals(user.getUser().getMail(), userFromDb.getEmail().getAddress());
-        Assert.assertTrue(ChronoUnit.SECONDS.between(user.getUser().getCreated_on(), DateFormatter.convertDate(userFromDb.getCreatedOn())) <= 1);
+        Assert.assertTrue(ChronoUnit.SECONDS.between(user.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
         Assert.assertNull(userFromDb.getLastLoginOn());
         Assert.assertEquals(user.getUser().getStatus(), userFromDb.getStatus());
         Assert.assertEquals(user.getUser().getApi_key(), userFromDb.getApiToken().getValue());
@@ -114,10 +109,6 @@ public class TestCase1 {
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
-
-        /*
-          Проверка статус-кода, а также сравнение текстов ошибок.
-         */
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -152,9 +143,6 @@ public class TestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
-        Проверка статус -кода, а также сравнение текстов ошибок.
-         */
 
         Assert.assertEquals(response.getStatusCode(), 422);
 
@@ -178,15 +166,9 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.PUT, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        /*
-          Проверка статус-кода и изменённых данных пользователя в БД
-         */
-
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        User userFromDb = new User()
-                .setId(user.getUser().getId())
-                .read();
+        User userFromDb = readUserDto(user.getUser().getId());
 
         Assert.assertEquals(userFromDb.getStatus(), newStatus);
     }
@@ -197,10 +179,6 @@ public class TestCase1 {
 
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
-
-        /*
-          Проверка статус-кода и данных пользователя, указанных при его создании, включая изменённый статус
-        */
 
         Assert.assertEquals(response.getStatusCode(), 200);
 
@@ -221,16 +199,11 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
-        Проверка статус -кода и отсутствия данных пользователя в БД
-        */
-
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        User deletedUser = new User()
-                .setId(user.getUser().getId());
+        User deletedUser = readUserDto(user.getUser().getId());
 
-        Assert.assertNull(deletedUser.read());
+        Assert.assertNull(deletedUser);
     }
 
     @Step("Шаг 7. Повторно удаление пользователя через DELETE-запрос")
@@ -240,15 +213,10 @@ public class TestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
-        Проверка статус -кода и отсутствия данных пользователя в БД
-        */
-
         Assert.assertEquals(response.getStatusCode(), 404);
 
-        User deletedUser = new User()
-                .setId(user.getUser().getId());
+        User deletedUser = readUserDto(user.getUser().getId());
 
-        Assert.assertNull(deletedUser.read());
+        Assert.assertNull(deletedUser);
     }
 }

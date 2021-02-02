@@ -47,10 +47,6 @@ public class TestCase4 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        /*
-          Проверка статус-кода и присутствия данных пользователя в БД
-         */
-
         Assert.assertEquals(response.getStatusCode(), 403);
 
         Assert.assertNotNull(user.read());
@@ -63,10 +59,6 @@ public class TestCase4 {
         apiClient = new RestApiClient(user);
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
-
-        /*
-          Проверка статус-кода и присутствия данных пользователя в БД
-         */
 
         Assert.assertEquals(response.getStatusCode(), 403);
 

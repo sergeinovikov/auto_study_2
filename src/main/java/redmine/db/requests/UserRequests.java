@@ -2,9 +2,8 @@ package redmine.db.requests;
 
 import redmine.managers.Manager;
 import redmine.model.user.*;
-import redmine.utils.DateFormatter;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,15 +27,19 @@ public class UserRequests {
                             user.setLastName((String) map.get("lastname"));
                             user.setAdmin((Boolean) map.get("admin"));
                             user.setStatus((Integer) map.get("status"));
-                            user.setLastLoginOn((Date) map.get("last_login_on"));
+                            user.setLastLoginOn(
+                                    map.get("last_login_on") != null
+                                            ? ((Timestamp) map.get("last_login_on")).toLocalDateTime()
+                                            : null
+                            );
                             user.setLanguage(
                                     Language.of(
                                             (String) map.get("language")
                                     )
                             );
                             user.setAuthSourceId((Integer) map.get("auth_source_id"));
-                            user.setCreatedOn((Date) map.get("created_on"));
-                            user.setUpdatedOn((Date) map.get("updated_on"));
+                            user.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                            user.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                             user.setType((String) map.get("type"));
                             user.setIdentityUrl((String) map.get("Identity_url"));
                             user.setMailNotification(
@@ -46,7 +49,7 @@ public class UserRequests {
                             );
                             user.setSalt((String) map.get("salt"));
                             user.setMustChangePasswd((Boolean) map.get("must_change_passwd"));
-                            user.setPasswdChangedOn((Date) map.get("passwd_changed_on"));
+                            user.setPasswdChangedOn(((Timestamp) map.get("passwd_changed_on")).toLocalDateTime());
                             return user;
                         }
                 )
@@ -76,15 +79,19 @@ public class UserRequests {
                             user.setLastName((String) map.get("lastname"));
                             user.setAdmin((Boolean) map.get("admin"));
                             user.setStatus((Integer) map.get("status"));
-                            user.setLastLoginOn((Date) map.get("last_login_on"));
+                            user.setLastLoginOn(
+                                    map.get("last_login_on") != null
+                                            ? ((Timestamp) map.get("last_login_on")).toLocalDateTime()
+                                            : null
+                            );
                             user.setLanguage(
                                     Language.of(
                                             (String) map.get("language")
                                     )
                             );
                             user.setAuthSourceId((Integer) map.get("auth_source_id"));
-                            user.setCreatedOn((Date) map.get("created_on"));
-                            user.setUpdatedOn((Date) map.get("updated_on"));
+                            user.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                            user.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                             user.setType((String) map.get("type"));
                             user.setIdentityUrl((String) map.get("Identity_url"));
                             user.setMailNotification(
@@ -94,7 +101,7 @@ public class UserRequests {
                             );
                             user.setSalt((String) map.get("salt"));
                             user.setMustChangePasswd((Boolean) map.get("must_change_passwd"));
-                            user.setPasswdChangedOn((Date) map.get("passwd_changed_on"));
+                            user.setPasswdChangedOn(((Timestamp) map.get("passwd_changed_on")).toLocalDateTime());
                             return user;
                         }
                 )
@@ -117,8 +124,8 @@ public class UserRequests {
                                 email.setAddress((String) map.get("address"));
                                 email.setIsDefault((Boolean) map.get("is_default"));
                                 email.setNotify((Boolean) map.get("notify"));
-                                email.setCreatedOn((Date) map.get("created_on"));
-                                email.setCreatedOn((Date) map.get("updated_on"));
+                                email.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                                email.setCreatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                                 return email;
                             }
                     )
@@ -143,8 +150,8 @@ public class UserRequests {
                                         )
                                 );
                                 apiKey.setValue((String) map.get("value"));
-                                apiKey.setCreatedOn((Date) map.get("created_on"));
-                                apiKey.setCreatedOn((Date) map.get("updated_on"));
+                                apiKey.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                                apiKey.setCreatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
                                 return apiKey;
                             }
                     )
@@ -168,14 +175,14 @@ public class UserRequests {
                 user.getLastLoginOn(),
                 user.getLanguage().toString().toLowerCase(),
                 user.getAuthSourceId(),
-                DateFormatter.convertDate(user.getCreatedOn()),
-                DateFormatter.convertDate(user.getUpdatedOn()),
+                user.getCreatedOn(),
+                user.getUpdatedOn(),
                 user.getType(),
                 user.getIdentityUrl(),
                 user.getMailNotification().toString().toLowerCase(),
                 user.getSalt(),
                 user.getMustChangePasswd(),
-                DateFormatter.convertDate(user.getPasswdChangedOn())
+                user.getPasswdChangedOn()
         );
         user.setId((Integer) userResult.get(0).get("id"));
 
@@ -187,8 +194,8 @@ public class UserRequests {
                 user.getEmail().getAddress(),
                 user.getEmail().getIsDefault(),
                 user.getEmail().getNotify(),
-                DateFormatter.convertDate(user.getEmail().getCreatedOn()),
-                DateFormatter.convertDate(user.getEmail().getUpdatedOn())
+                user.getEmail().getCreatedOn(),
+                user.getEmail().getUpdatedOn()
         );
         user.getEmail().setUserId(user.getId());
         user.getEmail().setId((Integer) emailResult.get(0).get("id"));
@@ -200,8 +207,8 @@ public class UserRequests {
                 user.getId(),
                 user.getApiToken().getAction().toString().toLowerCase(),
                 user.getApiToken().getValue(),
-                DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
-                DateFormatter.convertDate(user.getApiToken().getUpdatedOn())
+                user.getApiToken().getCreatedOn(),
+                user.getApiToken().getUpdatedOn()
         );
         user.getApiToken().setUserId(user.getId());
         user.getApiToken().setId((Integer) apiKeyResult.get(0).get("id"));
@@ -222,14 +229,14 @@ public class UserRequests {
                 user.getLastLoginOn(),
                 user.getLanguage().toString().toLowerCase(),
                 user.getAuthSourceId(),
-                DateFormatter.convertDate(user.getCreatedOn()),
-                DateFormatter.convertDate(user.getUpdatedOn()),
+                user.getCreatedOn(),
+                user.getUpdatedOn(),
                 user.getType(),
                 user.getIdentityUrl(),
                 user.getMailNotification().toString().toLowerCase(),
                 user.getSalt(),
                 user.getMustChangePasswd(),
-                DateFormatter.convertDate(user.getPasswdChangedOn()),
+                user.getPasswdChangedOn(),
                 user.getId()
         );
         user.setId((Integer) userResult.get(0).get("id"));
@@ -249,14 +256,14 @@ public class UserRequests {
                 user.getLastLoginOn(),
                 user.getLanguage().toString().toLowerCase(),
                 user.getAuthSourceId(),
-                DateFormatter.convertDate(user.getCreatedOn()),
-                DateFormatter.convertDate(user.getUpdatedOn()),
+                user.getCreatedOn(),
+                user.getUpdatedOn(),
                 user.getType(),
                 user.getIdentityUrl(),
                 user.getMailNotification().toString().toLowerCase(),
                 user.getSalt(),
                 user.getMustChangePasswd(),
-                DateFormatter.convertDate(user.getPasswdChangedOn()),
+                user.getPasswdChangedOn(),
                 user.getLogin()
         );
         user.setId((Integer) userResult.get(0).get("id"));
@@ -271,8 +278,8 @@ public class UserRequests {
                 user.getEmail().getAddress(),
                 user.getEmail().getIsDefault(),
                 user.getEmail().getNotify(),
-                DateFormatter.convertDate(user.getEmail().getCreatedOn()),
-                DateFormatter.convertDate(user.getEmail().getUpdatedOn()),
+                user.getEmail().getCreatedOn(),
+                user.getEmail().getUpdatedOn(),
                 user.getId()
         );
         user.getEmail().setUserId(user.getId());
@@ -284,8 +291,8 @@ public class UserRequests {
         List<Map<String, Object>> apiKeyResult = Manager.dbConnection.executePreparedQuery(apiQuery,
                 user.getApiToken().getAction().toString().toLowerCase(),
                 user.getApiToken().getValue(),
-                DateFormatter.convertDate(user.getApiToken().getCreatedOn()),
-                DateFormatter.convertDate(user.getApiToken().getUpdatedOn()),
+                user.getApiToken().getCreatedOn(),
+                user.getApiToken().getUpdatedOn(),
                 user.getId()
         );
         user.getApiToken().setUserId(user.getId());

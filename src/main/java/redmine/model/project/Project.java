@@ -1,12 +1,12 @@
 package redmine.model.project;
 
-import lombok.*;
+import lombok.Data;
 import lombok.experimental.Accessors;
 import redmine.db.requests.ProjectRequests;
 import redmine.model.Generatable;
 import redmine.utils.StringGenerators;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -24,8 +24,8 @@ public class Project implements Generatable<Project> {
     private String homepage = null;
     private Boolean isPublic = new Random().nextBoolean();
     private String parentId = null;
-    private Date createdOn = new Date();
-    private Date updatedOn = new Date();
+    private LocalDateTime createdOn = LocalDateTime.now();
+    private LocalDateTime updatedOn = LocalDateTime.now();
     private Boolean inheritMembers = false;
 
     private Integer status = new Random().nextInt(5) + 1;
