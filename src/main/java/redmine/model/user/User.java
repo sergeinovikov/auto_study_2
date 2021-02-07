@@ -22,10 +22,10 @@ public class User implements Generatable<User> {
     private String firstName = "Serg" + StringGenerators.randomEnglishLowerString(8);
     private String lastName = "Nov" + StringGenerators.randomEnglishLowerString(8);
     private EmailAddress email = new EmailAddress();
-    private Language language = Language.values()[new Random().nextInt(Language.values().length)];
+    private Language language = Language.RU;
     private Boolean admin = false;
-    private String salt = StringGenerators.generateHexString(32);
     public String password = StringGenerators.randomPassword(8);
+    private String salt = StringGenerators.generateHexString(32);
     private String hashedPassword = StringGenerators.generateHashPassword(this.salt, this.password);
     private Boolean mustChangePasswd = false;
     private Integer status = 2;

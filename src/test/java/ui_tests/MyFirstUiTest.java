@@ -1,39 +1,36 @@
 package ui_tests;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import redmine.Property;
+import redmine.model.user.User;
+import redmine.ui.pages.HeaderPage;
+import redmine.ui.pages.LoginPage;
 
 public class MyFirstUiTest {
     private WebDriver driver;
+    private User user;
 
     @BeforeMethod
     public void prepareFixtures() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        user = new User().setStatus(1).generate();
+
+        System.setProperty("webdriver.chrome.driver", Property.getStringProperty("webdriver.chrome.driver"));
         driver = new ChromeDriver();
 
-        driver.get("http://edu-at.dfu.i-teco.ru/login");
+        driver.get(Property.getStringProperty("ui.url") + "/login");
     }
 
     @Test
     public void myFirstLoginPage() {
-        WebElement loginElement = driver.findElement(By.xpath("//input[@id='username']"));
-        WebElement passwordElement = driver.findElement(By.xpath("//input[@id='password']"));
-        WebElement submitElement = driver.findElement(By.xpath("//input[@id='login-submit']"));
+        new LoginPage(driver)
+                .login(user.getLogin(),user.getPassword());
 
-
-        loginElement.sendKeys("admin");
-        passwordElement.sendKeys("admin123");
-        submitElement.click();
-
-        WebElement loggedAsElement = driver.findElement(By.xpath("//div[@id='loggedas']"));
-
-        Assert.assertEquals(loggedAsElement.getText(), "Вошли как admin");
+        Assert.assertEquals(new HeaderPage(driver).loggedAs(), String.format("Вошли как %s", user.getLogin()));
     }
 
     @AfterMethod

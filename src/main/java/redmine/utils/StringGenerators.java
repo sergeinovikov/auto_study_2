@@ -38,7 +38,7 @@ public class StringGenerators {
     }
 
     public static String generateHashPassword(String salt, String password) {
-        return sha1Hex((salt + password));
+        return sha1Hex((salt + sha1Hex(password)));
     }
 
     protected static String randomString(int length, String pattern) {
