@@ -1,10 +1,10 @@
 package redmine.ui.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.Objects;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import redmine.managers.Manager;
 
 /**
  * Компонент авторизации
@@ -13,17 +13,15 @@ import java.util.Objects;
 public class LoginPage {
     private WebDriver driver;
 
+    @FindBy(xpath="//input[@id='username']")
     private WebElement loginElement;
+    @FindBy(xpath="//input[@id='password']")
     private WebElement passwordElement;
+    @FindBy(xpath="//input[@id='login-submit']")
     private WebElement submitElement;
 
-    public LoginPage(WebDriver driver) {
-        Objects.requireNonNull(driver, "Драйвер должен быть проинициализирован");
-        this.driver = driver;
-
-        loginElement = driver.findElement(By.xpath("//input[@id='username']"));
-        passwordElement = driver.findElement(By.xpath("//input[@id='password']"));
-        submitElement = driver.findElement(By.xpath("//input[@id='login-submit']"));
+    public LoginPage() {
+        PageFactory.initElements(Manager.driver(), this);
     }
 
     public void login (String login, String password) {
