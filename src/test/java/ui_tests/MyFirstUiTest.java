@@ -9,6 +9,8 @@ import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 
+import static redmine.ui.pages.Pages.getPage;
+
 public class MyFirstUiTest {
     private User user;
 
@@ -21,10 +23,10 @@ public class MyFirstUiTest {
 
     @Test
     public void myFirstLoginPage() {
-        new LoginPage()
-                .login(user.getLogin(),user.getPassword());
+        getPage(LoginPage.class)
+                .login(user.getLogin(), user.getPassword());
 
-        Assert.assertEquals(new HeaderPage().loggedAs(), String.format("Вошли как %s", user.getLogin()));
+        Assert.assertEquals(getPage(HeaderPage.class).loggedAs(), String.format("Вошли как %s", user.getLogin()));
     }
 
     @AfterMethod

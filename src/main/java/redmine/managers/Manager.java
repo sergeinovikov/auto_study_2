@@ -42,6 +42,6 @@ public class Manager {
      */
 
     public static void openPage(String uri) {
-       driver.get(Property.getStringProperty("ui.url") + uri);
+       driver().get(Property.getStringProperty("ui.url") + uri);
     }
 }
