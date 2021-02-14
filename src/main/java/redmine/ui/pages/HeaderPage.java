@@ -1,5 +1,6 @@
 package redmine.ui.pages;
 
+import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
  * Header компонент
  */
 
+@Getter
 public class HeaderPage extends AbstractPage {
 
     @FindBy(xpath = "//a[@class='home']")
