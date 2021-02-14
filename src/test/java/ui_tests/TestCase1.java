@@ -1,6 +1,6 @@
 package ui_tests;
 
-import io.qameta.allure.Step;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,15 +19,15 @@ public class TestCase1 {
     @BeforeMethod(description = "Генерация пользователя с правами администратора. Авторизаци сгенерированным пользователем")
     public void prepareFixtures() {
         user = new User().setAdmin(true).setStatus(1).generate();
-
-        Manager.openPage("login");
-
-        getPage(LoginPage.class)
-                .login(user.getLogin(), user.getPassword());
     }
 
     @Test(description = "Кейс 1. Авторизация администратором. Проверка присутствия элементов страницы после авторизации")
     public void adminLogin() {
+        Manager.openPage("login");
+
+        getPage(LoginPage.class)
+                .login(user.getLogin(), user.getPassword());
+
         checkHomePage();
         checkLoggedAs();
         checkHeaderElements();
@@ -35,17 +35,17 @@ public class TestCase1 {
         checkSearch();
     }
 
-    @Step("Шаг 1. Проверка отображения домашней страницы")
+    @Description("Проверка 1. Проверка отображения домашней страницы")
     private void checkHomePage() {
         Assert.assertEquals(getPage(HeaderPage.class).homePageHeader(), "Моя страница");
     }
 
-    @Step("Шаг 2. Проверка отображения  \"Вошли как <логин пользователя>\"")
+    @Description("Проверка 2. Проверка отображения  \"Вошли как <логин пользователя>\"")
     private void checkLoggedAs() {
         Assert.assertEquals(getPage(HeaderPage.class).loggedAs(), String.format("Вошли как %s", user.getLogin()));
     }
 
-    @Step("Шаг 3. Проверка отображения в заголовке страницы элементов \"Домашняя страница\", \"Моя страница\", \"Проекты\", \"Администрирование\", \"Помощь\", \"Моя учётная запись\", \"Выйти\"")
+    @Description("Проверка 3. Проверка отображения в заголовке страницы элементов \"Домашняя страница\", \"Моя страница\", \"Проекты\", \"Администрирование\", \"Помощь\", \"Моя учётная запись\", \"Выйти\"")
     private void checkHeaderElements() {
         Assert.assertEquals(getPage(HeaderPage.class).home(), "Домашняя страница");
         Assert.assertEquals(getPage(HeaderPage.class).myPage(), "Моя страница");
@@ -56,13 +56,13 @@ public class TestCase1 {
         Assert.assertEquals(getPage(HeaderPage.class).logout(), "Выйти");
     }
 
-    @Step("Шаг 4. Проверка отсутствия в заголовке страницы элементов \"Войти\", \"Регистрация\"")
+    @Description("Проверка 4. Проверка отсутствия в заголовке страницы элементов \"Войти\", \"Регистрация\"")
     private void checkLoginAndRegistrationAbsence() {
         Assert.assertFalse(BrowserUtils.isElementPresent(getPage(LoginPage.class).getLoginElement()));
         Assert.assertFalse(BrowserUtils.isElementPresent(getPage(LoginPage.class).getRegister()));
     }
 
-    @Step("Шаг 5. Проверка отображения элемента \"Поиск\"")
+    @Description("Проверка 5. Проверка отображения элемента \"Поиск\"")
     private void checkSearch() {
         Assert.assertEquals(getPage(HeaderPage.class).searchLabel(), "Поиск");
         Assert.assertTrue(getPage(HeaderPage.class).searchInput());
