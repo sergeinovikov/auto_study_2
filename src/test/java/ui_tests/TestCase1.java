@@ -16,7 +16,7 @@ import static redmine.ui.pages.Pages.getPage;
 public class TestCase1 {
     private User user;
 
-    @BeforeMethod(description = "Генерация пользователя с правами администратора. Авторизаци сгенерированным пользователем")
+    @BeforeMethod(description = "Генерация пользователя с правами администратора. Пользователь подтверждён и активен")
     public void prepareFixtures() {
         user = new User()
                 .setAdmin(true)
