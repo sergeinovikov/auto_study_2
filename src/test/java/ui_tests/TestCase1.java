@@ -18,7 +18,10 @@ public class TestCase1 {
 
     @BeforeMethod(description = "Генерация пользователя с правами администратора. Авторизаци сгенерированным пользователем")
     public void prepareFixtures() {
-        user = new User().setAdmin(true).setStatus(1).generate();
+        user = new User()
+                .setAdmin(true)
+                .setStatus(1)
+                .generate();
     }
 
     @Test(description = "Кейс 1. Авторизация администратором. Проверка присутствия элементов страницы после авторизации")
