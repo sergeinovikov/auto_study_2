@@ -39,7 +39,7 @@ public class TestCase2 {
 
     @Description("Проверка 1. Проверка отображения домашней страницы")
     private void checkHomePage() {
-        Assert.assertEquals(getPage(HeaderPage.class).homePageHeader(), "Моя страница");
+        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Description("Проверка 2. Проверка отображения  \"Вошли как <логин пользователя>\"")

@@ -33,6 +33,8 @@ public class HeaderPage extends AbstractPage {
     private WebElement searchLabel;
     @FindBy(xpath = "//input[@id='q']")
     private WebElement searchInput;
+    @FindBy(xpath = "//h2")
+    private WebElement pageTitle;
 
 
     public String loggedAs() {
@@ -79,4 +81,7 @@ public class HeaderPage extends AbstractPage {
         return searchInput.isDisplayed();
     }
 
+    public String pageTitle() {
+        return pageTitle.getText();
+    }
 }
