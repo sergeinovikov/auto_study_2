@@ -17,7 +17,7 @@ import redmine.model.user.User;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
-public class TestCase2 {
+public class ApiTestCase2 {
 
     private ApiClient apiClient;
 
