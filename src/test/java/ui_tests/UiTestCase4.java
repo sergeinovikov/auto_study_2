@@ -33,12 +33,12 @@ public class UiTestCase4 {
 
     @Test(description = "Кейс 4. Авторизация пользователем с правами администратора. Проверка видимости приватного проекта")
     public void adminPrivateProjectCheck() {
-        adminlogin();
+        adminLogin();
         goToProjectPage();
     }
 
     @Step("Авторизация пользователем с правами администратор")
-    private void adminlogin() {
+    private void adminLogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
