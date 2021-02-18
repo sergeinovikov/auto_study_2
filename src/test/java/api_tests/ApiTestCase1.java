@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 
 import static redmine.model.dto.UserDto.readUserDto;
 
-public class TestCase1 {
+public class ApiTestCase1 {
 
     private ApiClient apiClient;
 
