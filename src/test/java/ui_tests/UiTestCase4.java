@@ -15,7 +15,7 @@ import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
 
-public class TestCase4 {
+public class UiTestCase4 {
     private User user;
     private Project project;
 
@@ -38,7 +38,7 @@ public class TestCase4 {
     }
 
     @Step("Авторизация пользователем с ролью администратор")
-    private void adminlogin(){
+    private void adminlogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
@@ -48,7 +48,7 @@ public class TestCase4 {
     }
 
     @Step("Авторизация пользователем с ролью администратор")
-    private void goToProjectPage(){
+    private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
         Assert.assertTrue(getPage(ProjectsPage.class).getProjectElement(project.getName()));
