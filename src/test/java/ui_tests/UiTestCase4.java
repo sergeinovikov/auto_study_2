@@ -47,7 +47,7 @@ public class UiTestCase4 {
         Assert.assertTrue(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getHomePage()));
     }
 
-    @Step("Проверка видимости созданного в предусловии приватного проекта на странице проектов")
+    @Step("Переход на странцу \"Проекты\". Проверка видимости созданного в предусловии приватного проекта на странице проектов")
     private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
