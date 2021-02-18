@@ -13,7 +13,7 @@ import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
 
-public class TestCase1 {
+public class UiTestCase1 {
     private User user;
 
     @BeforeMethod(description = "Генерация пользователя с правами администратора. Пользователь подтверждён и активен")
