@@ -16,7 +16,7 @@ import static redmine.ui.pages.Pages.getPage;
 public class UiTestCase1 {
     private User user;
 
-    @BeforeMethod(description = "Генерация пользователя с правами администратора. Пользователь подтверждён и активен")
+    @BeforeMethod(description = "Генерация пользователя с правами администратора в Redmine. Пользователь подтверждён и активен")
     public void prepareFixtures() {
         user = new User()
                 .setAdmin(true)
