@@ -1,9 +1,12 @@
 package redmine.db.requests;
 
 import redmine.managers.Manager;
+import redmine.model.project.Project;
+import redmine.model.role.Role;
 import redmine.model.user.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -318,6 +321,26 @@ public class UserRequests {
                 "WHERE id=?;\n";
         Manager.dbConnection.executeDeleteQuery(apiQuery,
                 user.getApiToken().getId()
+        );
+
+    }
+
+    public static void addProjectAndRoleRelations(User user, Project project, Role role) {
+        String membersQuery = "INSERT INTO public.members\n" +
+                "(id, user_id, project_id, created_on, mail_notification)\n" +
+                "VALUES(DEFAULT, ?, ?, ?, DEFAULT) RETURNING id;\n";
+        List<Map<String, Object>> addMembersConnection = Manager.dbConnection.executePreparedQuery(membersQuery,
+                user.getId(),
+                project.getId(),
+                LocalDateTime.now()
+        );
+
+        String membersRoleQuery = "INSERT INTO public.member_roles\n" +
+                "(id, member_id, role_id, inherited_from)\n" +
+                "VALUES(DEFAULT, ?, ?, DEFAULT) RETURNING id;\n";
+        List<Map<String, Object>> addMemberRoleConnection = Manager.dbConnection.executePreparedQuery(membersRoleQuery,
+                addMembersConnection.get(0).get("id"),
+                role.getId()
         );
 
     }
