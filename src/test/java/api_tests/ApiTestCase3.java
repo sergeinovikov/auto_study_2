@@ -14,7 +14,7 @@ import redmine.model.dto.UserDto;
 import redmine.model.user.Language;
 import redmine.model.user.User;
 
-public class TestCase3 {
+public class ApiTestCase3 {
 
     private ApiClient apiClient;
     private User firstUser;
