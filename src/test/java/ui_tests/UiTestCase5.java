@@ -24,14 +24,13 @@ public class UiTestCase5 {
     private Project publicProject1;
     private Project privateProject2;
     private Project privateProject3;
-    private Role role;
 
     @BeforeMethod(description = "Генерация пользователя, публичного проекта 1, приватного проекта 2 и приватного проекта 3 в Redmine. Пользователь подтверждён администратором (активен) и имеет доступ только к приватному проекту 3 с ролью из предусловия")
     public void prepareFixtures() {
         user = new User()
                 .setStatus(1)
                 .generate();
-        role = new Role().
+        Role role = new Role().
                 setPermissions(new RolePermissions(Permissions.CLOSE_PROJECT))
                 .generate();
 
@@ -55,12 +54,12 @@ public class UiTestCase5 {
 
     @Test(description = "Кейс 5. Авторизация подтверждённым пользователем. Проверка видимости приватного проекта 3 с ролью, которая имеет доступ только к этому проекту")
     public void adminPrivateProjectCheck() {
-        adminlogin();
+        adminLogin();
         goToProjectPage();
     }
 
     @Step("Авторизация пользователем с правами администратора и ролью из предусловия")
-    private void adminlogin() {
+    private void adminLogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
