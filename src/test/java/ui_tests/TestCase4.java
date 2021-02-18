@@ -2,6 +2,7 @@ package ui_tests;
 
 import io.qameta.allure.Step;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import redmine.managers.Manager;
@@ -50,6 +51,11 @@ public class TestCase4 {
     private void goToProjectPage(){
         getPage(HeaderPage.class).getProjects().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
-        Assert.assertEquals(getPage(ProjectsPage.class).getProjectElement(), project.getName()); // доработать
+        Assert.assertTrue(getPage(ProjectsPage.class).getProjectElement(project.getName()));
+    }
+
+    @AfterMethod(description = "Закрытие браузера и выключение драйвера")
+    public void tearDown() {
+        Manager.driverQuit();
     }
 }
