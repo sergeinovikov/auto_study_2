@@ -19,7 +19,7 @@ public class UiTestCase4 {
     private User user;
     private Project project;
 
-    @BeforeMethod(description = "Генерация пользователя в система. Пользователь не подтверждён администратором (не активен)")
+    @BeforeMethod(description = "Генерация пользователя в Redmine. Пользователь не подтверждён администратором (не активен)")
     public void prepareFixtures() {
         user = new User()
                 .setAdmin(true)
