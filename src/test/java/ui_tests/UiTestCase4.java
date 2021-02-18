@@ -31,7 +31,7 @@ public class UiTestCase4 {
                 .generate();
     }
 
-    @Test(description = "Кейс 4. Видимость проекта. Приватный проект. Администратор")
+    @Test(description = "Кейс 4. Авторизация пользователем с правами администратора. Проверка видимости приватного проекта")
     public void adminPrivateProjectCheck() {
         adminlogin();
         goToProjectPage();
