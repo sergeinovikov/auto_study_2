@@ -13,7 +13,7 @@ import redmine.api.interfaces.Response;
 import redmine.model.user.Language;
 import redmine.model.user.User;
 
-public class TestCase4 {
+public class ApiTestCase4 {
 
     private ApiClient apiClient;
     private User firstUser;
