@@ -37,7 +37,7 @@ public class UiTestCase4 {
         goToProjectPage();
     }
 
-    @Step("Авторизация пользователем с ролью администратор")
+    @Step("Авторизация пользователем с правами администратор")
     private void adminlogin() {
         Manager.openPage("login");
 
