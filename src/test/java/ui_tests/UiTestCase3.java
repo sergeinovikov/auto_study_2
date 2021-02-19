@@ -24,7 +24,7 @@ public class UiTestCase3 {
     }
 
     @Test(description = "Кейс 3. Авторизация не подтвержденным пользователем. Проверка присутствия ошибки и элементов страницы после авторизации")
-    public void adminLogin() {
+    public void unverifiedUserLogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
@@ -36,9 +36,11 @@ public class UiTestCase3 {
         checkLoginAndRegister();
     }
 
-    @Description("Проверка 1. Проверка отсутствия отображения домашней страницы")
+    @Description("Проверка 1. Проверка отображения домашней страницы")
     private void checkHomePageAbsence() {
-        Assert.assertFalse(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getHomePage()));
+        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getLoginElement()));
+        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getPasswordElement()));
+        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getSubmitElement()));
     }
 
     @Description("Проверка 2. Проверка отображения ошибки с текстом \"Ваша учётная запись создана и ожидает подтверждения администратора.\"")
