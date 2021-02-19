@@ -24,7 +24,7 @@ public class UiTestCase2 {
     }
 
     @Test(description = "Кейс 2. Авторизация подтвержденным пользователем. Проверка присутствия элементов страницы после авторизации")
-    public void adminLogin() {
+    public void userLoginHomePageElementsCheck() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
