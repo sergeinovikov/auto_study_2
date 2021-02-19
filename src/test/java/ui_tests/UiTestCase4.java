@@ -11,7 +11,6 @@ import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.ProjectsPage;
-import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
 
@@ -19,7 +18,7 @@ public class UiTestCase4 {
     private User user;
     private Project project;
 
-    @BeforeMethod(description = "Генерация пользователя в Redmine. Пользователь не подтверждён администратором (не активен)")
+    @BeforeMethod(description = "Генерация пользователя с правами администратора в Redmine. Пользователь подтверждён и активен")
     public void prepareFixtures() {
         user = new User()
                 .setAdmin(true)
@@ -37,14 +36,14 @@ public class UiTestCase4 {
         goToProjectPage();
     }
 
-    @Step("Авторизация пользователем с правами администратор")
+    @Step("Авторизация пользователем с правами администратор. Проверка отображения домашней страницы")
     private void adminLogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
                 .login(user.getLogin(), user.getPassword());
 
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getHomePage()));
+        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Домашняя страница");
     }
 
     @Step("Переход на странцу \"Проекты\". Проверка отображения страницы \"Проекты\". Проверка видимости созданного в предусловии приватного проекта")
