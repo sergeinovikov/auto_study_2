@@ -15,7 +15,6 @@ import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.ProjectsPage;
-import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
 
@@ -53,19 +52,19 @@ public class UiTestCase5 {
     }
 
     @Test(description = "Кейс 5. Авторизация подтверждённым пользователем. Проверка видимости приватного проекта 3 с ролью, которая имеет доступ только к этому проекту")
-    public void adminPrivateProjectCheck() {
-        adminLogin();
+    public void userWithRoleProjectsCheck() {
+        userLogin();
         goToProjectPage();
     }
 
-    @Step("Авторизация пользователем с правами администратора и ролью из предусловия")
-    private void adminLogin() {
+    @Step("Авторизация пользователем с правами администратора и ролью из предусловия. Проверка отображения домашней страницы")
+    private void userLogin() {
         Manager.openPage("login");
 
         getPage(LoginPage.class)
                 .login(user.getLogin(), user.getPassword());
 
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getHomePage()));
+        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Домашняя страница");
     }
 
     @Step("Переход на странцу \"Проекты\".  Проверка отображения страницы \"Проекты\". Проверка видимости созданных в предусловии проектов")
