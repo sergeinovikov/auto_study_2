@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class ProjectsPage  extends AbstractPage{
+public class ProjectsPage extends AbstractPage{
     @FindBy(xpath = "//ul[@class='projects root']//a")
     private List<WebElement> projectsList;
 
