@@ -41,10 +41,6 @@ public class HeaderPage extends AbstractPage {
         return loggedAs.getText();
     }
 
-    public String homePageHeader() {
-        return homePage.getText();
-    }
-
     public String home() {
         return home.getText();
     }
