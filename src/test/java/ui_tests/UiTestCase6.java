@@ -2,13 +2,16 @@ package ui_tests;
 
 import io.qameta.allure.Step;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import redmine.managers.Manager;
 import redmine.model.user.User;
+import redmine.ui.pages.AdministrationPage;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.UsersPage;
+import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
 
@@ -48,6 +51,7 @@ public class UiTestCase6 {
         userLogin();
         goToAdminPage();
         goToUsersPage();
+        sortUsersByLoginDesc();
     }
 
     @Step("Авторизация пользователем с правами администратора и ролью из предусловия. Проверка отображения домашней страницы")
@@ -57,7 +61,7 @@ public class UiTestCase6 {
         getPage(LoginPage.class)
                 .login(mainUser.getLogin(), mainUser.getPassword());
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Домашняя страница");
+        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Step("Переход на странцу \"Администрирование\".  Проверка отображения страницы \"Администрирование\"")
@@ -66,9 +70,22 @@ public class UiTestCase6 {
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Администрирование");
     }
 
-    @Step("Переход на странцу \"Пользователи\".  Проверка отображения таблицы \"Пользователи\" и сортировки пользователей по логину")
+    @Step("Переход на странцу \"Пользователи\".  Проверка отображения таблицы \"Пользователи\" и сортировки пользователей по логину (по возрастанию)")
     private void goToUsersPage() {
-        getPage(UsersPage.class).getUsers().click();
+        getPage(AdministrationPage.class).getUsers().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
+        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(UsersPage.class).getUsersTable()));
+        getPage(UsersPage.class).usersSortedByLoginAsc();
+    }
+
+    @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыыванию)")
+    private void sortUsersByLoginDesc() {
+        getPage(UsersPage.class).getSortingUsersByLogin().click();
+        getPage(UsersPage.class).usersSortedByLoginDesc();
+    }
+
+    @AfterMethod(description = "Закрытие браузера и выключение драйвера")
+    public void tearDown() {
+        Manager.driverQuit();
     }
 }

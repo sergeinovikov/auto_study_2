@@ -1,17 +1,12 @@
 package redmine.ui.pages;
 
+import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
+@Getter
 public class AdministrationPage extends AbstractPage{
-    @FindBy(xpath = "//ul[@class='projects root']//a")
-    private List<WebElement> projectsList;
+    @FindBy(xpath = "//a[@href='/users']")
+    private WebElement users;
 
-    public Boolean getProjectElement(String projectName) {
-        return projectsList.stream()
-                .map(WebElement::getText)
-                .anyMatch(str -> str.equals(projectName));
-    }
 }
