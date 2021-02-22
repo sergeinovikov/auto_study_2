@@ -64,7 +64,7 @@ public class UiTestCase5 {
         getPage(LoginPage.class)
                 .login(user.getLogin(), user.getPassword());
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Домашняя страница");
+        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Step("Переход на странцу \"Проекты\".  Проверка отображения страницы \"Проекты\". Проверка видимости созданных в предусловии проектов")
