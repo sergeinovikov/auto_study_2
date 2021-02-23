@@ -70,10 +70,24 @@ public class UiTestCase5 {
     @Step("Переход на странцу \"Проекты\".  Проверка отображения страницы \"Проекты\". Проверка видимости созданных в предусловии проектов")
     private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
+
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
-        Assert.assertTrue(getPage(ProjectsPage.class).getProjectElement(publicProject1.getName()));
-        Assert.assertFalse(getPage(ProjectsPage.class).getProjectElement(privateProject2.getName()));
-        Assert.assertTrue(getPage(ProjectsPage.class).getProjectElement(privateProject3.getName()));
+
+        Assert.assertTrue(
+                getPage(ProjectsPage.class).getProjectElement(
+                        publicProject1.getName()
+                )
+        );
+        Assert.assertFalse(
+                getPage(ProjectsPage.class).getProjectElement(
+                        privateProject2.getName()
+                )
+        );
+        Assert.assertTrue(
+                getPage(ProjectsPage.class).getProjectElement(
+                        privateProject3.getName()
+                )
+        );
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")
