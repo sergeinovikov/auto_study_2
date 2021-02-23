@@ -20,7 +20,7 @@ import redmine.utils.gson.GsonHelper;
 
 import java.time.temporal.ChronoUnit;
 
-import static redmine.model.dto.UserDto.readUserDto;
+import static redmine.model.dto.UserDto.readUserDtoById;
 
 public class ApiTestCase1 {
 
@@ -85,7 +85,7 @@ public class ApiTestCase1 {
         Assert.assertNotNull(user.getUser().getApi_key());
         Assert.assertNull(user.getUser().getPassword());
 
-        User userFromDb = readUserDto(user.getUser().getId());
+        User userFromDb = readUserDtoById(user.getUser().getId());
 
         Assert.assertEquals(user.getUser().getId(), userFromDb.getId());
         Assert.assertEquals(user.getUser().getLogin(), userFromDb.getLogin());
@@ -168,7 +168,7 @@ public class ApiTestCase1 {
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        User userFromDb = readUserDto(user.getUser().getId());
+        User userFromDb = readUserDtoById(user.getUser().getId());
 
         Assert.assertEquals(userFromDb.getStatus(), newStatus);
     }
@@ -201,7 +201,7 @@ public class ApiTestCase1 {
 
         Assert.assertEquals(response.getStatusCode(), 204);
 
-        User deletedUser = readUserDto(user.getUser().getId());
+        User deletedUser = readUserDtoById(user.getUser().getId());
 
         Assert.assertNull(deletedUser);
     }
@@ -215,7 +215,7 @@ public class ApiTestCase1 {
 
         Assert.assertEquals(response.getStatusCode(), 404);
 
-        User deletedUser = readUserDto(user.getUser().getId());
+        User deletedUser = readUserDtoById(user.getUser().getId());
 
         Assert.assertNull(deletedUser);
     }
