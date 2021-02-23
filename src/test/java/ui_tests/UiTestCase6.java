@@ -47,7 +47,7 @@ public class UiTestCase6 {
     }
 
     @Test(description = "Кейс 6. Авторизация пользователя с правами администратора. Переход на страницы \"Админитрирование\" и \"Пользовтели\". Проверка наличия таблицы пользователей и сортировки пользователей по логину")
-    public void userWithRoleProjectsCheck() {
+    public void sortingUsersByLogins() {
         userLogin();
         goToAdminPage();
         goToUsersPage();
@@ -75,16 +75,20 @@ public class UiTestCase6 {
         getPage(AdministrationPage.class).getUsers().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
         Assert.assertTrue(BrowserUtils.isElementPresent(getPage(UsersPage.class).getUsersTable()));
-        getPage(UsersPage.class).usersSortedAsc(
-                getPage(UsersPage.class).getUsersLogins()
+        Assert.assertTrue(
+                getPage(UsersPage.class).usersSortedAsc(
+                        getPage(UsersPage.class).getUsersLogins()
+                )
         );
     }
 
     @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыванию)")
     private void sortUsersByLoginDesc() {
         getPage(UsersPage.class).getSortingUsersByLogin().click();
-        getPage(UsersPage.class).usersSortedDesc(
-                getPage(UsersPage.class).getUsersLogins()
+        Assert.assertTrue(
+                getPage(UsersPage.class).usersSortedDesc(
+                        getPage(UsersPage.class).getUsersLogins()
+                )
         );
     }
 
