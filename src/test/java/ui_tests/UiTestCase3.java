@@ -40,9 +40,21 @@ public class UiTestCase3 {
 
     @Description("Проверка 1. Проверка отображения домашней страницы")
     private void checkHomePageAbsence() {
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getLoginElement()));
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getPasswordElement()));
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(LoginPage.class).getSubmitElement()));
+        Assert.assertTrue(
+                BrowserUtils.isElementPresent(
+                        getPage(LoginPage.class).getLoginElement()
+                )
+        );
+        Assert.assertTrue(
+                BrowserUtils.isElementPresent(
+                        getPage(LoginPage.class).getPasswordElement()
+                )
+        );
+        Assert.assertTrue(
+                BrowserUtils.isElementPresent(
+                        getPage(LoginPage.class).getSubmitElement()
+                )
+        );
     }
 
     @Description("Проверка 2. Проверка отображения ошибки с текстом \"Ваша учётная запись создана и ожидает подтверждения администратора.\"")
@@ -52,7 +64,11 @@ public class UiTestCase3 {
 
     @Description("Проверка 3. Проверка отсутствия в заголовке страницы элемента \"Моя страница\"")
     private void checkMyPage() {
-        Assert.assertFalse(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getMyPage()));
+        Assert.assertFalse(
+                BrowserUtils.isElementPresent(
+                        getPage(HeaderPage.class).getMyPage()
+                )
+        );
     }
 
     @Description("Проверка 4. Проверка отображения в заголовке страницы элементов  \"Войти\", \"Регистрация\"")
