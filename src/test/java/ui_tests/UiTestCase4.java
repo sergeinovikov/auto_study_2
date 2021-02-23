@@ -46,7 +46,7 @@ public class UiTestCase4 {
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
-    @Step("Переход на странцу \"Проекты\". Проверка отображения страницы \"Проекты\". Проверка видимости созданного в предусловии приватного проекта")
+    @Step("Переход на странцу \"Проекты\". Проверка отображения страницы \"Проекты\". Проверка видимости созданного в предусловии приватного проекта.")
     private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
