@@ -3,7 +3,6 @@ package redmine.ui.pages;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +18,7 @@ public class UsersPage extends AbstractPage {
     private WebElement sortingUsersByLogin;
 
 
-    public void usersSortedAsc(List<WebElement> usersData) {
+    public Boolean usersSortedAsc(List<WebElement> usersData) {
         List<String> usersDataDefaultSorting = usersData.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -29,10 +28,10 @@ public class UsersPage extends AbstractPage {
                 .sorted(Comparator.comparing(String::toString, String.CASE_INSENSITIVE_ORDER))
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(usersDataDefaultSorting, usersDataSortedDesc);
+        return usersDataDefaultSorting.equals(usersDataSortedDesc);
     }
 
-    public void usersSortedDesc(List<WebElement> usersData) {
+    public Boolean usersSortedDesc(List<WebElement> usersData) {
         List<String> usersDataDefaultSorting = usersData.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -42,6 +41,6 @@ public class UsersPage extends AbstractPage {
                 .sorted(Comparator.comparing(String::toString, String.CASE_INSENSITIVE_ORDER.reversed()))
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(usersDataDefaultSorting, usersDataSortedDesc);
+        return usersDataDefaultSorting.equals(usersDataSortedDesc);
     }
 }
