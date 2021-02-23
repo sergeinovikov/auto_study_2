@@ -1,6 +1,7 @@
 package ui_tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -24,6 +25,7 @@ public class UiTestCase3 {
     }
 
     @Test(description = "Кейс 3. Авторизация не подтвержденным пользователем. Проверка присутствия ошибки и элементов страницы после авторизации")
+    @Step("Переход к странице авторизации. Авторизация пользователем из предусловия.")
     public void unverifiedUserLogin() {
         Manager.openPage("login");
 
