@@ -49,8 +49,14 @@ public class UiTestCase4 {
     @Step("Переход на странцу \"Проекты\". Проверка отображения страницы \"Проекты\". Проверка видимости созданного в предусловии приватного проекта.")
     private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
+
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
-        Assert.assertTrue(getPage(ProjectsPage.class).getProjectElement(project.getName()));
+
+        Assert.assertTrue(
+                getPage(ProjectsPage.class).getProjectElement(
+                        project.getName()
+                )
+        );
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")
