@@ -1,6 +1,7 @@
 package ui_tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -25,6 +26,7 @@ public class UiTestCase1 {
     }
 
     @Test(description = "Кейс 1. Авторизация пользователем с правами администратора. Проверка присутствия элементов страницы после авторизации")
+    @Step("Переход к странице авторизации. Авторизация пользователем из предусловия.")
     public void adminLoginHomeElementsCheck() {
         Manager.openPage("login");
 
