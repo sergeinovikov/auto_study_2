@@ -73,8 +73,14 @@ public class UiTestCase6 {
     @Step("Переход на странцу \"Пользователи\".  Проверка отображения таблицы \"Пользователи\" и сортировки пользователей по логину (по возрастанию)")
     private void goToUsersPage() {
         getPage(AdministrationPage.class).getUsers().click();
+
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
-        Assert.assertTrue(BrowserUtils.isElementPresent(getPage(UsersPage.class).getUsersTable()));
+
+        Assert.assertTrue(
+                BrowserUtils.isElementPresent(
+                        getPage(UsersPage.class).getUsersTable()
+                )
+        );
         Assert.assertTrue(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersLogins()
@@ -85,6 +91,7 @@ public class UiTestCase6 {
     @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыванию)")
     private void sortUsersByLoginDesc() {
         getPage(UsersPage.class).getSortingUsersByLogin().click();
+
         Assert.assertTrue(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersLogins()
