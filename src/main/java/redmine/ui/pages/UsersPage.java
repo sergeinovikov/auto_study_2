@@ -24,6 +24,9 @@ public class UsersPage extends AbstractPage {
     private WebElement sortingUsersByFirstName;
     @FindBy(xpath = "//a[text()[contains(.,'Фамилия')]]")
     private WebElement sortingUsersByLastName;
+    @FindBy(xpath = "//a[@href='/users/new']")
+    private WebElement newUser;
+
 
 
     public Boolean usersSortedAsc(List<WebElement> usersData) {
