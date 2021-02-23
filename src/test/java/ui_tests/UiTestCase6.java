@@ -75,13 +75,17 @@ public class UiTestCase6 {
         getPage(AdministrationPage.class).getUsers().click();
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
         Assert.assertTrue(BrowserUtils.isElementPresent(getPage(UsersPage.class).getUsersTable()));
-        getPage(UsersPage.class).usersSortedByLoginAsc();
+        getPage(UsersPage.class).usersSortedAsc(
+                getPage(UsersPage.class).getUsersLogins()
+        );
     }
 
     @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыванию)")
     private void sortUsersByLoginDesc() {
         getPage(UsersPage.class).getSortingUsersByLogin().click();
-        getPage(UsersPage.class).usersSortedByLoginDesc();
+        getPage(UsersPage.class).usersSortedDesc(
+                getPage(UsersPage.class).getUsersLogins()
+        );
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")
