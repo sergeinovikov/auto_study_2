@@ -13,9 +13,15 @@ import redmine.model.user.User;
 public class UserDto {
     private UserInfo user;
 
-    public static User readUserDto (Integer id) {
+    public static User readUserDtoById(Integer id) {
         return new User()
                 .setId(id)
+                .read();
+    }
+
+    public static User readUserDtoByLogin(String login) {
+        return new User()
+                .setLogin(login)
                 .read();
     }
 }
