@@ -61,9 +61,21 @@ public class UiTestCase2 {
 
     @Description("Проверка 4. Проверка отсутствия в заголовке страницы элементов  \"Администрирование\", \"Войти\", \"Регистрация\"")
     private void checkLoginAndRegistrationAbsence() {
-        Assert.assertFalse(BrowserUtils.isElementPresent(getPage(HeaderPage.class).getAdministration()));
-        Assert.assertFalse(BrowserUtils.isElementPresent(getPage(LoginPage.class).getLoginElement()));
-        Assert.assertFalse(BrowserUtils.isElementPresent(getPage(LoginPage.class).getRegister()));
+        Assert.assertFalse(
+                BrowserUtils.isElementPresent(
+                        getPage(HeaderPage.class).getAdministration()
+                )
+        );
+        Assert.assertFalse(
+                BrowserUtils.isElementPresent(
+                        getPage(LoginPage.class).getLoginElement()
+                )
+        );
+        Assert.assertFalse(
+                BrowserUtils.isElementPresent(
+                        getPage(LoginPage.class).getRegister()
+                )
+        );
     }
 
     @Description("Проверка 5. Проверка отображения элемента \"Поиск\"")
