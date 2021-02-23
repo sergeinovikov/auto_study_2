@@ -14,8 +14,16 @@ public class UsersPage extends AbstractPage {
     private WebElement usersTable;
     @FindBy(xpath = "//td[@class='username']")
     private List<WebElement> usersLogins;
-    @FindBy(xpath = "//a[@class='sort asc icon icon-sorted-desc']")
+    @FindBy(xpath = "//td[@class='firstname']")
+    private List<WebElement> usersFirstNames;
+    @FindBy(xpath = "//td[@class='lastname']")
+    private List<WebElement> usersLastNames;
+    @FindBy(xpath = "//a[text()[contains(.,'Пользователь')]]")
     private WebElement sortingUsersByLogin;
+    @FindBy(xpath = "//a[text()[contains(.,'Имя')]]")
+    private WebElement sortingUsersByFirstName;
+    @FindBy(xpath = "//a[text()[contains(.,'Фамилия')]]")
+    private WebElement sortingUsersByLastName;
 
 
     public Boolean usersSortedAsc(List<WebElement> usersData) {
