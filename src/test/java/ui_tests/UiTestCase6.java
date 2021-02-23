@@ -78,7 +78,7 @@ public class UiTestCase6 {
         getPage(UsersPage.class).usersSortedByLoginAsc();
     }
 
-    @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыыванию)")
+    @Step("Нажатие в шапке таблицы на столбец \"Пользователь\". Проверка сортировки пользователей по логину (по убыванию)")
     private void sortUsersByLoginDesc() {
         getPage(UsersPage.class).getSortingUsersByLogin().click();
         getPage(UsersPage.class).usersSortedByLoginDesc();
