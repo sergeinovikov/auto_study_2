@@ -142,24 +142,26 @@ public class UserRequests {
                     userFromDb.getId()
             );
 
-            List<Token> userApiKey = apiKeyResult.stream()
-                    .map(map -> {
-                                Token apiKey = new Token();
-                                apiKey.setId((Integer) map.get("id"));
-                                apiKey.setUserId((Integer) map.get("user_id"));
-                                apiKey.setAction(
-                                        Action.of(
-                                                (String) map.get("action")
-                                        )
-                                );
-                                apiKey.setValue((String) map.get("value"));
-                                apiKey.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
-                                apiKey.setCreatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
-                                return apiKey;
-                            }
-                    )
-                    .collect(Collectors.toList());
-            userFromDb.setApiToken(userApiKey.get(0));
+            if (!apiKeyResult.isEmpty()) {
+                List<Token> userApiKey = apiKeyResult.stream()
+                        .map(map -> {
+                                    Token apiKey = new Token();
+                                    apiKey.setId((Integer) map.get("id"));
+                                    apiKey.setUserId((Integer) map.get("user_id"));
+                                    apiKey.setAction(
+                                            Action.of(
+                                                    (String) map.get("action")
+                                            )
+                                    );
+                                    apiKey.setValue((String) map.get("value"));
+                                    apiKey.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
+                                    apiKey.setCreatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
+                                    return apiKey;
+                                }
+                        )
+                        .collect(Collectors.toList());
+                userFromDb.setApiToken(userApiKey.get(0));
+            }
         }
         return userFromDb;
     }
