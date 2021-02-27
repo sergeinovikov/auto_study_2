@@ -1,8 +1,13 @@
 package redmine.managers;
 
 import com.google.common.collect.ImmutableMap;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import lombok.SneakyThrows;
-import org.openqa.selenium.*;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -50,27 +55,26 @@ public class Manager {
     }
 
     /**
-     * Открыть Redmine
+     * Открыть страницу Redmine
      */
 
+    @Step("Открыть страницу {0}")
     public static void openPage(String uri) {
         driver().get(Property.getStringProperty("ui.url") + uri);
     }
 
-    public static WebDriverWait waiter() {
-        return wait;
-    }
+    /**
+     * Сделть скриншот
+     */
 
+    @Attachment(value = "screenshot")
     public static byte[] takesScreenshot() {
         return ((TakesScreenshot) driver()).getScreenshotAs(OutputType.BYTES);
     }
 
-    public static JavascriptExecutor js() {
-        return (JavascriptExecutor) driver();
-    }
 
     /**
-     * Возвращает экземпляр драйвера в зависимости от знаения в properties-файле
+     * Возвращает экземпляр драйвера в зависимости от значения в properties-файле
      *
      * @return драйвер
      */
