@@ -1,7 +1,6 @@
 package ui_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,6 +10,7 @@ import redmine.ui.pages.AdministrationPage;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.UsersPage;
+import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
@@ -61,27 +61,27 @@ public class UiTestCase6 {
         getPage(LoginPage.class)
                 .login(mainUser.getLogin(), mainUser.getPassword());
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Step("Переход на странцу \"Администрирование\".  Проверка отображения страницы \"Администрирование\"")
     private void goToAdminPage() {
         getPage(HeaderPage.class).getAdministration().click();
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Администрирование");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Администрирование");
     }
 
     @Step("Переход на странцу \"Пользователи\".  Проверка отображения таблицы \"Пользователи\" и сортировки пользователей по логину (по возрастанию)")
     private void goToUsersPage() {
         getPage(AdministrationPage.class).getUsers().click();
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
 
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 BrowserUtils.isElementPresent(
                         getPage(UsersPage.class).getUsersTable()
                 )
         );
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersLogins()
                 )
@@ -92,7 +92,7 @@ public class UiTestCase6 {
     private void sortUsersByLoginDesc() {
         getPage(UsersPage.class).getSortingUsersByLogin().click();
 
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersLogins()
                 )

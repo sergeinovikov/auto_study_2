@@ -1,7 +1,6 @@
 package api_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.api.implementations.RestApiClient;
@@ -12,6 +11,7 @@ import redmine.api.interfaces.Request;
 import redmine.api.interfaces.Response;
 import redmine.model.user.Language;
 import redmine.model.user.User;
+import redmine.utils.Asserts;
 
 public class ApiTestCase4 {
 
@@ -39,7 +39,7 @@ public class ApiTestCase4 {
         deleteUser(firstUser);
     }
 
-    @Step("Шаг 1. Удаление второго {0} через DELETE-запрос используя API-ключ первого {1}")
+    @Step("Шаг 1. Удаление второго пользователя через DELETE-запрос используя API-ключ первого пользователя")
     private void deleteAnotherUser(User user, User anotherUser) {
         String uri = String.format("users/%d.json", anotherUser.getId());
 
@@ -47,9 +47,9 @@ public class ApiTestCase4 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 403);
+        Asserts.assertEquals(response.getStatusCode(), 403);
 
-        Assert.assertNotNull(user.read());
+        Asserts.assertNotNull(user.read());
     }
 
     @Step("Шаг 2. Удаление первого пользователя через DELETE-запрос используя API-ключ первого пользователя")
@@ -60,8 +60,8 @@ public class ApiTestCase4 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 403);
+        Asserts.assertEquals(response.getStatusCode(), 403);
 
-        Assert.assertNotNull(user.read());
+        Asserts.assertNotNull(user.read());
     }
 }

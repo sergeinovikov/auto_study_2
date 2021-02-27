@@ -1,7 +1,6 @@
 package api_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.api.implementations.RestApiClient;
@@ -14,6 +13,7 @@ import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
 import redmine.model.user.Language;
 import redmine.model.user.User;
+import redmine.utils.Asserts;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
@@ -59,6 +59,6 @@ public class ApiTestCase2 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 403);
+        Asserts.assertEquals(response.getStatusCode(), 403);
     }
 }

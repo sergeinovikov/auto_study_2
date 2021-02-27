@@ -1,6 +1,6 @@
 package ui_tests;
 
-import io.qameta.allure.Description;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -10,6 +10,7 @@ import redmine.managers.Manager;
 import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
+import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
@@ -39,18 +40,18 @@ public class UiTestCase2 {
         checkSearch();
     }
 
-    @Description("Проверка 1. Проверка отображения домашней страницы")
     private void checkHomePage() {
+        Allure.step("Проверка отображения домашней страницы");
         Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
-    @Description("Проверка 2. Проверка отображения  \"Вошли как <логин пользователя>\"")
     private void checkLoggedAs() {
+        Allure.step("Проверка отображения  \"Вошли как <логин пользователя>\"");
         Assert.assertEquals(getPage(HeaderPage.class).loggedAs(), String.format("Вошли как %s", user.getLogin()));
     }
 
-    @Description("Проверка 3. Проверка отображения в заголовке страницы элементов \"Домашняя страница\", \"Моя страница\", \"Проекты\", \"Администрирование\", \"Помощь\", \"Моя учётная запись\", \"Выйти\"")
     private void checkHeaderElements() {
+        Allure.step("Проверка отображения в заголовке страницы элементов \"Домашняя страница\", \"Моя страница\", \"Проекты\", \"Администрирование\", \"Помощь\", \"Моя учётная запись\", \"Выйти\"");
         Assert.assertEquals(getPage(HeaderPage.class).home(), "Домашняя страница");
         Assert.assertEquals(getPage(HeaderPage.class).myPage(), "Моя страница");
         Assert.assertEquals(getPage(HeaderPage.class).projects(), "Проекты");
@@ -59,29 +60,29 @@ public class UiTestCase2 {
         Assert.assertEquals(getPage(HeaderPage.class).logout(), "Выйти");
     }
 
-    @Description("Проверка 4. Проверка отсутствия в заголовке страницы элементов  \"Администрирование\", \"Войти\", \"Регистрация\"")
     private void checkLoginAndRegistrationAbsence() {
-        Assert.assertFalse(
+        Allure.step("Проверка отсутствия в заголовке страницы элементов  \"Администрирование\", \"Войти\", \"Регистрация\"");
+        Asserts.assertFalse(
                 BrowserUtils.isElementPresent(
                         getPage(HeaderPage.class).getAdministration()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 BrowserUtils.isElementPresent(
                         getPage(LoginPage.class).getLoginElement()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 BrowserUtils.isElementPresent(
                         getPage(LoginPage.class).getRegister()
                 )
         );
     }
 
-    @Description("Проверка 5. Проверка отображения элемента \"Поиск\"")
     private void checkSearch() {
-        Assert.assertEquals(getPage(HeaderPage.class).searchLabel(), "Поиск");
-        Assert.assertTrue(getPage(HeaderPage.class).searchInput());
+        Allure.step("Проверка отображения элемента \"Поиск\"");
+        Asserts.assertEquals(getPage(HeaderPage.class).searchLabel(), "Поиск");
+        Asserts.assertTrue(getPage(HeaderPage.class).searchInput());
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")

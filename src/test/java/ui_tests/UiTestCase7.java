@@ -11,6 +11,7 @@ import redmine.ui.pages.AdministrationPage;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.UsersPage;
+import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
@@ -77,30 +78,30 @@ public class UiTestCase7 {
     private void goToUsersPage() {
         getPage(AdministrationPage.class).getUsers().click();
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
-        Assert.assertTrue(
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
+        Asserts.assertTrue(
                 BrowserUtils.isElementPresent(
                         getPage(UsersPage.class).getUsersTable()
                 )
         );
 
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )
         );
 
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersLastNames()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersLastNames()
                 )
@@ -111,18 +112,18 @@ public class UiTestCase7 {
     private void sortUsersByLastNameAsc() {
         getPage(UsersPage.class).getSortingUsersByLastName().click();
 
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersLastNames()
                 )
         );
 
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )
@@ -133,18 +134,18 @@ public class UiTestCase7 {
     private void sortUsersByLastNameDesc() {
         getPage(UsersPage.class).getSortingUsersByLastName().click();
 
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersLastNames()
                 )
         );
 
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedAsc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )
         );
-        Assert.assertFalse(
+        Asserts.assertFalse(
                 getPage(UsersPage.class).usersSortedDesc(
                         getPage(UsersPage.class).getUsersFirstNames()
                 )

@@ -1,7 +1,6 @@
 package api_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.api.implementations.RestApiClient;
@@ -15,6 +14,7 @@ import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
 import redmine.model.user.Language;
 import redmine.model.user.User;
+import redmine.utils.Asserts;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
@@ -70,34 +70,34 @@ public class ApiTestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 201);
+        Asserts.assertEquals(response.getStatusCode(), 201);
 
         UserDto user = response.getBody(UserDto.class);
 
-        Assert.assertNotNull(user.getUser().getId());
-        Assert.assertEquals(user.getUser().getLogin(), userForCreation.getUser().getLogin());
-        Assert.assertEquals(user.getUser().getFirstname(), userForCreation.getUser().getFirstname());
-        Assert.assertEquals(user.getUser().getLastname(), userForCreation.getUser().getLastname());
-        Assert.assertEquals(user.getUser().getMail(), userForCreation.getUser().getMail());
-        Assert.assertNotNull(user.getUser().getCreated_on());
-        Assert.assertNull(user.getUser().getLast_login_on());
-        Assert.assertEquals(user.getUser().getStatus(), userForCreation.getUser().getStatus());
-        Assert.assertNotNull(user.getUser().getApi_key());
-        Assert.assertNull(user.getUser().getPassword());
+        Asserts.assertNotNull(user.getUser().getId());
+        Asserts.assertEquals(user.getUser().getLogin(), userForCreation.getUser().getLogin());
+        Asserts.assertEquals(user.getUser().getFirstname(), userForCreation.getUser().getFirstname());
+        Asserts.assertEquals(user.getUser().getLastname(), userForCreation.getUser().getLastname());
+        Asserts.assertEquals(user.getUser().getMail(), userForCreation.getUser().getMail());
+        Asserts.assertNotNull(user.getUser().getCreated_on());
+        Asserts.assertNull(user.getUser().getLast_login_on());
+        Asserts.assertEquals(user.getUser().getStatus(), userForCreation.getUser().getStatus());
+        Asserts.assertNotNull(user.getUser().getApi_key());
+        Asserts.assertNull(user.getUser().getPassword());
 
         User userFromDb = readUserDtoById(user.getUser().getId());
 
-        Assert.assertEquals(user.getUser().getId(), userFromDb.getId());
-        Assert.assertEquals(user.getUser().getLogin(), userFromDb.getLogin());
-        Assert.assertEquals(user.getUser().getAdmin(), userFromDb.getAdmin());
-        Assert.assertEquals(user.getUser().getFirstname(), userFromDb.getFirstName());
-        Assert.assertEquals(user.getUser().getLastname(), userFromDb.getLastName());
-        Assert.assertEquals(user.getUser().getMail(), userFromDb.getEmail().getAddress());
-        Assert.assertTrue(ChronoUnit.SECONDS.between(user.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
-        Assert.assertNull(userFromDb.getLastLoginOn());
-        Assert.assertEquals(user.getUser().getStatus(), userFromDb.getStatus());
-        Assert.assertEquals(user.getUser().getApi_key(), userFromDb.getApiToken().getValue());
-        Assert.assertNotNull(userFromDb.getHashedPassword());
+        Asserts.assertEquals(user.getUser().getId(), userFromDb.getId());
+        Asserts.assertEquals(user.getUser().getLogin(), userFromDb.getLogin());
+        Asserts.assertEquals(user.getUser().getAdmin(), userFromDb.getAdmin());
+        Asserts.assertEquals(user.getUser().getFirstname(), userFromDb.getFirstName());
+        Asserts.assertEquals(user.getUser().getLastname(), userFromDb.getLastName());
+        Asserts.assertEquals(user.getUser().getMail(), userFromDb.getEmail().getAddress());
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(user.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
+        Asserts.assertNull(userFromDb.getLastLoginOn());
+        Asserts.assertEquals(user.getUser().getStatus(), userFromDb.getStatus());
+        Asserts.assertEquals(user.getUser().getApi_key(), userFromDb.getApiToken().getValue());
+        Asserts.assertNotNull(userFromDb.getHashedPassword());
 
         return user;
     }
@@ -110,13 +110,13 @@ public class ApiTestCase1 {
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 422);
+        Asserts.assertEquals(response.getStatusCode(), 422);
 
         UserCreationError errors = response.getBody(UserCreationError.class);
 
-        Assert.assertEquals(errors.getErrors().size(), 2);
-        Assert.assertEquals(errors.getErrors().get(0), "Email has already been taken");
-        Assert.assertEquals(errors.getErrors().get(1), "Login has already been taken");
+        Asserts.assertEquals(errors.getErrors().size(), 2);
+        Asserts.assertEquals(errors.getErrors().get(0), "Email has already been taken");
+        Asserts.assertEquals(errors.getErrors().get(1), "Login has already been taken");
     }
 
     @Step("Шаг 3. Создание пользователя через POST-запрос повторно с тем же телом запроса, но с невалидными email и password")
@@ -144,14 +144,14 @@ public class ApiTestCase1 {
         Response response = apiClient.executeRequest(request);
 
 
-        Assert.assertEquals(response.getStatusCode(), 422);
+        Asserts.assertEquals(response.getStatusCode(), 422);
 
         UserCreationError errors = response.getBody(UserCreationError.class);
 
-        Assert.assertEquals(errors.getErrors().size(), 3);
-        Assert.assertEquals(errors.getErrors().get(0), "Email is invalid");
-        Assert.assertEquals(errors.getErrors().get(1), "Login has already been taken");
-        Assert.assertEquals(errors.getErrors().get(2), "Password is too short (minimum is 8 characters)");
+        Asserts.assertEquals(errors.getErrors().size(), 3);
+        Asserts.assertEquals(errors.getErrors().get(0), "Email is invalid");
+        Asserts.assertEquals(errors.getErrors().get(1), "Login has already been taken");
+        Asserts.assertEquals(errors.getErrors().get(2), "Password is too short (minimum is 8 characters)");
     }
 
     @Step("Шаг 4. Изменение пользователя через PUT-запрос c данными ответа по запросу из шага 1, при этом изменив поле status = 1")
@@ -166,11 +166,11 @@ public class ApiTestCase1 {
         Request request = new RestRequest(uri, HttpMethods.PUT, null, null, body);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 204);
+        Asserts.assertEquals(response.getStatusCode(), 204);
 
         User userFromDb = readUserDtoById(user.getUser().getId());
 
-        Assert.assertEquals(userFromDb.getStatus(), newStatus);
+        Asserts.assertEquals(userFromDb.getStatus(), newStatus);
     }
 
     @Step("Шаг 5. Получение пользователя через GET-запрос")
@@ -180,16 +180,16 @@ public class ApiTestCase1 {
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 200);
+        Asserts.assertEquals(response.getStatusCode(), 200);
 
         user = response.getBody(UserDto.class);
 
-        Assert.assertEquals(user.getUser().getLogin(), user.getUser().getLogin());
-        Assert.assertEquals(user.getUser().getFirstname(), user.getUser().getFirstname());
-        Assert.assertEquals(user.getUser().getLastname(), user.getUser().getLastname());
-        Assert.assertEquals(user.getUser().getMail(), user.getUser().getMail());
-        Assert.assertNull(user.getUser().getPassword());
-        Assert.assertEquals(user.getUser().getStatus(), user.getUser().getStatus());
+        Asserts.assertEquals(user.getUser().getLogin(), user.getUser().getLogin());
+        Asserts.assertEquals(user.getUser().getFirstname(), user.getUser().getFirstname());
+        Asserts.assertEquals(user.getUser().getLastname(), user.getUser().getLastname());
+        Asserts.assertEquals(user.getUser().getMail(), user.getUser().getMail());
+        Asserts.assertNull(user.getUser().getPassword());
+        Asserts.assertEquals(user.getUser().getStatus(), user.getUser().getStatus());
     }
 
     @Step("Шаг 6. Удаление пользователя через DELETE-запрос")
@@ -199,11 +199,11 @@ public class ApiTestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 204);
+        Asserts.assertEquals(response.getStatusCode(), 204);
 
         User deletedUser = readUserDtoById(user.getUser().getId());
 
-        Assert.assertNull(deletedUser);
+        Asserts.assertNull(deletedUser);
     }
 
     @Step("Шаг 7. Повторно удаление пользователя через DELETE-запрос")
@@ -213,10 +213,10 @@ public class ApiTestCase1 {
         Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 404);
+        Asserts.assertEquals(response.getStatusCode(), 404);
 
         User deletedUser = readUserDtoById(user.getUser().getId());
 
-        Assert.assertNull(deletedUser);
+        Asserts.assertNull(deletedUser);
     }
 }

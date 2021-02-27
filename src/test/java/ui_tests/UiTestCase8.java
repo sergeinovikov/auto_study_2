@@ -10,6 +10,7 @@ import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
 import redmine.model.user.User;
 import redmine.ui.pages.*;
+import redmine.utils.Asserts;
 import redmine.utils.StringGenerators;
 
 import static redmine.model.dto.UserDto.readUserDtoByLogin;
@@ -44,22 +45,22 @@ public class UiTestCase8 {
         getPage(LoginPage.class)
                 .login(mainUser.getLogin(), mainUser.getPassword());
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Step("Переход на странцу \"Администрирование\".  Проверка отображения страницы \"Администрирование\"")
     private void goToAdminPage() {
         getPage(HeaderPage.class).getAdministration().click();
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Администрирование");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Администрирование");
     }
 
     @Step("Переход на странцу \"Пользователи\".  Переход на странцу \"Новый пользователь\". Проверка отображения страницы создания нового пользователя")
     private void goToNewUserPage() {
         getPage(AdministrationPage.class).getUsers().click();
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи");
 
         getPage(UsersPage.class).getNewUser().click();
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи » Новый пользователь");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Пользователи » Новый пользователь");
     }
 
     @Step("Заполнение полей \"Пользователь\", \"Имя\", \"Фамилия\", \"Email\" корректными значениями")
@@ -89,15 +90,15 @@ public class UiTestCase8 {
     private void createNewUser() {
         getPage(NewUserPage.class).getCreateButton().click();
 
-        Assert.assertEquals(getPage(NewUserPage.class).successMessage(), "Пользователь " + userDto.getUser().getLogin() + " создан.");
+        Asserts.assertEquals(getPage(NewUserPage.class).successMessage(), "Пользователь " + userDto.getUser().getLogin() + " создан.");
 
         User userFromDb = readUserDtoByLogin(userDto.getUser().getLogin());
 
-        Assert.assertNotNull(userFromDb.getId());
-        Assert.assertEquals(userDto.getUser().getLogin(), userFromDb.getLogin());
-        Assert.assertEquals(userDto.getUser().getFirstname(), userFromDb.getFirstName());
-        Assert.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
-        Assert.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
+        Asserts.assertNotNull(userFromDb.getId());
+        Asserts.assertEquals(userDto.getUser().getLogin(), userFromDb.getLogin());
+        Asserts.assertEquals(userDto.getUser().getFirstname(), userFromDb.getFirstName());
+        Asserts.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
+        Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")

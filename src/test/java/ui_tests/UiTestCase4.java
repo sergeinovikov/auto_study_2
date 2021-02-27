@@ -1,7 +1,6 @@
 package ui_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,6 +10,7 @@ import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
 import redmine.ui.pages.ProjectsPage;
+import redmine.utils.Asserts;
 
 import static redmine.ui.pages.Pages.getPage;
 
@@ -43,16 +43,16 @@ public class UiTestCase4 {
         getPage(LoginPage.class)
                 .login(user.getLogin(), user.getPassword());
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Моя страница");
     }
 
     @Step("Переход на странцу \"Проекты\". Проверка отображения страницы \"Проекты\". Проверка видимости созданного в предусловии приватного проекта.")
     private void goToProjectPage() {
         getPage(HeaderPage.class).getProjects().click();
 
-        Assert.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
+        Asserts.assertEquals(getPage(HeaderPage.class).pageTitle(), "Проекты");
 
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 getPage(ProjectsPage.class).getProjectElement(
                         project.getName()
                 )

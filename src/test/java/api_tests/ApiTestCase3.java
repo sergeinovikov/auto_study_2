@@ -1,7 +1,6 @@
 package api_tests;
 
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.api.implementations.RestApiClient;
@@ -13,6 +12,7 @@ import redmine.api.interfaces.Response;
 import redmine.model.dto.UserDto;
 import redmine.model.user.Language;
 import redmine.model.user.User;
+import redmine.utils.Asserts;
 
 public class ApiTestCase3 {
 
@@ -48,12 +48,12 @@ public class ApiTestCase3 {
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 200);
+        Asserts.assertEquals(response.getStatusCode(), 200);
 
         UserDto getApiUser = response.getBody(UserDto.class);
 
-        Assert.assertEquals(getApiUser.getUser().getAdmin(), user.getAdmin());
-        Assert.assertEquals(getApiUser.getUser().getApi_key(), user.getApiToken().getValue());
+        Asserts.assertEquals(getApiUser.getUser().getAdmin(), user.getAdmin());
+        Asserts.assertEquals(getApiUser.getUser().getApi_key(), user.getApiToken().getValue());
     }
 
     @Step("Шаг 2. Получение второго пользователя через GET-запрос используя API-ключ первого пользователя")
@@ -64,11 +64,11 @@ public class ApiTestCase3 {
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Response response = apiClient.executeRequest(request);
 
-        Assert.assertEquals(response.getStatusCode(), 200);
+        Asserts.assertEquals(response.getStatusCode(), 200);
 
         UserDto getApiUser = response.getBody(UserDto.class);
 
-        Assert.assertNull(getApiUser.getUser().getAdmin());
-        Assert.assertNull(getApiUser.getUser().getApi_key());
+        Asserts.assertNull(getApiUser.getUser().getAdmin());
+        Asserts.assertNull(getApiUser.getUser().getApi_key());
     }
 }

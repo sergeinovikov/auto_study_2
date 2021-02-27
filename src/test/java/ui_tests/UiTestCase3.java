@@ -1,8 +1,8 @@
 package ui_tests;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,6 +10,7 @@ import redmine.managers.Manager;
 import redmine.model.user.User;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.LoginPage;
+import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
 
 import static redmine.ui.pages.Pages.getPage;
@@ -38,43 +39,44 @@ public class UiTestCase3 {
         checkLoginAndRegister();
     }
 
-    @Description("Проверка 1. Проверка отображения домашней страницы")
+    @Description("Проверка 1. ")
     private void checkHomePageAbsence() {
-        Assert.assertTrue(
+        Allure.step("Проверка отображения домашней страницы");
+        Asserts.assertTrue(
                 BrowserUtils.isElementPresent(
                         getPage(LoginPage.class).getLoginElement()
                 )
         );
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 BrowserUtils.isElementPresent(
                         getPage(LoginPage.class).getPasswordElement()
                 )
         );
-        Assert.assertTrue(
+        Asserts.assertTrue(
                 BrowserUtils.isElementPresent(
                         getPage(LoginPage.class).getSubmitElement()
                 )
         );
     }
 
-    @Description("Проверка 2. Проверка отображения ошибки с текстом \"Ваша учётная запись создана и ожидает подтверждения администратора.\"")
     private void checkErrorMessage() {
-        Assert.assertEquals(getPage(LoginPage.class).errorMessage(), "Ваша учётная запись создана и ожидает подтверждения администратора.");
+        Allure.step("Проверка отображения ошибки с текстом \\\"Ваша учётная запись создана и ожидает подтверждения администратора.\\\"");
+        Asserts.assertEquals(getPage(LoginPage.class).errorMessage(), "Ваша учётная запись создана и ожидает подтверждения администратора.");
     }
 
-    @Description("Проверка 3. Проверка отсутствия в заголовке страницы элемента \"Моя страница\"")
     private void checkMyPage() {
-        Assert.assertFalse(
+        Allure.step("Проверка отсутствия в заголовке страницы элемента \"Моя страница\"");
+        Asserts.assertFalse(
                 BrowserUtils.isElementPresent(
                         getPage(HeaderPage.class).getMyPage()
                 )
         );
     }
 
-    @Description("Проверка 4. Проверка отображения в заголовке страницы элементов  \"Войти\", \"Регистрация\"")
     private void checkLoginAndRegister() {
-        Assert.assertEquals(getPage(LoginPage.class).login(), "Войти");
-        Assert.assertEquals(getPage(LoginPage.class).register(), "Регистрация");
+        Allure.step("Проверка отображения в заголовке страницы элементов  \"Войти\", \"Регистрация\"");
+        Asserts.assertEquals(getPage(LoginPage.class).login(), "Войти");
+        Asserts.assertEquals(getPage(LoginPage.class).register(), "Регистрация");
     }
 
     @AfterMethod(description = "Закрытие браузера и выключение драйвера")
