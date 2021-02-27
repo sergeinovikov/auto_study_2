@@ -37,4 +37,22 @@ public class RestRequest implements Request {
         this.headers = headers;
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(method).append(" ").append(uri);
+        if (parameters.size() > 0) {
+            sb.append("?");
+            parameters.forEach((key, value) -> sb.append(key).append("=").append(value).append("&"));
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        sb.append(System.lineSeparator());
+        headers.forEach((key, value) -> sb.append(key).append("=").append(value).append(System.lineSeparator()));
+        sb.append(System.lineSeparator());
+        if (body != null) {
+            sb.append(body.toString());
+        }
+        return sb.toString();
+    }
 }
