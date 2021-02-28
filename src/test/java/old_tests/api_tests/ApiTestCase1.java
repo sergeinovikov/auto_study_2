@@ -1,4 +1,4 @@
-package api_tests;
+package old_tests.api_tests;
 
 import io.qameta.allure.Step;
 import org.testng.annotations.BeforeClass;

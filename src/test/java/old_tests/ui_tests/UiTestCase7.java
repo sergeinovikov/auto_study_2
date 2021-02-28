@@ -1,4 +1,4 @@
-package ui_tests;
+package old_tests.ui_tests;
 
 import io.qameta.allure.Step;
 import org.testng.Assert;

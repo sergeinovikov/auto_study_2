@@ -1,4 +1,4 @@
-package ui_tests;
+package old_tests.ui_tests;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
