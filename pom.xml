@@ -99,7 +99,14 @@
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber-jvm -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber-jvm</artifactId>
+            <artifactId>allure-java-commons</artifactId>
+            <version>${cucumber.allure}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber-jvm -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber4-jvm</artifactId>
             <version>${cucumber.allure}</version>
         </dependency>
 
