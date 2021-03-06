@@ -6,6 +6,7 @@ import cucumber.api.testng.CucumberFeatureWrapper;
 import cucumber.api.testng.PickleEventWrapper;
 import org.testng.ITest;
 import org.testng.annotations.*;
+import redmine.managers.Context;
 import redmine.managers.Manager;
 
 import java.lang.reflect.Method;
@@ -18,7 +19,7 @@ import java.lang.reflect.Method;
         },
         glue = {"steps", "hooks"},
         features = "src/test/resources",
-        tags = {"@generation_sample"}
+        tags = {"@UI"}
 )
 @Listeners({TestNGListenerImpl.class})
 public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
@@ -55,8 +56,10 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
     @AfterMethod
     public void afterMethod(Method name, Object[] testData) {
-        //Manager.clearStash();
-        Manager.driverQuit();
+        Context.clearStash();
+        if (Manager.driver() != null) {
+            Manager.driverQuit();
+        }
     }
 
     @Override
