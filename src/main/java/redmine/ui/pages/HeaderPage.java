@@ -3,36 +3,56 @@ package redmine.ui.pages;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import redmine.ui.pages.helpers.CucumberName;
 
 /**
  * Header компонент
  */
 
 @Getter
+@CucumberName("Шапка")
 public class HeaderPage extends AbstractPage {
-
+    @CucumberName("Домашняя страница")
     @FindBy(xpath = "//a[@class='home']")
     private WebElement home;
+
+    @CucumberName("Проекты")
     @FindBy(xpath = "//a[@class='projects']")
     private WebElement projects;
+
+    @CucumberName("Вошли как")
     @FindBy(xpath = "//div[@id='loggedas']")
     private WebElement loggedAs;
-    @FindBy(xpath = "//h2")
-    private WebElement homePage;
+
+    @CucumberName("Моя страница")
     @FindBy(xpath = "//a[@class='my-page']")
     private WebElement myPage;
+
+    @CucumberName("Администрирование")
     @FindBy(xpath = "//a[@class='administration']")
     private WebElement administration;
+
+    @CucumberName("Помощь")
     @FindBy(xpath = "//a[@class='help']")
     private WebElement help;
+
+    @CucumberName("Моя учётная запись")
     @FindBy(xpath = "//a[@class='my-account']")
     private WebElement myAccount;
+
+    @CucumberName("Выйти")
     @FindBy(xpath = "//a[@class='logout']")
     private WebElement logout;
+
+    @CucumberName("Имя поиска")
     @FindBy(xpath = "//a[@href='/search']")
     private WebElement searchLabel;
+
+    @CucumberName("Поиск")
     @FindBy(xpath = "//input[@id='q']")
     private WebElement searchInput;
+
+    @CucumberName("Заголовок страницы")
     @FindBy(xpath = "//h2")
     private WebElement pageTitle;
 

@@ -1,9 +1,10 @@
-package redmine.ui.pages;
+package redmine.ui.pages.helpers;
 
 import io.qameta.allure.Allure;
 import lombok.SneakyThrows;
 import org.openqa.selenium.support.PageFactory;
 import redmine.managers.Manager;
+import redmine.ui.pages.AbstractPage;
 
 import static redmine.managers.Manager.driver;
 

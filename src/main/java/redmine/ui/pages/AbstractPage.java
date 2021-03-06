@@ -4,5 +4,5 @@ package redmine.ui.pages;
  * Абстрактная страница
  */
 
-abstract class AbstractPage {
+public abstract class AbstractPage {
 }
