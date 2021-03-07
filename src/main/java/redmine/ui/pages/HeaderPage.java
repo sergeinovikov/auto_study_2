@@ -10,7 +10,7 @@ import redmine.ui.pages.helpers.CucumberName;
  */
 
 @Getter
-@CucumberName("Шапка")
+@CucumberName("Заголовок")
 public class HeaderPage extends AbstractPage {
     @CucumberName("Домашняя страница")
     @FindBy(xpath = "//a[@class='home']")
@@ -51,6 +51,14 @@ public class HeaderPage extends AbstractPage {
     @CucumberName("Поиск")
     @FindBy(xpath = "//input[@id='q']")
     private WebElement searchInput;
+
+    @CucumberName("Войти")
+    @FindBy(xpath = "//a[@class='login']")
+    private WebElement login;
+
+    @CucumberName("Регистрация")
+    @FindBy(xpath = "//a[@class='register']")
+    private WebElement register;
 
     @CucumberName("Заголовок страницы")
     @FindBy(xpath = "//h2")
@@ -95,6 +103,14 @@ public class HeaderPage extends AbstractPage {
 
     public Boolean searchInput() {
         return searchInput.isDisplayed();
+    }
+
+    public String login() {
+        return login.getText();
+    }
+
+    public String register() {
+        return register.getText();
     }
 
     public String pageTitle() {

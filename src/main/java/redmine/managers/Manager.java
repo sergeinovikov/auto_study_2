@@ -50,7 +50,9 @@ public class Manager {
      */
 
     public static void driverQuit() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
         driver = null;
     }
 
@@ -64,7 +66,7 @@ public class Manager {
     }
 
     /**
-     * Сделть скриншот
+     * Сделать скриншот
      */
 
     @Attachment(value = "screenshot")

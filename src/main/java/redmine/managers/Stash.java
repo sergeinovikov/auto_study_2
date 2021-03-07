@@ -11,12 +11,16 @@ public class Stash {
         entities.put(stashId, entity);
     }
 
-    public <T> T get (String stashId, Class<T> clazz) {
+    public <T> T get(String stashId, Class<T> clazz) {
         return clazz.cast(get(stashId));
     }
 
-    public Object get (String stashId) {
+    public Object get(String stashId) {
         return entities.get(stashId);
+    }
+
+    Map<String, Object> getEntities() {
+        return entities;
     }
 
 }

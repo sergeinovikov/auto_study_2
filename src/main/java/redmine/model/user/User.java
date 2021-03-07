@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import redmine.db.requests.UserRequests;
 import redmine.model.Generatable;
+import redmine.ui.pages.helpers.CucumberName;
 import redmine.utils.StringGenerators;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.Random;
 @Accessors(chain = true)
 public class User implements Generatable<User> {
     private Integer id;
+    @CucumberName("логин")
     private String login = "SN" + StringGenerators.randomEnglishLowerString(8);
     private String firstName = "Serg" + StringGenerators.randomEnglishLowerString(8);
     private String lastName = "Nov" + StringGenerators.randomEnglishLowerString(8);

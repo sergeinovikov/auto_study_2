@@ -29,13 +29,6 @@ public class LoginPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='flash_error']")
     private WebElement flashError;
 
-    @CucumberName("Войти")
-    @FindBy(xpath = "//a[@class='login']")
-    private WebElement login;
-
-    @CucumberName("Регистрация")
-    @FindBy(xpath = "//a[@class='register']")
-    private WebElement register;
 
     public void login(String login, String password) {
         username.sendKeys(login);
@@ -47,11 +40,4 @@ public class LoginPage extends AbstractPage {
         return flashError.getText();
     }
 
-    public String login() {
-        return login.getText();
-    }
-
-    public String register() {
-        return register.getText();
-    }
 }

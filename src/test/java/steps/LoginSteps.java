@@ -15,9 +15,9 @@ public class LoginSteps {
         Manager.openPage("login");
     }
 
-    @Если("Авторизоваться пользователей {string}")
+    @Если("Авторизоваться пользователем {string}")
     public void userLogin(String userStashId) {
-        User user = Context.getStash().get(userStashId, User.class);
+        User user = Context.get(userStashId, User.class);
         Pages.getPage(LoginPage.class).login(
                 user.getLogin(), user.getPassword()
         );

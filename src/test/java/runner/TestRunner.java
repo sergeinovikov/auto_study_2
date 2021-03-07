@@ -37,7 +37,7 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
         super.runScenario(pickleWrapper, featureWrapper);
     }
 
-    @DataProvider(parallel = true)
+    @DataProvider(parallel = false)
     @Override
     public Object[][] scenarios() {
         return super.scenarios();
@@ -56,10 +56,9 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
     @AfterMethod
     public void afterMethod(Method name, Object[] testData) {
+        Context.saveStashToAllure();
         Context.clearStash();
-        if (Manager.driver() != null) {
-            Manager.driverQuit();
-        }
+        Manager.driverQuit();
     }
 
     @Override
