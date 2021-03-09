@@ -2,6 +2,7 @@ package redmine.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import redmine.ui.pages.helpers.CucumberName;
 
 import java.time.LocalDateTime;
 

@@ -1,5 +1,6 @@
 package redmine.ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import redmine.ui.pages.helpers.CucumberName;
@@ -7,7 +8,7 @@ import redmine.ui.pages.helpers.CucumberName;
 import java.util.List;
 
 @CucumberName("Проекты")
-public class ProjectsPage extends AbstractPage{
+public class ProjectsPage extends AbstractPage {
 
     @CucumberName("Список проектов")
     @FindBy(xpath = "//ul[@class='projects root']//a")

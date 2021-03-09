@@ -21,14 +21,14 @@ public class ParametersValidator {
     public static void validateUserParameters(Map<String, String> parameters) {
         parameters.forEach((key, value) -> Assert.assertTrue(
                 AllowedParameters.USER_PARAMETERS.contains(key),
-                "Список допустимых параметров при работе с ролями не содержит параметр " + key
+                "Список допустимых параметров при пользователями с ролями не содержит параметр " + key
         ));
     }
 
     public static void validateProjectParameters(Map<String, String> parameters) {
         parameters.forEach((key, value) -> Assert.assertTrue(
                 AllowedParameters.PROJECT_PARAMETERS.contains(key),
-                "Список допустимых параметров при работе с ролями не содержит параметр " + key
+                "Список допустимых параметров при работе с проектами не содержит параметр " + key
         ));
     }
 
@@ -45,7 +45,7 @@ public class ParametersValidator {
                     .filter(field -> field.isAnnotationPresent(CucumberName.class))
                     .filter(field -> field.getAnnotation(CucumberName.class).value().equals(fieldDescription.trim()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("Не задана аннотация @CucumberName (поподробнее)"));
+                    .orElseThrow(() -> new IllegalStateException(String.format("В классе %s не задана аннотация @CucumberName: %s", stashId.trim(), fieldDescription.trim())));
             foundFiend.setAccessible(true);
 
             String result = foundFiend.get(stashObject).toString();

@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
 @CucumberName("Пользователи")
 public class UsersPage extends AbstractPage {
 
-    @CucumberName("Список пользователей")
+    @CucumberName("Таблица пользователей")
     @FindBy(xpath = "//table[@class='list users']")
     private WebElement usersTable;
 
-    @CucumberName("Список логинов")
+    @CucumberName("Пользователь")
     @FindBy(xpath = "//td[@class='username']")
     private List<WebElement> usersLogins;
 
-    @CucumberName("Список имён")
+    @CucumberName("Имя")
     @FindBy(xpath = "//td[@class='firstname']")
     private List<WebElement> usersFirstNames;
 
-    @CucumberName("Список фамилий")
+    @CucumberName("Фамилия")
     @FindBy(xpath = "//td[@class='lastname']")
     private List<WebElement> usersLastNames;
 
@@ -41,7 +41,7 @@ public class UsersPage extends AbstractPage {
     @FindBy(xpath = "//a[text()[contains(.,'Фамилия')]]")
     private WebElement sortingUsersByLastName;
 
-    @CucumberName("Создать пользователя")
+    @CucumberName("Новый пользователь")
     @FindBy(xpath = "//a[@href='/users/new']")
     private WebElement newUser;
 

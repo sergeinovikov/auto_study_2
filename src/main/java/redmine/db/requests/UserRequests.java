@@ -327,7 +327,7 @@ public class UserRequests {
 
     }
 
-    public static void addProjectAndRoleRelations(User user, Project project, Role role) {
+    public static void addProjectAndRoleConnection(User user, Project project, Role role) {
         String membersQuery = "INSERT INTO public.members\n" +
                 "(id, user_id, project_id, created_on, mail_notification)\n" +
                 "VALUES(DEFAULT, ?, ?, ?, DEFAULT) RETURNING id;\n";

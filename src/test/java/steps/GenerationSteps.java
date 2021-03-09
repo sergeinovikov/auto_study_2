@@ -3,10 +3,16 @@ package steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
 import redmine.cucumber.ParametersValidator;
+import redmine.db.requests.UserRequests;
 import redmine.managers.Context;
+import redmine.model.dto.UserDto;
+import redmine.model.dto.UserInfo;
 import redmine.model.project.Project;
 import redmine.model.role.*;
+import redmine.model.user.EmailAddress;
 import redmine.model.user.User;
+import redmine.ui.pages.NewUserPage;
+import redmine.utils.StringGenerators;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
+import static redmine.ui.pages.helpers.Pages.getPage;
 
 public class GenerationSteps {
 
@@ -29,6 +36,7 @@ public class GenerationSteps {
         if (parameters.containsKey("Статус")) {
             user.setStatus(parseInt(parameters.get("Статус")));
         }
+
         user.generate();
         Context.put(userStashId, user);
     }
@@ -38,34 +46,11 @@ public class GenerationSteps {
         Role role = new Role();
         ParametersValidator.validateRoleParameters(parameters);
 
-        if (parameters.containsKey("Позиция")) {
-            role.setPosition(parseInt(parameters.get("Позиция")));
-        }
-        if (parameters.containsKey("Встроенная")) {
-            role.setBuiltin(parseInt(parameters.get("Встроенная")));
-        }
-        if (parameters.containsKey("Задача может быть назначена этой роли")) {
-            role.setAssignable(parseBoolean(parameters.get("Задача может быть назначена этой роли")));
-        }
-        if (parameters.containsKey("Видимость задач")) {
-            role.setIssuesVisibility(
-                    IssuesVisibility.of(parameters.get("Видимость задач"))
-            );
-        }
-        if (parameters.containsKey("Видимость пользователей")) {
-            role.setUsersVisibility(
-                    UsersVisibility.of(parameters.get("Видимость пользователей"))
-            );
-        }
-        if (parameters.containsKey("Видимость трудозатрат")) {
-            role.setTimeEntriesVisibility(
-                    TimeEntriesVisibility.of(parameters.get("Видимость трудозатрат"))
-            );
-        }
         if (parameters.containsKey("Права")) {
             RolePermissions permissions = Context.get(parameters.get("Права"), RolePermissions.class);
             role.setPermissions(permissions);
         }
+
         role.generate();
         Context.put(roleStashId, role);
     }
@@ -82,6 +67,7 @@ public class GenerationSteps {
         if (parameters.containsKey("Статус")) {
             project.setStatus(parseInt(parameters.get("Статус")));
         }
+
         project.generate();
         Context.put(projectStashId, project);
     }
@@ -94,4 +80,34 @@ public class GenerationSteps {
         RolePermissions rolePermissions = new RolePermissions(permissions);
         Context.put(permissionsStashId, rolePermissions);
     }
+
+    @И("У пользователя {string} с ролью {string} существует доступ к проекту {string}")
+    public void addUserRoleProjectConnection(String userStashId, String roleStashId, String projectStashId) {
+        User user = Context.get(userStashId, User.class);
+        Role role = Context.get(roleStashId, Role.class);
+        Project project = Context.get(projectStashId, Project.class);
+
+        UserRequests.addProjectAndRoleConnection(user, project, role);
+    }
+
+    @И("Заполнить данные нового пользователя {string} случаныйми корректными значениями")
+    public void createNewUser(String newUserStashId) {
+        String login = "SN" + StringGenerators.randomEnglishLowerString(8);
+        String firstName = "Ser" + StringGenerators.randomEnglishString(8);
+        String lastName = "Nov" + StringGenerators.randomEnglishString(8);
+        String mail = StringGenerators.randomEmail(8);
+
+        User userBeforeCreation = new User()
+                .setLogin(login)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(
+                        new EmailAddress().setAddress(mail)
+                );
+
+        Context.put(newUserStashId, userBeforeCreation);
+
+        getPage(NewUserPage.class).fillInUserData(userBeforeCreation);
+    }
+
 }

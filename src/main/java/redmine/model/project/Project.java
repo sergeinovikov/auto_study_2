@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import redmine.db.requests.ProjectRequests;
 import redmine.model.Generatable;
+import redmine.ui.pages.helpers.CucumberName;
 import redmine.utils.StringGenerators;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,9 @@ import java.util.Random;
 @Accessors(chain = true)
 public class Project implements Generatable<Project> {
     private Integer id;
+    @CucumberName("Имя проекта")
     private String name = "SergAuto" + StringGenerators.randomEnglishString(8);
+    @CucumberName("Описание проекта")
     private String description = "NovAuto" + StringGenerators.randomEnglishString(8);
     private String identifier = StringGenerators.randomEnglishLowerString(15);
     private String homepage = null;

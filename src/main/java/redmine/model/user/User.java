@@ -17,6 +17,7 @@ import java.util.Random;
 
 @Data
 @Accessors(chain = true)
+@CucumberName("Пользователь")
 public class User implements Generatable<User> {
     private Integer id;
     @CucumberName("логин")

@@ -1,9 +1,11 @@
 package steps;
 
+import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 import redmine.cucumber.ParametersValidator;
 import redmine.managers.Context;
+import redmine.model.user.User;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
 import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
@@ -40,5 +42,17 @@ public class AssertionSteps {
                 BrowserUtils.isElementCurrentlyPresent(element)
         );
         Asserts.assertEquals(element.getText(), actualFieldText);
+    }
+
+    @И("В базе данных в таблице users появилась запись с данными пользователя {string}")
+    public void dataBaseNewUserCheck(String newUserStashId) {
+        User userBeforeCreation = Context.get(newUserStashId, User.class);
+        User userFromDb = userBeforeCreation.read();
+
+        Asserts.assertNotNull(userFromDb.getId());
+        Asserts.assertEquals(userBeforeCreation.getLogin(), userFromDb.getLogin());
+        Asserts.assertEquals(userBeforeCreation.getFirstName(), userFromDb.getFirstName());
+        Asserts.assertEquals(userBeforeCreation.getLastName(), userFromDb.getLastName());
+        Asserts.assertEquals(userBeforeCreation.getEmail().getAddress(), userFromDb.getEmail().getAddress());
     }
 }

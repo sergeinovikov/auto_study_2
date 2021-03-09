@@ -30,6 +30,11 @@ public class LoginPage extends AbstractPage {
     private WebElement flashError;
 
 
+    @CucumberName("Форма авторизации")
+    @FindBy(xpath = "//div[@id='login-form']")
+    private WebElement loginForm;
+
+
     public void login(String login, String password) {
         username.sendKeys(login);
         this.password.sendKeys(password);

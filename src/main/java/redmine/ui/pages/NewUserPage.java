@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import redmine.model.dto.UserDto;
+import redmine.model.user.User;
 import redmine.ui.pages.helpers.CucumberName;
 
 @Getter
@@ -39,11 +40,11 @@ public class NewUserPage extends AbstractPage {
     private WebElement creationSuccessful;
 
 
-    public void fillInUserData(UserDto userDto) {
-        userLogin.sendKeys(userDto.getUser().getLogin());
-        userFirstName.sendKeys(userDto.getUser().getFirstname());
-        userLastName.sendKeys(userDto.getUser().getLastname());
-        userMail.sendKeys(userDto.getUser().getMail());
+    public void fillInUserData(User userBeforeCreation) {
+        userLogin.sendKeys(userBeforeCreation.getLogin());
+        userFirstName.sendKeys(userBeforeCreation.getFirstName());
+        userLastName.sendKeys(userBeforeCreation.getLastName());
+        userMail.sendKeys(userBeforeCreation.getEmail().getAddress());
     }
 
     public String successMessage() {
