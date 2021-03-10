@@ -2,6 +2,8 @@ package steps;
 
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
+import redmine.api.implementations.RestApiClient;
+import redmine.api.interfaces.ApiClient;
 import redmine.cucumber.ParametersValidator;
 import redmine.db.requests.UserRequests;
 import redmine.managers.Context;
@@ -10,6 +12,7 @@ import redmine.model.dto.UserInfo;
 import redmine.model.project.Project;
 import redmine.model.role.*;
 import redmine.model.user.EmailAddress;
+import redmine.model.user.Language;
 import redmine.model.user.User;
 import redmine.ui.pages.NewUserPage;
 import redmine.utils.StringGenerators;
@@ -108,6 +111,13 @@ public class GenerationSteps {
         Context.put(newUserStashId, userBeforeCreation);
 
         getPage(NewUserPage.class).fillInUserData(userBeforeCreation);
+    }
+
+    @И("Создан API-клиент {string} с API-ключом пользователя {string}")
+    public void createApiClient(String apiClientStashId, String userStashId) {
+        User user = Context.get(userStashId, User.class);
+        ApiClient apiClient = new RestApiClient(user);
+        Context.put(apiClientStashId, apiClient);
     }
 
 }
