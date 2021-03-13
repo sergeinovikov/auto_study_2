@@ -12,4 +12,8 @@ import java.util.List;
 public class UserCreationError {
 
     private List<String> errors;
+
+    public UserCreationError(List<String> errors) {
+        this.errors = errors;
+    }
 }

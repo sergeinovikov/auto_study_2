@@ -93,8 +93,16 @@ public class UserRequests {
                                     )
                             );
                             user.setAuthSourceId((Integer) map.get("auth_source_id"));
-                            user.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
-                            user.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
+                            user.setCreatedOn(
+                                    map.get("created_on") == null
+                                            ? null
+                                            : ((Timestamp) map.get("created_on")).toLocalDateTime()
+                            );
+                            user.setUpdatedOn(
+                                    map.get("updated_on") == null
+                                            ? null
+                                            : ((Timestamp) map.get("updated_on")).toLocalDateTime()
+                            );
                             user.setType((String) map.get("type"));
                             user.setIdentityUrl((String) map.get("Identity_url"));
                             user.setMailNotification(
@@ -104,7 +112,11 @@ public class UserRequests {
                             );
                             user.setSalt((String) map.get("salt"));
                             user.setMustChangePasswd((Boolean) map.get("must_change_passwd"));
-                            user.setPasswdChangedOn(((Timestamp) map.get("passwd_changed_on")).toLocalDateTime());
+                            user.setPasswdChangedOn(
+                                    map.get("passwd_changed_on") == null
+                                            ? null
+                                            : ((Timestamp) map.get("passwd_changed_on")).toLocalDateTime()
+                            );
                             return user;
                         }
                 )
@@ -133,7 +145,11 @@ public class UserRequests {
                             }
                     )
                     .collect(Collectors.toList());
-            userFromDb.setEmail(userEmail.get(0));
+            userFromDb.setEmail(
+                    userEmail.size() == 0
+                            ? null
+                            : userEmail.get(0)
+            );
 
             String apiKeyQuery = "SELECT id, user_id, \"action\", value, created_on, updated_on\n" +
                     "FROM public.tokens\n" +
@@ -155,12 +171,20 @@ public class UserRequests {
                                     );
                                     apiKey.setValue((String) map.get("value"));
                                     apiKey.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
-                                    apiKey.setCreatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
+                                    apiKey.setUpdatedOn(
+                                            map.get("updated_on") == null
+                                                    ? null
+                                                    : ((Timestamp) map.get("updated_on")).toLocalDateTime()
+                                    );
                                     return apiKey;
                                 }
                         )
                         .collect(Collectors.toList());
-                userFromDb.setApiToken(userApiKey.get(0));
+                userFromDb.setApiToken(
+                        userApiKey.size() == 0
+                                ? null
+                                : userApiKey.get(0)
+                );
             }
         }
         return userFromDb;
@@ -288,7 +312,11 @@ public class UserRequests {
                 user.getId()
         );
         user.getEmail().setUserId(user.getId());
-        user.getEmail().setId((Integer) emailResult.get(0).get("id"));
+        user.getEmail().setId(
+                emailResult.size() == 0
+                        ? null
+                        : (Integer) emailResult.get(0).get("id")
+        );
 
         String apiQuery = "UPDATE public.tokens\n" +
                 "SET \"action\"=?, value=?, created_on=?, updated_on=?\n" +

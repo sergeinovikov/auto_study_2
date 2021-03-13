@@ -7,6 +7,7 @@ import redmine.ui.pages.helpers.CucumberName;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class ParametersValidator {
@@ -29,6 +30,13 @@ public class ParametersValidator {
         parameters.forEach((key, value) -> Assert.assertTrue(
                 AllowedParameters.PROJECT_PARAMETERS.contains(key),
                 "Список допустимых параметров при работе с проектами не содержит параметр " + key
+        ));
+    }
+
+    public static void validateApiErrorsParameters(List<String> parameters) {
+        parameters.forEach(value -> Assert.assertTrue(
+                AllowedParameters.ERRORS_PARAMETERS.contains(value),
+                "Список допустимых параметров при работе с API-ошибками не содержит параметр " + value
         ));
     }
 

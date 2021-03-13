@@ -25,8 +25,16 @@ public class ProjectRequests {
                             project.setDescription((String) map.get("description"));
                             project.setHomepage((String) map.get("homepage"));
                             project.setIsPublic((Boolean) map.get("is_public"));
-                            project.setCreatedOn(((Timestamp) map.get("created_on")).toLocalDateTime());
-                            project.setUpdatedOn(((Timestamp) map.get("updated_on")).toLocalDateTime());
+                            project.setCreatedOn(
+                                    map.get("created_on") == null
+                                            ? null
+                                            : ((Timestamp) map.get("created_on")).toLocalDateTime()
+                            );
+                            project.setUpdatedOn(
+                                    map.get("updated_on") == null
+                                            ? null
+                                            : ((Timestamp) map.get("updated_on")).toLocalDateTime()
+                            );
                             project.setIdentifier((String) map.get("identifier"));
                             project.setStatus((Integer) map.get("status"));
                             project.setLft((Integer) map.get("lft"));
@@ -75,10 +83,10 @@ public class ProjectRequests {
                 .findFirst()
                 .orElse(null);
 
-        return projectFromDb; //TODO
+        return projectFromDb;
     }
 
-    public static Project updateByName (Project project) {
+    public static Project updateByName(Project project) {
         String query = "UPDATE public.projects\n" +
                 "SET description=?, homepage=?, is_public=?, parent_id=?, created_on=?, updated_on=?, identifier=?, status=?, lft=?, rgt=?, inherit_members=?, default_version_id=?, default_assigned_to_id=?\n" +
                 "WHERE \"name\"=? RETURNING id;\n";
@@ -103,7 +111,7 @@ public class ProjectRequests {
         return project;
     }
 
-    public static Project updateById (Project project) {
+    public static Project updateById(Project project) {
         String query = "UPDATE public.projects\n" +
                 "SET \"name\"=?, description=?, homepage=?, is_public=?, parent_id=?, created_on=?, updated_on=?, identifier=?, status=?, lft=?, rgt=?, inherit_members=?, default_version_id=?, default_assigned_to_id=?\n" +
                 "WHERE id=? RETURNING id;\n";
@@ -129,10 +137,6 @@ public class ProjectRequests {
         return project;
     }
 
-    public static Project updateProjectLinkedTables(Project project) {
-        //TODO
-        return project;
-    }
 
     public static Project addProject(Project project) {
         String query = "INSERT INTO public.projects\n" +

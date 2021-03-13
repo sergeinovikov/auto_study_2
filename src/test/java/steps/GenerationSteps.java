@@ -4,6 +4,7 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
 import redmine.api.implementations.RestApiClient;
 import redmine.api.interfaces.ApiClient;
+import redmine.api.interfaces.Response;
 import redmine.cucumber.ParametersValidator;
 import redmine.db.requests.UserRequests;
 import redmine.managers.Context;
@@ -38,6 +39,10 @@ public class GenerationSteps {
         }
         if (parameters.containsKey("Статус")) {
             user.setStatus(parseInt(parameters.get("Статус")));
+        }
+        if (parameters.containsKey("Язык")) {
+            Language language = Language.getByDescription(parameters.get("Язык"));
+            user.setLanguage(language);
         }
 
         user.generate();
@@ -118,6 +123,27 @@ public class GenerationSteps {
         User user = Context.get(userStashId, User.class);
         ApiClient apiClient = new RestApiClient(user);
         Context.put(apiClientStashId, apiClient);
+    }
+
+    @И("Изменить у пользователя {string} изменить почтовый адрес на невалидный, а пароль - на строку из 4 символов и назначить данные пользователю {string}")
+    public void editUserDtoMailAndPswd(String userDtoStashId, String invalidUserDtoStashId) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        userDto.getUser()
+                .setMail("invalid_email")
+                .setPassword("1234");
+
+        Context.put(invalidUserDtoStashId, userDto);
+    }
+
+    @И("У пользователя {string} из ответа {string} изменить статус на 1")
+    public void editUserDtoStatus(String userDtoStashId, String responseStashId) {
+        Response response = Context.get(responseStashId, Response.class);
+        UserDto userDto = response.getBody(UserDto.class);
+
+        userDto.getUser().setStatus(1);
+
+        Context.put(userDtoStashId, userDto);
     }
 
 }

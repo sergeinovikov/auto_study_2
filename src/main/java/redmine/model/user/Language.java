@@ -24,7 +24,7 @@ public enum Language {
     CS("Czech"),
     DA("Danish"),
     NL("Dutch"),
-    EN("English"),
+    EN("English Английский"),
     EN_GB("English/British"),
     ET("Estonian"),
     FI("Finnish"),
@@ -48,7 +48,7 @@ public enum Language {
     PT("Portuguese"),
     PT_BR("Portuguese/Brazil"),
     RO("Romanian"),
-    RU("Russian"),
+    RU("Russian Русский"),
     SR_YU("Serbian"),
     SR("Serbian Cyrillic"),
     SK("Slovak"),
@@ -63,9 +63,20 @@ public enum Language {
 
     private final String description;
 
-    public static Language of(final String description) {
+    private String getDescription() {
+        return description;
+    }
+
+    public static Language of(final String languageAbbreviation) {
         return Stream.of(values())
-                .filter(value -> value.name().contains(description.toUpperCase()))
+                .filter(value -> value.name().contains(languageAbbreviation.toUpperCase()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Язык не найден по значению: " + languageAbbreviation));
+    }
+
+    public static Language getByDescription(final String description) {
+        return Stream.of(values())
+                .filter(value -> value.getDescription().contains(description))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Язык не найден по описанию: " + description));
     }

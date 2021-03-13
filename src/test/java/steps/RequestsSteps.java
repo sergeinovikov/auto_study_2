@@ -16,7 +16,7 @@ import java.util.Map;
 public class RequestsSteps {
 
     @И("Создать POST-запрос на создание пользователя {string} с запросом {string} с параметрами:")
-    public void sendPostRequest(String userDtoStashId, String requestStashId, Map<String, String> parameters) {
+    public void createPostRequest(String userDtoStashId, String requestStashId, Map<String, String> parameters) {
         String login = "SN" + StringGenerators.randomEnglishLowerString(8);
         String firstName = "Ser" + StringGenerators.randomEnglishString(8);
         String lastName = "Nov" + StringGenerators.randomEnglishString(8);
@@ -44,6 +44,49 @@ public class RequestsSteps {
 
         Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
 
+        Context.put(requestStashId, request);
+    }
+
+    @И("Создать POST-запрос на создание пользователя {string} с запросом {string}")
+    public void createPostRequestWithUserDto(String userDtoStashId, String requestStashId) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        String body = GsonHelper.getGson().toJson(userDto);
+
+        Request request = new RestRequest("users.json", HttpMethods.POST, null, null, body);
+
+        Context.put(requestStashId, request);
+    }
+
+    @И("Создать PUT-запрос {string} с данными пользователя {string}")
+    public void createPutRequestWithUserDto(String requestStashId, String userDtoStashId) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        String uri = String.format("users/%d.json", userDto.getUser().getId());
+
+        String body = GsonHelper.getGson().toJson(userDto);
+
+        Request request = new RestRequest(uri, HttpMethods.PUT, null, null, body);
+        Context.put(requestStashId, request);
+    }
+
+    @И("Создать GET-запрос {string} с данными пользователя {string}")
+    public void createGetRequestWithUserDto(String requestStashId, String userDtoStashId) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        String uri = String.format("users/%d.json", userDto.getUser().getId());
+
+        Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
+        Context.put(requestStashId, request);
+    }
+
+    @И("Создать DELETE-запрос {string} с данными пользователя {string}")
+    public void createDeletRequestWithUserDto(String requestStashId, String userDtoStashId) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        String uri = String.format("users/%d.json", userDto.getUser().getId());
+
+        Request request = new RestRequest(uri, HttpMethods.DELETE, null, null, null);
         Context.put(requestStashId, request);
     }
 }
