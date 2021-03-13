@@ -148,4 +148,40 @@ public class AssertionSteps {
         User deletedUser = readUserDtoById(userDto.getUser().getId());
         Asserts.assertNull(deletedUser);
     }
+
+    @И("В теле ответа {string} присутствует информация {string}, включая поля поля admin: false, api_key")
+    public void assertResponseUserDataWithApiKey (String responseStashId, String userStashId) {
+        Response response = Context.get(responseStashId, Response.class);
+        User user = Context.get(userStashId, User.class);
+
+        UserDto userFromResponse = response.getBody(UserDto.class);
+
+        Asserts.assertEquals(userFromResponse.getUser().getId(), user.getId());
+        Asserts.assertEquals(userFromResponse.getUser().getLogin(), user.getLogin());
+        Asserts.assertEquals(userFromResponse.getUser().getFirstname(), user.getFirstName());
+        Asserts.assertEquals(userFromResponse.getUser().getLastname(), user.getLastName());
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1);
+        Asserts.assertEquals(userFromResponse.getUser().getLast_login_on(), user.getLastLoginOn());
+
+        Asserts.assertEquals(userFromResponse.getUser().getAdmin(), user.getAdmin());
+        Asserts.assertEquals(userFromResponse.getUser().getApi_key(), user.getApiToken().getValue());
+    }
+
+    @И("В теле ответа {string} присутствует информация пользователя {string}, но отсутствуют поля admin: false, api_key")
+    public void assertResponseUserDataWithoutApiKey (String responseStashId, String userStashId) {
+        Response response = Context.get(responseStashId, Response.class);
+        User user = Context.get(userStashId, User.class);
+
+        UserDto userFromResponse = response.getBody(UserDto.class);
+
+        Asserts.assertEquals(userFromResponse.getUser().getId(), user.getId());
+        Asserts.assertEquals(userFromResponse.getUser().getLogin(), user.getLogin());
+        Asserts.assertEquals(userFromResponse.getUser().getFirstname(), user.getFirstName());
+        Asserts.assertEquals(userFromResponse.getUser().getLastname(), user.getLastName());
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1);
+        Asserts.assertEquals(userFromResponse.getUser().getLast_login_on(), user.getLastLoginOn());
+
+        Asserts.assertNull(userFromResponse.getUser().getAdmin());
+        Asserts.assertNull(userFromResponse.getUser().getApi_key());
+    }
 }

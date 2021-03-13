@@ -7,6 +7,7 @@ import redmine.api.interfaces.Request;
 import redmine.managers.Context;
 import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
+import redmine.model.user.User;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
@@ -71,10 +72,17 @@ public class RequestsSteps {
     }
 
     @И("Создать GET-запрос {string} с данными пользователя {string}")
-    public void createGetRequestWithUserDto(String requestStashId, String userDtoStashId) {
-        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+    public void createGetRequestWithUserDto(String requestStashId, String objectStashId) {
+        int userId = 0;
+        if (Context.get(objectStashId) instanceof UserDto) {
+            UserDto userDto = Context.get(objectStashId, UserDto.class);
+            userId = userDto.getUser().getId();
+        } else if (Context.get(objectStashId) instanceof User) {
+            User user = Context.get(objectStashId, User.class);
+            userId = user.getId();
+        }
 
-        String uri = String.format("users/%d.json", userDto.getUser().getId());
+        String uri = String.format("users/%d.json", userId);
 
         Request request = new RestRequest(uri, HttpMethods.GET, null, null, null);
         Context.put(requestStashId, request);
