@@ -166,10 +166,6 @@ public class RoleRequests {
         return role;
     }
 
-    private static Role updateLinkedTables(Role role) {
-        //TODO
-        return role;
-    }
 
     public static void deleteRole(Role role) {
         String query = "DELETE FROM public.roles\n" +

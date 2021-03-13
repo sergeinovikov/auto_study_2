@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
         },
         glue = {"steps", "hooks"},
         features = "src/test/resources",
-        tags = {"@UI"}
+        tags = {"@UI", "API"}
 )
 @Listeners({TestNGListenerImpl.class})
 public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
