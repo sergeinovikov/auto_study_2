@@ -122,7 +122,7 @@ public class AssertionSteps {
         Asserts.assertEquals(actualErrors, expectedErrors);
     }
 
-    @И("Информация в базе данных об изменённом пользователе {string} присутствует, статус = 1")
+    @И("Информация в базе данных об пользователе {string} присутствует, статус = 1")
     public void assertModifiedDbUserData(String userDtoStashId) {
         UserDto userDto = Context.get(userDtoStashId, UserDto.class);
 
@@ -183,5 +183,12 @@ public class AssertionSteps {
 
         Asserts.assertNull(userFromResponse.getUser().getAdmin());
         Asserts.assertNull(userFromResponse.getUser().getApi_key());
+    }
+
+    @И("Информация в базе данных об пользователе {string} присутствует")
+    public void assertDbUserDataExist(String userStashId) {
+        User user = Context.get(userStashId, User.class);
+
+        Asserts.assertNotNull(user.read());
     }
 }
