@@ -56,7 +56,6 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
     @AfterMethod
     public void afterMethod(Method name, Object[] testData) {
-        Context.saveStashToAllure();
         Context.clearStash();
         Manager.driverQuit();
     }
