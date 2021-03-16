@@ -49,17 +49,17 @@ public class ProjectRequests {
     }
 
     public static Project getProjectByName(String name) {
-        String query = String.format("SELECT * FROM projects WHERE name='%s'", name);
-        return getProject(query);
+        String query = "SELECT * FROM projects WHERE name=?";
+        return getProject(query, name);
     }
 
     public static Project getProjectById(Integer id) {
-        String query = String.format("SELECT * FROM projects WHERE id=%d", id);
-        return getProject(query);
+        String query = "SELECT * FROM projects WHERE id=?";
+        return getProject(query, id);
     }
 
-    private static Project getProject(String query) {
-        List<Map<String, Object>> result = Manager.dbConnection.executeQuery(query);
+    private static Project getProject(String query, Object... parameters) {
+        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query, parameters);
         Project projectFromDb = result.stream()
                 .map(map -> {
                             Project project = new Project();

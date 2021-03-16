@@ -53,17 +53,18 @@ public class RoleRequests {
     }
 
     public static Role getRoleById(Integer id) {
-        String query = String.format("SELECT * FROM roles WHERE id=%d", id);
-        return getRole(query);
+        String query = "SELECT * FROM roles WHERE id=?";
+        return getRole(query, id);
     }
 
     public static Role getRoleByName(String name) {
-        String query = String.format("SELECT * FROM roles WHERE name='%s'", name);
-        return getRole(query);
+        String query = "SELECT * FROM roles WHERE name=?";
+        return getRole(query, name);
     }
 
-    public static Role getRole(String query) {
-        List<Map<String, Object>> result = Manager.dbConnection.executeQuery(query);
+    public static Role getRole(String query, Object... parameters) {
+        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query, parameters);
+
         Role roleFromDb =  result.stream()
                 .map(map -> {
                             Role role = new Role();

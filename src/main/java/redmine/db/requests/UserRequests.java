@@ -60,17 +60,17 @@ public class UserRequests {
     }
 
     public static User getUserById(Integer id) {
-        String query = String.format("SELECT * FROM users WHERE id=%d", id);
-        return getUser(query);
+        String query = "SELECT * FROM users WHERE id=?";
+        return getUser(query, id);
     }
 
     public static User getUserByLogin(String login) {
-        String query = String.format("SELECT * FROM users WHERE login='%s'", login);
-        return getUser(query);
+        String query = "SELECT * FROM users WHERE login=?";
+        return getUser(query, login);
     }
 
-    private static User getUser(String query) {
-        List<Map<String, Object>> result = Manager.dbConnection.executeQuery(query);
+    private static User getUser(String query, Object... parameters) {
+        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query, parameters);
 
         User userFromDb = result.stream()
                 .map(map -> {

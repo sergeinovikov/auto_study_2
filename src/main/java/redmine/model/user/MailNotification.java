@@ -16,8 +16,11 @@ public enum MailNotification {
     ONLY_OWNER("Где я владелец"),
     NONE("Нет событий");
 
-
     private final String description;
+
+    private String getDescription() {
+        return description;
+    }
 
     public static MailNotification of(final String description) {
         if (description.isEmpty()) {

@@ -13,9 +13,12 @@ public enum Action {
     API("Ключ API"),
     SESSION("Ключ сессии"),
     FEEDS("Ключ обратной связи");
-
-
+    
     private final String description;
+
+    private String getDescription() {
+        return description;
+    }
 
     public static Action of(final String description) {
         return Stream.of(values())

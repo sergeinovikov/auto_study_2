@@ -82,7 +82,7 @@ public class Manager {
      */
 
     @SneakyThrows
-    public static WebDriver getPropertiesDriver() {
+    private static WebDriver getPropertiesDriver() {
         if (Property.getBooleanProperty("remote")) {
             MutableCapabilities capabilities = new ChromeOptions();
             capabilities.setCapability("browserName", Property.getStringProperty("browser"));
