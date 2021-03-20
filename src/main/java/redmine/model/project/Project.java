@@ -65,4 +65,25 @@ public class Project implements Generatable<Project> {
             throw new IllegalArgumentException("Проект с данным Id не найден");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", identifier='" + identifier + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", isPublic=" + isPublic +
+                ", parentId='" + parentId + '\'' +
+                ", createdOn=" + createdOn +
+                ", updatedOn=" + updatedOn +
+                ", inheritMembers=" + inheritMembers +
+                ", status=" + status +
+                ", lft=" + lft +
+                ", rgt=" + rgt +
+                ", defaultVersionId=" + defaultVersionId +
+                ", defaultAssignedToId=" + defaultAssignedToId +
+                '}';
+    }
 }

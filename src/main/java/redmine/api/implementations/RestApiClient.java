@@ -68,4 +68,11 @@ public class RestApiClient implements ApiClient {
         Allure.addAttachment("Зарпос", request.toString());
         Allure.addAttachment("Ответ", response.toString());
     }
+
+    @Override
+    public String toString() {
+        return "RestApiClient{" +
+                "token='" + token + '\'' +
+                '}';
+    }
 }

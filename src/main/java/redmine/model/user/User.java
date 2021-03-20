@@ -72,4 +72,31 @@ public class User implements Generatable<User> {
             throw new IllegalArgumentException("Пользователь с данным Id не найден");
         }
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email=" + email +
+                ", language=" + language +
+                ", admin=" + admin +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", hashedPassword='" + hashedPassword + '\'' +
+                ", mustChangePasswd=" + mustChangePasswd +
+                ", status=" + status +
+                ", mailNotification=" + mailNotification +
+                ", apiToken=" + apiToken +
+                ", lastLoginOn=" + lastLoginOn +
+                ", createdOn=" + createdOn +
+                ", updatedOn=" + updatedOn +
+                ", passwdChangedOn=" + passwdChangedOn +
+                ", authSourceId=" + authSourceId +
+                ", type='" + type + '\'' +
+                ", identityUrl='" + identityUrl + '\'' +
+                '}';
+    }
 }

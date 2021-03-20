@@ -24,5 +24,22 @@ public class UserDto {
                 .setLogin(login)
                 .read();
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + user.getId() +
+                ", login='" + user.getLogin() + '\'' +
+                ", admin=" + user.getAdmin() +
+                ", firstname='" + user.getFirstname() + '\'' +
+                ", lastname='" + user.getLastname() + '\'' +
+                ", mail='" + user.getMail() + '\'' +
+                ", created_on=" + user.getCreated_on() +
+                ", last_login_on=" + user.getLast_login_on() +
+                ", api_key='" + user.getApi_key() + '\'' +
+                ", status=" + user.getStatus() +
+                ", password='" + user.getPassword() + '\'' +
+                '}';
+    }
 }
 

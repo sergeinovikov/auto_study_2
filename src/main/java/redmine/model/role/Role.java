@@ -67,4 +67,21 @@ public class Role implements Generatable<Role> {
             throw new IllegalArgumentException("Роль с данным Id не найдена");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", builtin=" + builtin +
+                ", assignable=" + assignable +
+                ", issuesVisibility=" + issuesVisibility +
+                ", usersVisibility=" + usersVisibility +
+                ", permissions=" + permissions +
+                ", timeEntriesVisibility=" + timeEntriesVisibility +
+                ", allRolesManaged=" + allRolesManaged +
+                ", settings='" + settings + '\'' +
+                '}';
+    }
 }
