@@ -26,7 +26,7 @@ public class Context {
 
     private static Stash getStash() {
         if (stash.get() == null) {
-            stash.get();
+            stash.set(new Stash());
         }
         return stash.get();
     }
