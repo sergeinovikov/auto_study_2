@@ -3,12 +3,14 @@ package redmine.managers;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 
+import java.util.Map;
+
 /**
  * Контекст, в котром зранятся сущности, необходимые для выполнения теста
  */
 
 public class Context {
-    private static Stash stash;
+    private static ThreadLocal<Stash> stash = new ThreadLocal<>();
 
     public static void put(String stashId, Object entity) {
         getStash().put(stashId, entity);
@@ -23,15 +25,15 @@ public class Context {
     }
 
     private static Stash getStash() {
-        if (stash == null) {
-            stash = new Stash();
+        if (stash.get() == null) {
+            stash.get();
         }
-        return stash;
+        return stash.get();
     }
 
     public static void clearStash() {
-        if (stash != null) {
-            stash = null;
+        if (stash.get() != null) {
+            stash.set(null);
         }
     }
 

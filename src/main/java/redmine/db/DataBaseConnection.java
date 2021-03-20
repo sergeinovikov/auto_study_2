@@ -51,7 +51,7 @@ public class DataBaseConnection {
      */
 
     @SneakyThrows
-    public List<Map<String, Object>> executeQuery(String query) {
+    public synchronized List<Map<String, Object>> executeQuery(String query) {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         int count = resultSet.getMetaData().getColumnCount();
@@ -81,7 +81,7 @@ public class DataBaseConnection {
      */
 
     @SneakyThrows
-    public List<Map<String, Object>> executePreparedQuery(String query, Object... parameters) {
+    public synchronized List<Map<String, Object>> executePreparedQuery(String query, Object... parameters) {
         PreparedStatement statement = connection.prepareStatement(query);
         int index = 1;
         for (Object object : parameters) {
@@ -114,7 +114,7 @@ public class DataBaseConnection {
      */
 
     @SneakyThrows
-    public void executeDeleteQuery(String query, Object... parameters) {
+    public synchronized void executeDeleteQuery(String query, Object... parameters) {
         PreparedStatement statement = connection.prepareStatement(query);
         int index = 1;
         for (Object object : parameters) {

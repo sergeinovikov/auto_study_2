@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Manager {
     public final static DataBaseConnection dbConnection = new DataBaseConnection();
-    private static WebDriver driver;
-    private static WebDriverWait wait;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
 
     /**
      * Получить экземляр драйвера (ленивая инициализация)
@@ -36,13 +36,13 @@ public class Manager {
      */
 
     public static WebDriver driver() {
-        if (driver == null) {
-            driver = getPropertiesDriver();
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Property.getIntegerProperty("ui.implicitly.wait"), TimeUnit.SECONDS);
-            wait = new WebDriverWait(driver, Property.getIntegerProperty("ui.condition.wait"));
+        if (driver.get() == null) {
+            driver.set(getPropertiesDriver());
+            driver.get().manage().window().maximize();
+            driver.get().manage().timeouts().implicitlyWait(Property.getIntegerProperty("ui.implicitly.wait"), TimeUnit.SECONDS);
+            wait.set(new WebDriverWait(driver.get(), Property.getIntegerProperty("ui.condition.wait")));
         }
-        return driver;
+        return driver.get();
     }
 
     /**
@@ -50,10 +50,14 @@ public class Manager {
      */
 
     public static void driverQuit() {
-        if (driver != null) {
-            driver.quit();
+        if (driver.get() != null) {
+            driver.get().quit();
         }
-        driver = null;
+        driver.set(null);
+    }
+
+    public static WebDriverWait waiter() {
+        return wait.get();
     }
 
     /**
