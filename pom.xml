@@ -155,7 +155,7 @@
                     <reuseForks>false</reuseForks>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-                        <dataproviderthreadcount>1</dataproviderthreadcount>
+                        <dataproviderthreadcount>4</dataproviderthreadcount>
                         <parallel>methods</parallel>
                     </systemPropertyVariables>
                 </configuration>
