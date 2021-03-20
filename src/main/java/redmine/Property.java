@@ -24,7 +24,10 @@ public class Property {
     }
 
     public static String getStringProperty(String key) {
-        return properties.getProperty(key);
+        if (System.getProperty(key) == null) {
+            return properties.getProperty(key);
+        }
+        return System.getProperty(key);
     }
 
     public static Integer getIntegerProperty(String key) {
