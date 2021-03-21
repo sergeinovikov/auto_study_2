@@ -89,7 +89,7 @@ public class User implements Generatable<User> {
                 "mustChangePasswd=" + mustChangePasswd + System.lineSeparator() +
                 "status=" + status + System.lineSeparator() +
                 "mailNotification=" + mailNotification + System.lineSeparator() +
-                "apiToken=" + apiToken.getValue() + System.lineSeparator() +
+                "apiToken=" + apiToken + System.lineSeparator() +
                 "lastLoginOn=" + lastLoginOn + System.lineSeparator() +
                 "createdOn=" + createdOn + System.lineSeparator() +
                 "updatedOn=" + updatedOn + System.lineSeparator() +
