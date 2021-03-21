@@ -27,17 +27,19 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "id=" + user.getId() + System.lineSeparator() +
-                ", login='" + user.getLogin() + System.lineSeparator() +
-                ", admin=" + user.getAdmin() + System.lineSeparator() +
-                ", firstname='" + user.getFirstname() + System.lineSeparator() +
-                ", lastname='" + user.getLastname() + System.lineSeparator() +
-                ", mail='" + user.getMail() + System.lineSeparator() +
-                ", created_on=" + user.getCreated_on() + System.lineSeparator() +
-                ", last_login_on=" + user.getLast_login_on() + System.lineSeparator() +
-                ", api_key='" + user.getApi_key() + System.lineSeparator() +
-                ", status=" + user.getStatus() + System.lineSeparator() +
-                ", password='" + user.getPassword() + System.lineSeparator();
+        return "User{" + System.lineSeparator() +
+                "id=" + user.getId() + System.lineSeparator() +
+                "login='" + user.getLogin() + "\'" + System.lineSeparator() +
+                "admin=" + user.getAdmin() + System.lineSeparator() +
+                "firstname='" + user.getFirstname() + "\'" + System.lineSeparator() +
+                "lastname='" + user.getLastname() + "\'" + System.lineSeparator() +
+                "mail='" + user.getMail() + "\'" + System.lineSeparator() +
+                "created_on=" + user.getCreated_on() + System.lineSeparator() +
+                "last_login_on=" + user.getLast_login_on() + System.lineSeparator() +
+                "api_key='" + user.getApi_key() + "\'" + System.lineSeparator() +
+                "status=" + user.getStatus() + System.lineSeparator() +
+                "password='" + user.getPassword() + System.lineSeparator() +
+                '}';
     }
 }
 

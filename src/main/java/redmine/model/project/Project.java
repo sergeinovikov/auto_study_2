@@ -68,22 +68,22 @@ public class Project implements Generatable<Project> {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", identifier='" + identifier + '\'' +
-                ", homepage='" + homepage + '\'' +
-                ", isPublic=" + isPublic +
-                ", parentId='" + parentId + '\'' +
-                ", createdOn=" + createdOn +
-                ", updatedOn=" + updatedOn +
-                ", inheritMembers=" + inheritMembers +
-                ", status=" + status +
-                ", lft=" + lft +
-                ", rgt=" + rgt +
-                ", defaultVersionId=" + defaultVersionId +
-                ", defaultAssignedToId=" + defaultAssignedToId +
+        return "Project{" + System.lineSeparator() +
+                "id=" + id + System.lineSeparator() +
+                "name='" + name + '\'' + System.lineSeparator() +
+                "description='" + description + '\'' + System.lineSeparator() +
+                "identifier='" + identifier + '\'' + System.lineSeparator() +
+                "homepage='" + homepage + '\'' + System.lineSeparator() +
+                "isPublic=" + isPublic + System.lineSeparator() +
+                "parentId='" + parentId + '\'' + System.lineSeparator() +
+                "createdOn=" + createdOn + System.lineSeparator() +
+                "updatedOn=" + updatedOn + System.lineSeparator() +
+                "inheritMembers=" + inheritMembers + System.lineSeparator() +
+                "status=" + status + System.lineSeparator() +
+                "lft=" + lft + System.lineSeparator() +
+                "rgt=" + rgt + System.lineSeparator() +
+                "defaultVersionId=" + defaultVersionId + System.lineSeparator() +
+                "defaultAssignedToId=" + defaultAssignedToId + System.lineSeparator() +
                 '}';
     }
 }

@@ -75,28 +75,28 @@ public class User implements Generatable<User> {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email=" + email +
-                ", language=" + language +
-                ", admin=" + admin +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", hashedPassword='" + hashedPassword + '\'' +
-                ", mustChangePasswd=" + mustChangePasswd +
-                ", status=" + status +
-                ", mailNotification=" + mailNotification +
-                ", apiToken=" + apiToken +
-                ", lastLoginOn=" + lastLoginOn +
-                ", createdOn=" + createdOn +
-                ", updatedOn=" + updatedOn +
-                ", passwdChangedOn=" + passwdChangedOn +
-                ", authSourceId=" + authSourceId +
-                ", type='" + type + '\'' +
-                ", identityUrl='" + identityUrl + '\'' +
+        return "User{" + System.lineSeparator() +
+                "id=" + id + System.lineSeparator() +
+                "login='" + login + '\'' + System.lineSeparator() +
+                "firstName='" + firstName + '\'' + System.lineSeparator() +
+                "lastName='" + lastName + '\'' + System.lineSeparator() +
+                "email=" + email + System.lineSeparator() +
+                "language=" + language + System.lineSeparator() +
+                "admin=" + admin + System.lineSeparator() +
+                "password='" + password + '\'' + System.lineSeparator() +
+                "salt='" + salt + '\'' + System.lineSeparator() +
+                "hashedPassword='" + hashedPassword + '\'' + System.lineSeparator() +
+                "mustChangePasswd=" + mustChangePasswd + System.lineSeparator() +
+                "status=" + status + System.lineSeparator() +
+                "mailNotification=" + mailNotification + System.lineSeparator() +
+                "apiToken=" + apiToken + System.lineSeparator() +
+                "lastLoginOn=" + lastLoginOn + System.lineSeparator() +
+                "createdOn=" + createdOn + System.lineSeparator() +
+                "updatedOn=" + updatedOn + System.lineSeparator() +
+                "passwdChangedOn=" + passwdChangedOn + System.lineSeparator() +
+                "authSourceId=" + authSourceId + System.lineSeparator() +
+                "type='" + type + '\'' + System.lineSeparator() +
+                "identityUrl='" + identityUrl + '\'' + System.lineSeparator() +
                 '}';
     }
 }

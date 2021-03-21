@@ -70,18 +70,18 @@ public class Role implements Generatable<Role> {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", position=" + position +
-                ", builtin=" + builtin +
-                ", assignable=" + assignable +
-                ", issuesVisibility=" + issuesVisibility +
-                ", usersVisibility=" + usersVisibility +
-                ", permissions=" + permissions +
-                ", timeEntriesVisibility=" + timeEntriesVisibility +
-                ", allRolesManaged=" + allRolesManaged +
-                ", settings='" + settings + '\'' +
+        return "Role{" + System.lineSeparator() +
+                "id=" + id + System.lineSeparator() +
+                "name='" + name + '\'' + System.lineSeparator() +
+                "position=" + position + System.lineSeparator() +
+                "builtin=" + builtin + System.lineSeparator() +
+                "assignable=" + assignable + System.lineSeparator() +
+                "issuesVisibility=" + issuesVisibility + System.lineSeparator() +
+                "usersVisibility=" + usersVisibility + System.lineSeparator() +
+                "permissions=" + permissions + System.lineSeparator() +
+                "timeEntriesVisibility=" + timeEntriesVisibility + System.lineSeparator() +
+                "allRolesManaged=" + allRolesManaged + System.lineSeparator() +
+                "settings='" + settings + '\'' + System.lineSeparator() +
                 '}';
     }
 }
