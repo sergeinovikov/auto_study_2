@@ -27,7 +27,7 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "User{" + System.lineSeparator() +
+        return "UserDto{" + System.lineSeparator() +
                 "id=" + user.getId() + System.lineSeparator() +
                 "login='" + user.getLogin() + '\'' + System.lineSeparator() +
                 "admin=" + user.getAdmin() + System.lineSeparator() +
