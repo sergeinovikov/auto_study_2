@@ -27,19 +27,17 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" +
-                "id=" + user.getId() +
-                ", login='" + user.getLogin() + '\'' +
-                ", admin=" + user.getAdmin() +
-                ", firstname='" + user.getFirstname() + '\'' +
-                ", lastname='" + user.getLastname() + '\'' +
-                ", mail='" + user.getMail() + '\'' +
-                ", created_on=" + user.getCreated_on() +
-                ", last_login_on=" + user.getLast_login_on() +
-                ", api_key='" + user.getApi_key() + '\'' +
-                ", status=" + user.getStatus() +
-                ", password='" + user.getPassword() + '\'' +
-                '}';
+        return "id=" + user.getId() + System.lineSeparator() +
+                ", login='" + user.getLogin() + System.lineSeparator() +
+                ", admin=" + user.getAdmin() + System.lineSeparator() +
+                ", firstname='" + user.getFirstname() + System.lineSeparator() +
+                ", lastname='" + user.getLastname() + System.lineSeparator() +
+                ", mail='" + user.getMail() + System.lineSeparator() +
+                ", created_on=" + user.getCreated_on() + System.lineSeparator() +
+                ", last_login_on=" + user.getLast_login_on() + System.lineSeparator() +
+                ", api_key='" + user.getApi_key() + System.lineSeparator() +
+                ", status=" + user.getStatus() + System.lineSeparator() +
+                ", password='" + user.getPassword() + System.lineSeparator();
     }
 }
 
