@@ -35,7 +35,12 @@ public class CucumberPageObjectHelper {
                 .orElseThrow(() -> new IllegalStateException(
                         String.format("Нет аннотации @CucumberName(\"%s\") у поля", cucumberFieldName)));
         foundField.setAccessible(true);
-        return (List<WebElement>) foundField.get(page);
+        try {
+            return (List<WebElement>) foundField.get(page);
+        } catch (ClassCastException exception) {
+            throw new ClassCastException("Полученное поле не соответствует типу List<WebElement" + exception);
+        }
+        //return (List<WebElement>) foundField.get(page);
     }
 
 
@@ -50,7 +55,12 @@ public class CucumberPageObjectHelper {
                 .orElseThrow(() -> new IllegalStateException(
                         String.format("Нет аннотации @CucumberName(\"%s\") у класса", cucumberPageName)
                 ));
-        return Pages.getPage((Class<AbstractPage>) pageClass);
+        try {
+            return Pages.getPage((Class<AbstractPage>) pageClass);
+        } catch (ClassCastException exception) {
+            throw new ClassCastException("Полученный класс не является наследником AbstractPage" + exception);
+        }
+        //return Pages.getPage((Class<AbstractPage>) pageClass);
     }
 
 }
