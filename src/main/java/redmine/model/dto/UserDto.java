@@ -38,7 +38,7 @@ public class UserDto {
                 "last_login_on=" + user.getLast_login_on() + System.lineSeparator() +
                 "api_key='" + user.getApi_key() + '\'' + System.lineSeparator() +
                 "status=" + user.getStatus() + System.lineSeparator() +
-                "password='" + user.getPassword() + System.lineSeparator() +
+                "password='" + user.getPassword() + '\'' + System.lineSeparator() +
                 '}';
     }
 }
