@@ -40,7 +40,6 @@ public class CucumberPageObjectHelper {
         } catch (ClassCastException exception) {
             throw new ClassCastException("Полученное поле не соответствует типу List<WebElement" + exception);
         }
-        //return (List<WebElement>) foundField.get(page);
     }
 
 
@@ -58,9 +57,8 @@ public class CucumberPageObjectHelper {
         try {
             return Pages.getPage((Class<AbstractPage>) pageClass);
         } catch (ClassCastException exception) {
-            throw new ClassCastException("Полученный класс не является наследником AbstractPage" + exception);
+            throw new ClassCastException("Полученный класс не является наследником AbstractPage List<WebElement" + exception);
         }
-        //return Pages.getPage((Class<AbstractPage>) pageClass);
     }
 
 }
