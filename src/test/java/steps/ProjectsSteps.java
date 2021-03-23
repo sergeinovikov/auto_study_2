@@ -13,7 +13,7 @@ public class ProjectsSteps {
         String projectName = ParametersValidator.replaceCucumberVariables(rawProjectName);
 
         Asserts.assertTrue(
-                Pages.getPage(ProjectsPage.class).getProjectElement(projectName)
+                Pages.getPage(ProjectsPage.class).getProjectElement(projectName), "На странице отображается проект " + projectName
         );
     }
 
@@ -22,7 +22,7 @@ public class ProjectsSteps {
         String projectName = ParametersValidator.replaceCucumberVariables(rawProjectName);
 
         Asserts.assertFalse(
-                Pages.getPage(ProjectsPage.class).getProjectElement(projectName)
+                Pages.getPage(ProjectsPage.class).getProjectElement(projectName), "На странице не отображается проект " + projectName
         );
     }
 }

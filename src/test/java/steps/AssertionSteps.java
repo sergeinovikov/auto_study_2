@@ -30,7 +30,7 @@ public class AssertionSteps {
     public void assertFieldIsDisplayed(String pageName, String fieldName) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         Asserts.assertTrue(
-                BrowserUtils.isElementCurrentlyPresent(element)
+                BrowserUtils.isElementCurrentlyPresent(element), "На странице " + pageName + " не отображается элемент " + fieldName
         );
     }
 
@@ -38,7 +38,7 @@ public class AssertionSteps {
     public void assertFieldIsNotDisplayed(String pageName, String fieldName) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         Asserts.assertFalse(
-                BrowserUtils.isElementCurrentlyPresent(element)
+                BrowserUtils.isElementCurrentlyPresent(element), "На странице " + pageName + " не отображается элемент " + fieldName
         );
     }
 
@@ -47,7 +47,7 @@ public class AssertionSteps {
         String actualFieldText = ParametersValidator.replaceCucumberVariables(rawString);
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         Asserts.assertTrue(
-                BrowserUtils.isElementCurrentlyPresent(element)
+                BrowserUtils.isElementCurrentlyPresent(element), "На странице " + pageName + " отображается элемент " + fieldName + "с текстом " + rawString
         );
         Asserts.assertEquals(element.getText(), actualFieldText);
     }
@@ -103,7 +103,7 @@ public class AssertionSteps {
         Asserts.assertEquals(userDto.getUser().getFirstname(), userFromDb.getFirstName());
         Asserts.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
         Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
-        Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
         Asserts.assertNull(userFromDb.getLastLoginOn());
         Asserts.assertEquals(userDto.getUser().getStatus(), userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
@@ -132,7 +132,7 @@ public class AssertionSteps {
         Asserts.assertEquals(userDto.getUser().getFirstname(), userFromDb.getFirstName());
         Asserts.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
         Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
-        Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
         Asserts.assertNull(userFromDb.getLastLoginOn());
         Asserts.assertEquals(statusCode, userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
@@ -158,7 +158,7 @@ public class AssertionSteps {
         Asserts.assertEquals(userFromResponse.getUser().getLogin(), user.getLogin());
         Asserts.assertEquals(userFromResponse.getUser().getFirstname(), user.getFirstName());
         Asserts.assertEquals(userFromResponse.getUser().getLastname(), user.getLastName());
-        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1);
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
         Asserts.assertEquals(userFromResponse.getUser().getLast_login_on(), user.getLastLoginOn());
 
         Asserts.assertEquals(userFromResponse.getUser().getAdmin(), user.getAdmin());
@@ -176,7 +176,7 @@ public class AssertionSteps {
         Asserts.assertEquals(userFromResponse.getUser().getLogin(), user.getLogin());
         Asserts.assertEquals(userFromResponse.getUser().getFirstname(), user.getFirstName());
         Asserts.assertEquals(userFromResponse.getUser().getLastname(), user.getLastName());
-        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1);
+        Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
         Asserts.assertEquals(userFromResponse.getUser().getLast_login_on(), user.getLastLoginOn());
 
         Asserts.assertNull(userFromResponse.getUser().getAdmin());

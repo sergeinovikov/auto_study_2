@@ -21,13 +21,13 @@ public class Asserts {
     }
 
     @Step("Сравнение Boolean переменной {0} на true")
-    public static void assertTrue(Boolean actual) {
-        Assert.assertTrue(actual);
+    public static void assertTrue(Boolean actual, String message) {
+        Assert.assertTrue(actual, message);
     }
 
     @Step("Сравнение Boolean переменной {0} на false")
-    public static void assertFalse(Boolean actual) {
-        Assert.assertFalse(actual);
+    public static void assertFalse(Boolean actual, String message) {
+        Assert.assertFalse(actual, message);
     }
 
     @Step("Проверка переменной {0} на NotNull")

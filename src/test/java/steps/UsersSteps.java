@@ -18,7 +18,7 @@ public class UsersSteps {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
         Asserts.assertTrue(
-                getPage(UsersPage.class).usersSortedAsc(usersData)
+                getPage(UsersPage.class).usersSortedAsc(usersData), String.format("Таблица пользователей отсортирована по столбцу %s по возрастанию - не учитывается регистр", columnName)
         );
     }
 
@@ -27,7 +27,7 @@ public class UsersSteps {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
         Asserts.assertTrue(
-                getPage(UsersPage.class).usersSortedDesc(usersData)
+                getPage(UsersPage.class).usersSortedDesc(usersData), String.format("Таблица пользователей отсортирована по столбцу %s по убыванию - не учитывается регистр", columnName)
         );
     }
 
@@ -36,7 +36,7 @@ public class UsersSteps {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
         Asserts.assertFalse(
-                getPage(UsersPage.class).usersSortedAsc(usersData)
+                getPage(UsersPage.class).usersSortedAsc(usersData), "Пользователи не отсортированы по возрастанию по столбцу " + columnName
         );
     }
 
@@ -45,7 +45,7 @@ public class UsersSteps {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
         Asserts.assertFalse(
-                getPage(UsersPage.class).usersSortedDesc(usersData)
+                getPage(UsersPage.class).usersSortedDesc(usersData), "Пользователи не отсортированы по убыванию по столбцу " + columnName
         );
     }
 
