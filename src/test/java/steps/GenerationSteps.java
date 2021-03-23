@@ -30,8 +30,9 @@ public class GenerationSteps {
 
     @Пусть("Существует пользователь {string}")
     public void userGeneration (String userStashId, Map<String, String> parameters) {
-        User user = new User();
+
         ParametersValidator.validateUserParameters(parameters);
+        User user = new User();
 
         if (parameters.containsKey("Администратор")) {
             user.setAdmin(parseBoolean(parameters.get("Администратор")));
@@ -135,12 +136,12 @@ public class GenerationSteps {
         Context.put(invalidUserDtoStashId, userDto);
     }
 
-    @И("У пользователя {string} из ответа {string} изменить статус на 1")
-    public void editUserDtoStatus(String userDtoStashId, String responseStashId) {
+    @И("У пользователя {string} из ответа {string} изменить статус на {int}")
+    public void editUserDtoStatus(String userDtoStashId, String responseStashId, int statusCode) {
         Response response = Context.get(responseStashId, Response.class);
         UserDto userDto = response.getBody(UserDto.class);
 
-        userDto.getUser().setStatus(1);
+        userDto.getUser().setStatus(statusCode);
 
         Context.put(userDtoStashId, userDto);
     }

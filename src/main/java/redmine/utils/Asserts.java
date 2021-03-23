@@ -15,7 +15,7 @@ public class Asserts {
         Assert.assertEquals(actual, expected);
     }
 
-    @Step("Сравнение переменных на неравенство actual: {0}, expected: {1}")
+    @Step("Сравнение переменных на неравенство actual: {0}, not expected: {1}")
     public static void assertNotEquals(Object actual, Object expected) {
         Assert.assertNotEquals(actual, expected);
     }

@@ -17,7 +17,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static redmine.model.dto.UserDto.readUserDtoById;
-import static redmine.model.dto.UserDto.readUserDtoByLogin;
 
 public class AssertionSteps {
 
@@ -112,17 +111,17 @@ public class AssertionSteps {
     }
 
     @И("В ответе {string} присутствуют ошибки:")
-    public void assertApiErrors(String responseStashId, List<String> errors) {
+    public void assertApiErrors(String responseStashId, List<String> errorsList) {
         Response response = Context.get(responseStashId, Response.class);
         UserCreationError actualErrors = response.getBody(UserCreationError.class);
 
-        UserCreationError expectedErrors = new UserCreationError(errors);
+        UserCreationError expectedErrors = new UserCreationError(errorsList);
 
         Asserts.assertEquals(actualErrors, expectedErrors);
     }
 
-    @И("Информация в базе данных об пользователе {string} присутствует, статус = 1")
-    public void assertModifiedDbUserData(String userDtoStashId) {
+    @И("Информация в базе данных об пользователе {string} присутствует, статус = {int}")
+    public void assertModifiedDbUserData(String userDtoStashId, int statusCode) {
         UserDto userDto = Context.get(userDtoStashId, UserDto.class);
 
         User userFromDb = readUserDtoById(userDto.getUser().getId());
@@ -135,7 +134,7 @@ public class AssertionSteps {
         Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
         Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1);
         Asserts.assertNull(userFromDb.getLastLoginOn());
-        Asserts.assertEquals(userDto.getUser().getStatus(), userFromDb.getStatus());
+        Asserts.assertEquals(statusCode, userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Asserts.assertNotNull(userFromDb.getHashedPassword());
     }

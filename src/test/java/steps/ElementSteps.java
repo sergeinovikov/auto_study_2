@@ -7,13 +7,13 @@ import redmine.ui.pages.helpers.CucumberPageObjectHelper;
 public class ElementSteps {
 
     @И("На странице {string} нажать на элемент {string}")
-    public void assertFieldIsNotDisplayed(String pageName, String fieldName) {
+    public void elementClick(String pageName, String fieldName) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         element.click();
     }
 
     @И("На странице {string} в поле {string} ввести текст {string}")
-    public void assertFieldIsNotDisplayed(String pageName, String fieldName, String text) {
+    public void elementInputText(String pageName, String fieldName, String text) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         element.sendKeys(text);
     }

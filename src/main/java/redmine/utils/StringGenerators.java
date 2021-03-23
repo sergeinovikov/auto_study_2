@@ -30,18 +30,18 @@ public class StringGenerators {
     }
 
     public static String randomPassword(int length) {
-        return randomString(length, StringGenerators.ENGLISH + StringGenerators.DIGITS + StringGenerators.CHARACTERS);
+        return randomString(length, ENGLISH + DIGITS + CHARACTERS);
     }
 
     public static String generateHexString(int length) {
-        return StringGenerators.randomString(length, LETTERS_FOR_HEX + StringGenerators.DIGITS);
+        return StringGenerators.randomString(length, LETTERS_FOR_HEX + DIGITS);
     }
 
     public static String generateHashPassword(String salt, String password) {
         return sha1Hex((salt + sha1Hex(password)));
     }
 
-    protected static String randomString(int length, String pattern) {
+    public static String randomString(int length, String pattern) {
         StringBuilder randomString = new StringBuilder();
         for (int i = 0; i < length; i++) {
             randomString.append(pattern.charAt(new Random().nextInt(pattern.length())));
