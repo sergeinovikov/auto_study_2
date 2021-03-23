@@ -13,7 +13,7 @@ import static redmine.ui.pages.helpers.Pages.getPage;
 
 public class UsersSteps {
 
-    @И("Таблица пользователей отсортирована по столбцу {string} по возрастанию - не учитвается регистр")
+    @И("Таблица пользователей отсортирована по столбцу {string} по возрастанию - не учитывается регистр")
     public void userDataIsSortedAsc(String columnName) {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
@@ -22,7 +22,7 @@ public class UsersSteps {
         );
     }
 
-    @И("Таблица пользователей отсортирована по столбцу {string} по убыванию - не учитвается регистр")
+    @И("Таблица пользователей отсортирована по столбцу {string} по убыванию - не учитывается регистр")
     public void usersDataIsSortedDesc(String columnName) {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 

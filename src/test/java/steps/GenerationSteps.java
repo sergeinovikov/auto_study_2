@@ -125,15 +125,24 @@ public class GenerationSteps {
         Context.put(apiClientStashId, apiClient);
     }
 
-    @И("Изменить у пользователя {string} изменить почтовый адрес на невалидный, а пароль - на строку из 4 символов и назначить данные пользователю {string}")
-    public void editUserDtoMailAndPswd(String userDtoStashId, String invalidUserDtoStashId) {
+    @И("У пользователя {string} изменить почтовый адрес на {string}")
+    public void editUserDtoMail(String userDtoStashId, String invalidEmail) {
         UserDto userDto = Context.get(userDtoStashId, UserDto.class);
 
         userDto.getUser()
-                .setMail("invalid_email")
-                .setPassword("1234");
+                .setMail(invalidEmail);
 
-        Context.put(invalidUserDtoStashId, userDto);
+        Context.put(userDtoStashId, userDto);
+    }
+
+    @И("У пользователя {string} изменить пароль на {string}")
+    public void editUserDtoPassword(String userDtoStashId, String invalidPassword) {
+        UserDto userDto = Context.get(userDtoStashId, UserDto.class);
+
+        userDto.getUser()
+                .setPassword(invalidPassword);
+
+        Context.put(userDtoStashId, userDto);
     }
 
     @И("У пользователя {string} из ответа {string} изменить статус на {int}")
