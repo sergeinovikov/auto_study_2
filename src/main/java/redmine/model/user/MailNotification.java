@@ -23,13 +23,11 @@ public enum MailNotification {
     }
 
     public static MailNotification of(final String description) {
-        if (description.isEmpty()) {
-            return NONE;
-        } else {
-            return Stream.of(values())
+        return (description.isEmpty())
+                ? NONE
+                : Stream.of(values())
                     .filter(value -> value.name().equals(description.toUpperCase()))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Уведомление не найдено по описанию:" + description));
-        }
     }
 }

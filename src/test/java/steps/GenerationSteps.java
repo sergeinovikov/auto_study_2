@@ -9,7 +9,6 @@ import redmine.cucumber.ParametersValidator;
 import redmine.db.requests.UserRequests;
 import redmine.managers.Context;
 import redmine.model.dto.UserDto;
-import redmine.model.dto.UserInfo;
 import redmine.model.project.Project;
 import redmine.model.role.*;
 import redmine.model.user.EmailAddress;
@@ -95,7 +94,7 @@ public class GenerationSteps {
         Role role = Context.get(roleStashId, Role.class);
         Project project = Context.get(projectStashId, Project.class);
 
-        UserRequests.addProjectAndRoleConnection(user, project, role);
+        UserRequests.addUserWithRole(user, project, role);
     }
 
     @И("Заполнить данные нового пользователя {string} случаныйми корректными значениями")

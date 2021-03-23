@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
-public class AllowedParameters {
+class AllowedParameters {
     static final List<String> ROLE_PARAMETERS = ImmutableList.of(
             "Просмотр задач",
             "Права"
@@ -21,11 +21,4 @@ public class AllowedParameters {
             "Статус"
     );
 
-    static final List<String> ERRORS_PARAMETERS = ImmutableList.of(
-            "Email has already been taken",
-            "Login has already been taken",
-            "Email is invalid",
-            "Login has already been taken",
-            "Password is too short (minimum is 8 characters)"
-    );
 }

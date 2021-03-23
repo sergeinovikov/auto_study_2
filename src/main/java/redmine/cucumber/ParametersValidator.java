@@ -12,6 +12,10 @@ import java.util.Map;
 
 public class ParametersValidator {
 
+    /**
+     * Методы, валидируеющие параметры передаваемые в feature
+     */
+
     public static void validateRoleParameters(Map<String, String> parameters) {
         parameters.forEach((key, value) -> Assert.assertTrue(
                 AllowedParameters.ROLE_PARAMETERS.contains(key),
@@ -33,12 +37,11 @@ public class ParametersValidator {
         ));
     }
 
-    public static void validateApiErrorsParameters(List<String> parameters) {
-        parameters.forEach(value -> Assert.assertTrue(
-                AllowedParameters.ERRORS_PARAMETERS.contains(value),
-                "Список допустимых параметров при работе с API-ошибками не содержит параметр " + value
-        ));
-    }
+    /**
+     * Получить значение поля сущности по аннотации @CucumberName из строки, содержащей аннотации @CucumberName в формате ${класс->поле}
+     *
+     * @return String
+     */
 
     @SneakyThrows
     public static String replaceCucumberVariables(String rawString) {
@@ -49,14 +52,14 @@ public class ParametersValidator {
 
             Object stashObject = Context.get(stashId.trim());
 
-            Field foundFiend = Arrays.stream(stashObject.getClass().getDeclaredFields())
+            Field foundField = Arrays.stream(stashObject.getClass().getDeclaredFields())
                     .filter(field -> field.isAnnotationPresent(CucumberName.class))
                     .filter(field -> field.getAnnotation(CucumberName.class).value().equals(fieldDescription.trim()))
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException(String.format("В классе %s не задана аннотация @CucumberName: %s", stashId.trim(), fieldDescription.trim())));
-            foundFiend.setAccessible(true);
+            foundField.setAccessible(true);
 
-            String result = foundFiend.get(stashObject).toString();
+            String result = foundField.get(stashObject).toString();
 
             rawString = rawString.replace(replacement, result);
         }

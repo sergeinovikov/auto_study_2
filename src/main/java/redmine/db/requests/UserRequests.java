@@ -355,7 +355,7 @@ public class UserRequests {
 
     }
 
-    public static void addProjectAndRoleConnection(User user, Project project, Role role) {
+    public static void addUserWithRole(User user, Project project, Role role) {
         String membersQuery = "INSERT INTO public.members\n" +
                 "(id, user_id, project_id, created_on, mail_notification)\n" +
                 "VALUES(DEFAULT, ?, ?, ?, DEFAULT) RETURNING id;\n";
@@ -365,11 +365,13 @@ public class UserRequests {
                 LocalDateTime.now()
         );
 
+        Integer membersId = (Integer) addMembersConnection.get(0).get("id");
+
         String membersRoleQuery = "INSERT INTO public.member_roles\n" +
                 "(id, member_id, role_id, inherited_from)\n" +
                 "VALUES(DEFAULT, ?, ?, DEFAULT) RETURNING id;\n";
-        List<Map<String, Object>> addMemberRoleConnection = Manager.dbConnection.executePreparedQuery(membersRoleQuery,
-                addMembersConnection.get(0).get("id"),
+        Manager.dbConnection.executePreparedQuery(membersRoleQuery,
+                membersId,
                 role.getId()
         );
 

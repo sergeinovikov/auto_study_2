@@ -112,12 +112,11 @@ public class AssertionSteps {
     }
 
     @И("В ответе {string} присутствуют ошибки:")
-    public void assertApiErrors(String responseStashId, List<String> parameters) {
+    public void assertApiErrors(String responseStashId, List<String> errors) {
         Response response = Context.get(responseStashId, Response.class);
         UserCreationError actualErrors = response.getBody(UserCreationError.class);
 
-        ParametersValidator.validateApiErrorsParameters(parameters);
-        UserCreationError expectedErrors = new UserCreationError(parameters);
+        UserCreationError expectedErrors = new UserCreationError(errors);
 
         Asserts.assertEquals(actualErrors, expectedErrors);
     }
