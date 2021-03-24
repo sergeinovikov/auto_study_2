@@ -72,15 +72,9 @@ public class RequestsSteps {
     }
 
     @И("Создать GET-запрос {string} с данными пользователя {string}")
-    public void createGetRequestWithUserDto(String requestStashId, String objectStashId) {
-        int userId = 0;
-        if (Context.get(objectStashId) instanceof UserDto) {
-            UserDto userDto = Context.get(objectStashId, UserDto.class);
-            userId = userDto.getUser().getId();
-        } else if (Context.get(objectStashId) instanceof User) {
-            User user = Context.get(objectStashId, User.class);
-            userId = user.getId();
-        }
+    public void createGetRequestWithUserDto(String requestStashId, String userStashId) {
+        User user = Context.get(userStashId, User.class);
+        int userId = user.getId();
 
         String uri = String.format("users/%d.json", userId);
 

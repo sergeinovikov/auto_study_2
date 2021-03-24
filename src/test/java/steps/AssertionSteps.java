@@ -137,6 +137,8 @@ public class AssertionSteps {
         Asserts.assertEquals(statusCode, userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Asserts.assertNotNull(userFromDb.getHashedPassword(), "Хэш пароль пользователя задан");
+
+        Context.put(userDtoStashId, userFromDb);
     }
 
     @И("Информация в базе данных об удалённом пользователе {string} отсутствует")
