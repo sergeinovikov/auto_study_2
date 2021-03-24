@@ -73,8 +73,20 @@ public class RequestsSteps {
 
     @И("Создать GET-запрос {string} с данными пользователя {string}")
     public void createGetRequestWithUserDto(String requestStashId, String userStashId) {
-        User user = Context.get(userStashId, User.class);
-        int userId = user.getId();
+        int userId = 0;
+
+        switch (Context.get(userStashId).getClass().getSimpleName()) {
+            case ("UserDto"):
+                UserDto userDto = Context.get(userStashId, UserDto.class);
+                userId = userDto.getUser().getId();
+                break;
+            case ("User"):
+                User user = Context.get(userStashId, User.class);
+                userId = user.getId();
+                break;
+            default:
+                throw new IllegalArgumentException("Класс объекта со stashId " + userStashId + " не определён: " + Context.get(userStashId).getClass().getSimpleName());
+        }
 
         String uri = String.format("users/%d.json", userId);
 

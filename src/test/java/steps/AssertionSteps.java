@@ -137,8 +137,6 @@ public class AssertionSteps {
         Asserts.assertEquals(statusCode, userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
         Asserts.assertNotNull(userFromDb.getHashedPassword(), "Хэш пароль пользователя задан");
-
-        Context.put(userDtoStashId, userFromDb);
     }
 
     @И("Информация в базе данных об удалённом пользователе {string} отсутствует")
@@ -149,7 +147,7 @@ public class AssertionSteps {
         Asserts.assertNull(deletedUser, "Пользователь удалён");
     }
 
-    @И("В теле ответа {string} присутствует информация {string}, включая поля поля admin: false, api_key")
+    @И("В теле ответа {string} присутствует информация {string}, включая поля admin: false, api_key")
     public void assertResponseUserDataWithApiKey (String responseStashId, String userStashId) {
         Response response = Context.get(responseStashId, Response.class);
         User user = Context.get(userStashId, User.class);
