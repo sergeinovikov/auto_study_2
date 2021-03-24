@@ -17,25 +17,39 @@ import java.util.Random;
 
 @Data
 @Accessors(chain = true)
+@CucumberName("Проект")
 public class Project implements Generatable<Project> {
+    @CucumberName("Id")
     private Integer id;
-    @CucumberName("Имя проекта")
+    @CucumberName("Имя")
     private String name = "SergAuto" + StringGenerators.randomEnglishString(8);
-    @CucumberName("Описание проекта")
+    @CucumberName("Описание")
     private String description = "NovAuto" + StringGenerators.randomEnglishString(8);
+    @CucumberName("Идентификатор")
     private String identifier = StringGenerators.randomEnglishLowerString(15);
+    @CucumberName("Домашняя страница")
     private String homepage = null;
+    @CucumberName("Публичность")
     private Boolean isPublic = new Random().nextBoolean();
+    @CucumberName("Id родительского проекта")
     private String parentId = null;
+    @CucumberName("Время создания")
     private LocalDateTime createdOn = LocalDateTime.now();
+    @CucumberName("Время обновления")
     private LocalDateTime updatedOn = LocalDateTime.now();
+    @CucumberName("Наследники")
     private Boolean inheritMembers = false;
 
+    @CucumberName("Статус")
     private Integer status = new Random().nextInt(5) + 1;
+    @CucumberName("lft")
     private Integer lft = new Random().nextInt(2) + 1;
+    @CucumberName("rgt")
     private Integer rgt = new Random().nextInt(5) + 1;
 
+    @CucumberName("Версия id по умолчанию")
     private Integer defaultVersionId = null;
+    @CucumberName("По умолчанию назначен Id")
     private Integer defaultAssignedToId = null;
 
     @Override

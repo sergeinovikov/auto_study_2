@@ -19,29 +19,49 @@ import java.util.Random;
 @Accessors(chain = true)
 @CucumberName("Пользователь")
 public class User implements Generatable<User> {
+    @CucumberName("Id")
     private Integer id;
-    @CucumberName("логин")
+    @CucumberName("Логин")
     private String login = "SN" + StringGenerators.randomEnglishLowerString(8);
+    @CucumberName("Имя")
     private String firstName = "Serg" + StringGenerators.randomEnglishLowerString(8);
+    @CucumberName("Фамилия")
     private String lastName = "Nov" + StringGenerators.randomEnglishLowerString(8);
+    @CucumberName("Почта")
     private EmailAddress email = new EmailAddress();
+    @CucumberName("Язык")
     private Language language = Language.RU;
+    @CucumberName("Права админа")
     private Boolean admin = false;
+    @CucumberName("Пароль")
     public String password = StringGenerators.randomPassword(8);
+    @CucumberName("Соль")
     private String salt = StringGenerators.generateHexString(32);
+    @CucumberName("Хэш-пароль")
     private String hashedPassword = StringGenerators.generateHashPassword(this.salt, this.password);
+    @CucumberName("Смена пароля")
     private Boolean mustChangePasswd = false;
+    @CucumberName("Статус")
     private Integer status = 2;
 
+    @CucumberName("Уведомления")
     private MailNotification mailNotification = MailNotification.values()[new Random().nextInt(MailNotification.values().length)];
 
+    @CucumberName("API-токен")
     private Token apiToken = new Token();
+    @CucumberName("Дата последнего логина")
     private LocalDateTime lastLoginOn = null;
+    @CucumberName("Дата создания")
     private LocalDateTime createdOn = LocalDateTime.now();
+    @CucumberName("Дата обновления")
     private LocalDateTime updatedOn = LocalDateTime.now();
+    @CucumberName("Дата смены пароля")
     private LocalDateTime passwdChangedOn = LocalDateTime.now();
+    @CucumberName("Id ресурса авторизации")
     private Integer authSourceId = null;
+    @CucumberName("Тип")
     private String type = "User";
+    @CucumberName("URL идентификатор")
     private String identityUrl = null;
 
 
