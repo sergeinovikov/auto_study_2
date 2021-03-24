@@ -57,7 +57,7 @@ public class AssertionSteps {
         User userBeforeCreation = Context.get(newUserStashId, User.class);
         User userFromDb = userBeforeCreation.read();
 
-        Asserts.assertNotNull(userFromDb.getId());
+        Asserts.assertNotNull(userFromDb.getId(), "Id пользователя не пусто");
         Asserts.assertEquals(userBeforeCreation.getLogin(), userFromDb.getLogin());
         Asserts.assertEquals(userBeforeCreation.getFirstName(), userFromDb.getFirstName());
         Asserts.assertEquals(userBeforeCreation.getLastName(), userFromDb.getLastName());
@@ -78,16 +78,16 @@ public class AssertionSteps {
 
         UserDto userFromResponse = response.getBody(UserDto.class);
 
-        Asserts.assertNotNull(userFromResponse.getUser().getId());
+        Asserts.assertNotNull(userFromResponse.getUser().getId(), "Id пользователя не пусто");
         Asserts.assertEquals(userFromResponse.getUser().getLogin(), userForCreation.getUser().getLogin());
         Asserts.assertEquals(userFromResponse.getUser().getFirstname(), userForCreation.getUser().getFirstname());
         Asserts.assertEquals(userFromResponse.getUser().getLastname(), userForCreation.getUser().getLastname());
         Asserts.assertEquals(userFromResponse.getUser().getMail(), userForCreation.getUser().getMail());
-        Asserts.assertNotNull(userFromResponse.getUser().getCreated_on());
-        Asserts.assertNull(userFromResponse.getUser().getLast_login_on());
+        Asserts.assertNotNull(userFromResponse.getUser().getCreated_on(), "Время создания пользователя не пусто");
+        Asserts.assertNull(userFromResponse.getUser().getLast_login_on(), "Время логина пользователя пусто");
         Asserts.assertEquals(userFromResponse.getUser().getStatus(), userForCreation.getUser().getStatus());
-        Asserts.assertNotNull(userFromResponse.getUser().getApi_key());
-        Asserts.assertNull(userFromResponse.getUser().getPassword());
+        Asserts.assertNotNull(userFromResponse.getUser().getApi_key(), "API-ключ пользователя задан");
+        Asserts.assertNull(userFromResponse.getUser().getPassword(), "Пароль пользователя не задан");
     }
 
     @И("Информация в базе данных о созданном пользователе сходится с ответом {string}")
@@ -104,10 +104,10 @@ public class AssertionSteps {
         Asserts.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
         Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
         Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
-        Asserts.assertNull(userFromDb.getLastLoginOn());
+        Asserts.assertNull(userFromDb.getLastLoginOn(), "Время логина пользователя пусто");
         Asserts.assertEquals(userDto.getUser().getStatus(), userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
-        Asserts.assertNotNull(userFromDb.getHashedPassword());
+        Asserts.assertNotNull(userFromDb.getHashedPassword(), "Хэшированный пароль пользователя задан");
     }
 
     @И("В ответе {string} присутствуют ошибки:")
@@ -133,10 +133,10 @@ public class AssertionSteps {
         Asserts.assertEquals(userDto.getUser().getLastname(), userFromDb.getLastName());
         Asserts.assertEquals(userDto.getUser().getMail(), userFromDb.getEmail().getAddress());
         Asserts.assertTrue(ChronoUnit.SECONDS.between(userDto.getUser().getCreated_on(), userFromDb.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
-        Asserts.assertNull(userFromDb.getLastLoginOn());
+        Asserts.assertNull(userFromDb.getLastLoginOn(), "Время последнего логина пользователя не пусто");
         Asserts.assertEquals(statusCode, userFromDb.getStatus());
         Asserts.assertEquals(userDto.getUser().getApi_key(), userFromDb.getApiToken().getValue());
-        Asserts.assertNotNull(userFromDb.getHashedPassword());
+        Asserts.assertNotNull(userFromDb.getHashedPassword(), "Хэш пароль пользователя задан");
     }
 
     @И("Информация в базе данных об удалённом пользователе {string} отсутствует")
@@ -144,7 +144,7 @@ public class AssertionSteps {
         UserDto userDto = Context.get(userDtoStashId, UserDto.class);
 
         User deletedUser = readUserDtoById(userDto.getUser().getId());
-        Asserts.assertNull(deletedUser);
+        Asserts.assertNull(deletedUser, "Пользователь удалён");
     }
 
     @И("В теле ответа {string} присутствует информация {string}, включая поля поля admin: false, api_key")
@@ -179,14 +179,14 @@ public class AssertionSteps {
         Asserts.assertTrue(ChronoUnit.SECONDS.between(userFromResponse.getUser().getCreated_on(), user.getCreatedOn()) <= 1, "Время создания пользователя в записи в БД и в ответе по созданию пользователя отличается меньше чем на секунду");
         Asserts.assertEquals(userFromResponse.getUser().getLast_login_on(), user.getLastLoginOn());
 
-        Asserts.assertNull(userFromResponse.getUser().getAdmin());
-        Asserts.assertNull(userFromResponse.getUser().getApi_key());
+        Asserts.assertNull(userFromResponse.getUser().getAdmin(), "У пользователя не заданы права админа");
+        Asserts.assertNull(userFromResponse.getUser().getApi_key(), "У пользователя не задан API-ключ");
     }
 
     @И("Информация в базе данных об пользователе {string} присутствует")
     public void assertDbUserDataExist(String userStashId) {
         User user = Context.get(userStashId, User.class);
 
-        Asserts.assertNotNull(user.read());
+        Asserts.assertNotNull(user.read(), "Пользователь существует в БД");
     }
 }

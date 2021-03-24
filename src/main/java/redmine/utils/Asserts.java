@@ -20,23 +20,23 @@ public class Asserts {
         Assert.assertNotEquals(actual, expected);
     }
 
-    @Step("Сравнение Boolean переменной {0} на true")
+    @Step("Сравнение Boolean переменной {0}")
     public static void assertTrue(Boolean actual, String message) {
         Assert.assertTrue(actual, message);
     }
 
-    @Step("Сравнение Boolean переменной {0} на false")
+    @Step("Сравнение Boolean переменной {0} ")
     public static void assertFalse(Boolean actual, String message) {
         Assert.assertFalse(actual, message);
     }
 
     @Step("Проверка переменной {0} на NotNull")
-    public static void assertNotNull(Object actual) {
-        Assert.assertNotNull(actual);
+    public static void assertNotNull(Object actual, String message) {
+        Assert.assertNotNull(actual, message);
     }
 
     @Step("Проверка переменной {0} на Null")
-    public static void assertNull(Object actual) {
-        Assert.assertNull(actual);
+    public static void assertNull(Object actual, String message) {
+        Assert.assertNull(actual, message);
     }
 }
