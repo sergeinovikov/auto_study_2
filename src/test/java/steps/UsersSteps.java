@@ -18,7 +18,7 @@ public class UsersSteps {
         List<WebElement> usersData = CucumberPageObjectHelper.getListOfElementBy("Пользователи", columnName);
 
         Asserts.assertTrue(
-                getPage(UsersPage.class).usersSortedAsc(usersData), "Таблица пользователей отсортирована по возрастанию (не учитывается регистр) по столбцу %s " + columnName
+                getPage(UsersPage.class).usersSortedAsc(usersData), "Таблица пользователей отсортирована по возрастанию (не учитывается регистр) по столбцу " + columnName
         );
     }
 
