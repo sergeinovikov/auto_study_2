@@ -1,5 +1,6 @@
 package redmine.db;
 
+import cucumber.api.java.mn.Харин;
 import lombok.SneakyThrows;
 
 import java.sql.*;
@@ -36,11 +37,19 @@ public class DataBaseConnection {
         dbName = getStringProperty("dbName");
     }
 
-    @SneakyThrows
     private void connect() {
-        Class.forName("org.postgresql.Driver");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException exception) {
+            throw new IllegalArgumentException("Не найден класс с драйвером" );
+        }
         String url = String.format("jdbc:postgresql://%s:%d/%s?user=%s&password=%s", dbHost, dbPort, dbName, dbUser, dbPass);
-        connection = DriverManager.getConnection(url);
+        try {
+            connection = DriverManager.getConnection(url);
+        } catch (SQLException exception) {
+            throw new IllegalArgumentException("Ошибка соединения с БД" + exception.getMessage());
+        }
+
     }
 
     /**
